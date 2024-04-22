@@ -30,7 +30,7 @@ class WeatherData(ImgwPibData):
     precipitation: SensorData
     station: str
     station_id: str
-    measurement_date: datetime
+    measurement_date: datetime | None
 
 
 @dataclass
@@ -42,5 +42,5 @@ class HydrologicalData(ImgwPibData):
     station: str
     river: str
     station_id: str
-    water_level_measurement_date: datetime
-    water_temperature_measurement_date: datetime
+    water_level_measurement_date: datetime | None
+    water_temperature_measurement_date: datetime | None
