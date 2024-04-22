@@ -3,7 +3,7 @@
 import asyncio
 import logging
 
-from aiohttp import ClientConnectorError, ClientSession
+from aiohttp import ClientError, ClientSession
 
 from imgw_pib import ApiError, ImgwPib
 
@@ -20,10 +20,12 @@ async def main() -> None:
             weather_data = await imgwpib.get_weather_data()
         except ApiError as error:
             print(f"API Error: {error.status}")
-        except ClientConnectorError as error:
-            print(f"ClientConnectorError: {error}")
+        except ClientError as error:
+            print(f"ClientError: {error}")
+        except TimeoutError as error:
+            print(f"TimeoutError: {error}")
         else:
-            print(imgwpib.stations)
+            print(imgwpib.weather_stations)
             print(weather_data)
 
 

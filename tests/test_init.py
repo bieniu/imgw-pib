@@ -27,7 +27,7 @@ async def test_weather_stations(
 
     await session.close()
 
-    assert imgwpib.stations == snapshot
+    assert imgwpib.weather_stations == snapshot
 
 
 @pytest.mark.asyncio()

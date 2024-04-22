@@ -57,8 +57,8 @@ class ImgwPib:
         return instance
 
     @property
-    def stations(self: Self) -> dict[str, str]:
-        """Return list of stations."""
+    def weather_stations(self: Self) -> dict[str, str]:
+        """Return list of weather stations."""
         return self._station_list
 
     async def initialize(self: Self) -> None:
@@ -68,7 +68,7 @@ class ImgwPib:
 
         if (
             self.weather_station_id is not None
-            and self.weather_station_id not in self._station_list
+            and self.weather_station_id not in self.weather_stations
         ):
             msg = f"Invalid weather station ID: {self.weather_station_id}"
             raise ApiError(msg)
