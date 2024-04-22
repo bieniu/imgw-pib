@@ -28,6 +28,8 @@ repos:
       - id: pretty-format-json
         args:
           - --no-sort-keys
+          - --indent=4
+          - --autofix
       - id: no-commit-to-branch
         args:
           - --branch=master

@@ -1,0 +1,12 @@
+{
+    "id_stacji": "12600",
+    "stacja": "Bielsko Bia\u0142a",
+    "data_pomiaru": "2024-04-22",
+    "godzina_pomiaru": "7",
+    "temperatura": "0.8",
+    "predkosc_wiatru": "1",
+    "kierunek_wiatru": "310",
+    "wilgotnosc_wzgledna": "93.0",
+    "suma_opadu": "18.1",
+    "cisnienie": "1022.1"
+}

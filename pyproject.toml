@@ -35,6 +35,9 @@ lint.ignore = [
 "example.py" = [
     "T201",      # `print` found
 ]
+"tests/*" = [
+    "S101",      # Use of `assert` detected
+    ]
 
 
 [tool.ruff.lint.mccabe]
