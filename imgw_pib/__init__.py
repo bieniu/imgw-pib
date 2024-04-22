@@ -251,5 +251,5 @@ class ImgwPib:
         """Get datetime object from date-time string."""
         try:
             return datetime.strptime(date_time, date_format).replace(tzinfo=UTC)
-        except ValueError:
+        except (TypeError, ValueError):
             return None
