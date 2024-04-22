@@ -213,7 +213,7 @@ class ImgwPib:
         water_level = data[API_WATER_LEVEL]
 
         if water_level is None:
-            msg = "Invalid water level"
+            msg = "Invalid water level value"
             raise ApiError(msg)
 
         water_level_sensor = SensorData(
