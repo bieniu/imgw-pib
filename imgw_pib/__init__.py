@@ -7,7 +7,20 @@ from typing import Any, Self
 
 from aiohttp import ClientSession
 
-from .const import API_ENDPOINT, HEADERS
+from .const import (
+    API_ENDPOINT,
+    API_HUMIDITY,
+    API_MEASUREMENT_DATE,
+    API_MEASUREMENT_TIME,
+    API_PRECIPITATION,
+    API_PRESSURE,
+    API_STATION,
+    API_STATION_ID,
+    API_TEMPERATURE,
+    API_WIND_DIRECTION,
+    API_WIND_SPEED,
+    HEADERS,
+)
 from .exceptions import ApiError
 from .model import SensorData, WeatherData
 
@@ -59,7 +72,9 @@ class ImgwPib:
 
         stations_data = await self._http_request(url)
 
-        return {station["id_stacji"]: station["stacja"] for station in stations_data}
+        return {
+            station[API_STATION_ID]: station[API_STATION] for station in stations_data
+        }
 
     async def get_weather_data(self: Self) -> WeatherData:
         """Get weather data."""
@@ -67,64 +82,7 @@ class ImgwPib:
 
         weather_data = await self._http_request(url)
 
-        temperature_sensor = SensorData(
-            name="Temperature",
-            value=float(weather_data["temperatura"])
-            if weather_data["temperatura"] is not None
-            else None,
-            unit="°C" if weather_data["temperatura"] is not None else None,
-        )
-        humidity_sensor = SensorData(
-            name="Humidity",
-            value=float(weather_data["wilgotnosc_wzgledna"])
-            if weather_data["wilgotnosc_wzgledna"] is not None
-            else None,
-            unit="%" if weather_data["wilgotnosc_wzgledna"] is not None else None,
-        )
-        wind_speed_sensor = SensorData(
-            name="Wind Speed",
-            value=float(weather_data["predkosc_wiatru"])
-            if weather_data["predkosc_wiatru"] is not None
-            else None,
-            unit="m/s" if weather_data["predkosc_wiatru"] is not None else None,
-        )
-        wind_direction_sensor = SensorData(
-            name="Wind Direction",
-            value=float(weather_data["kierunek_wiatru"])
-            if weather_data["kierunek_wiatru"] is not None
-            else None,
-            unit="°" if weather_data["kierunek_wiatru"] is not None else None,
-        )
-        precipitation_sensor = SensorData(
-            name="Precipitation",
-            value=float(weather_data["suma_opadu"])
-            if weather_data["suma_opadu"] is not None
-            else None,
-            unit="mm" if weather_data["suma_opadu"] is not None else None,
-        )
-        pressure_sensor = SensorData(
-            name="Pressure",
-            value=float(weather_data["cisnienie"])
-            if weather_data["cisnienie"] is not None
-            else None,
-            unit="hPa" if weather_data["cisnienie"] is not None else None,
-        )
-        measurement_time = datetime.strptime(
-            f"{weather_data["data_pomiaru"]} {weather_data["godzina_pomiaru"]}",
-            "%Y-%m-%d %H",
-        ).replace(tzinfo=UTC)
-
-        return WeatherData(
-            temperature=temperature_sensor,
-            humidity=humidity_sensor,
-            pressure=pressure_sensor,
-            wind_speed=wind_speed_sensor,
-            wind_direction=wind_direction_sensor,
-            precipitation=precipitation_sensor,
-            station=weather_data["stacja"],
-            station_id=weather_data["id_stacji"],
-            measurement_time=measurement_time,
-        )
+        return self._parse_weather_data(weather_data)
 
     async def _http_request(self: Self, url: str) -> Any:  # noqa: ANN401
         """Make an HTTP request."""
@@ -139,3 +97,59 @@ class ImgwPib:
             raise ApiError(msg)
 
         return await response.json()
+
+    @staticmethod
+    def _parse_weather_data(data: dict[str, Any]) -> WeatherData:
+        """Parse weather data."""
+        temperature = data[API_TEMPERATURE]
+        temperature_sensor = SensorData(
+            name="Temperature",
+            value=float(temperature) if temperature is not None else None,
+            unit="°C" if temperature is not None else None,
+        )
+        humidity = data[API_HUMIDITY]
+        humidity_sensor = SensorData(
+            name="Humidity",
+            value=float(humidity) if humidity is not None else None,
+            unit="%" if humidity is not None else None,
+        )
+        wind_speed = data[API_WIND_SPEED]
+        wind_speed_sensor = SensorData(
+            name="Wind Speed",
+            value=float(wind_speed) if wind_speed is not None else None,
+            unit="m/s" if wind_speed is not None else None,
+        )
+        wind_direction = data[API_WIND_DIRECTION]
+        wind_direction_sensor = SensorData(
+            name="Wind Direction",
+            value=float(wind_direction) if wind_direction is not None else None,
+            unit="°" if wind_direction is not None else None,
+        )
+        precipitation = data[API_PRECIPITATION]
+        precipitation_sensor = SensorData(
+            name="Precipitation",
+            value=float(precipitation) if precipitation is not None else None,
+            unit="mm" if precipitation is not None else None,
+        )
+        pressure = data[API_PRESSURE]
+        pressure_sensor = SensorData(
+            name="Pressure",
+            value=float(pressure) if pressure is not None else None,
+            unit="hPa" if pressure is not None else None,
+        )
+        measurement_time = datetime.strptime(
+            f"{data[API_MEASUREMENT_DATE]} {data[API_MEASUREMENT_TIME]}",
+            "%Y-%m-%d %H",
+        ).replace(tzinfo=UTC)
+
+        return WeatherData(
+            temperature=temperature_sensor,
+            humidity=humidity_sensor,
+            pressure=pressure_sensor,
+            wind_speed=wind_speed_sensor,
+            wind_direction=wind_direction_sensor,
+            precipitation=precipitation_sensor,
+            station=data[API_STATION],
+            station_id=data[API_STATION_ID],
+            measurement_time=measurement_time,
+        )
