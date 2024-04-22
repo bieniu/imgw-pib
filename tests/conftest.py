@@ -25,6 +25,24 @@ def weather_station() -> dict[str, Any]:
 
 
 @pytest.fixture()
+def hydrological_stations() -> list[dict[str, Any]]:
+    """Return hydrological stations data from the fixture file."""
+    with Path.open(
+        "tests/fixtures/hydrological_stations.json", encoding="utf-8"
+    ) as file:
+        return cast(list[dict[str, Any]], json.load(file))
+
+
+@pytest.fixture()
+def hydrological_station() -> dict[str, Any]:
+    """Return hydrological station data from the fixture file."""
+    with Path.open(
+        "tests/fixtures/hydrological_station.json", encoding="utf-8"
+    ) as file:
+        return cast(dict[str, Any], json.load(file))
+
+
+@pytest.fixture()
 def snapshot(snapshot: SnapshotAssertion) -> SnapshotAssertion:
     """Return snapshot assertion fixture."""
     return snapshot.use_extension(SnapshotExtension)

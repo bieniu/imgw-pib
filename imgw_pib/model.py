@@ -30,4 +30,17 @@ class WeatherData(ImgwPibData):
     precipitation: SensorData
     station: str
     station_id: str
-    measurement_time: datetime
+    measurement_date: datetime
+
+
+@dataclass
+class HydrologicalData(ImgwPibData):
+    """Hudrological Data class for IMGW-PIB."""
+
+    water_level: SensorData
+    water_temperature: SensorData
+    station: str
+    river: str
+    station_id: str
+    water_level_measurement_date: datetime
+    water_temperature_measurement_date: datetime
