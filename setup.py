@@ -23,7 +23,6 @@ setup(
     python_requires=">=3.12",
     install_requires=["aiohttp>=3.8.0"],
     classifiers=[
-        "Development Status :: 5 - Production/Stable",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
