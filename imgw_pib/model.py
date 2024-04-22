@@ -19,14 +19,6 @@ class SensorData:
 
 
 @dataclass
-class WeatherStation:
-    """Data class for weather stations."""
-
-    station_id: str
-    name: str
-
-
-@dataclass
 class WeatherData(ImgwPibData):
     """Weather Data class for IMGW-PIB."""
 
