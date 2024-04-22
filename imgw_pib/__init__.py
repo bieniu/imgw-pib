@@ -20,6 +20,12 @@ from .const import (
     API_WIND_DIRECTION,
     API_WIND_SPEED,
     HEADERS,
+    UNIT_CELSIUS,
+    UNIT_DEGREE,
+    UNIT_HPA,
+    UNIT_METERS_PER_SECOND,
+    UNIT_MILLIMETERS,
+    UNIT_PERCENT,
 )
 from .exceptions import ApiError
 from .model import SensorData, WeatherData
@@ -105,37 +111,37 @@ class ImgwPib:
         temperature_sensor = SensorData(
             name="Temperature",
             value=float(temperature) if temperature is not None else None,
-            unit="°C" if temperature is not None else None,
+            unit=UNIT_CELSIUS if temperature is not None else None,
         )
         humidity = data[API_HUMIDITY]
         humidity_sensor = SensorData(
             name="Humidity",
             value=float(humidity) if humidity is not None else None,
-            unit="%" if humidity is not None else None,
+            unit=UNIT_PERCENT if humidity is not None else None,
         )
         wind_speed = data[API_WIND_SPEED]
         wind_speed_sensor = SensorData(
             name="Wind Speed",
             value=float(wind_speed) if wind_speed is not None else None,
-            unit="m/s" if wind_speed is not None else None,
+            unit=UNIT_METERS_PER_SECOND if wind_speed is not None else None,
         )
         wind_direction = data[API_WIND_DIRECTION]
         wind_direction_sensor = SensorData(
             name="Wind Direction",
             value=float(wind_direction) if wind_direction is not None else None,
-            unit="°" if wind_direction is not None else None,
+            unit=UNIT_DEGREE if wind_direction is not None else None,
         )
         precipitation = data[API_PRECIPITATION]
         precipitation_sensor = SensorData(
             name="Precipitation",
             value=float(precipitation) if precipitation is not None else None,
-            unit="mm" if precipitation is not None else None,
+            unit=UNIT_MILLIMETERS if precipitation is not None else None,
         )
         pressure = data[API_PRESSURE]
         pressure_sensor = SensorData(
             name="Pressure",
             value=float(pressure) if pressure is not None else None,
-            unit="hPa" if pressure is not None else None,
+            unit=UNIT_HPA if pressure is not None else None,
         )
         measurement_time = datetime.strptime(
             f"{data[API_MEASUREMENT_DATE]} {data[API_MEASUREMENT_TIME]}",
