@@ -153,8 +153,7 @@ class ImgwPib:
 
         return await response.json()
 
-    @staticmethod
-    def _parse_weather_data(data: dict[str, Any]) -> WeatherData:
+    def _parse_weather_data(self: Self, data: dict[str, Any]) -> WeatherData:
         """Parse weather data."""
         temperature = data[API_TEMPERATURE]
         temperature_sensor = SensorData(
@@ -192,10 +191,10 @@ class ImgwPib:
             value=float(pressure) if pressure is not None else None,
             unit=UNIT_HPA if pressure is not None else None,
         )
-        measurement_date = datetime.strptime(
+        measurement_date = self._get_datetime(
             f"{data[API_MEASUREMENT_DATE]} {data[API_MEASUREMENT_TIME]}",
             "%Y-%m-%d %H",
-        ).replace(tzinfo=UTC)
+        )
 
         return WeatherData(
             temperature=temperature_sensor,
@@ -209,29 +208,33 @@ class ImgwPib:
             measurement_date=measurement_date,
         )
 
-    @staticmethod
-    def _parse_hydrological_data(data: dict[str, Any]) -> HydrologicalData:
+    def _parse_hydrological_data(self: Self, data: dict[str, Any]) -> HydrologicalData:
         """Parse hydrological data."""
         water_level = data[API_WATER_LEVEL]
+
+        if water_level is None:
+            msg = "Invalid water level"
+            raise ApiError(msg)
+
         water_level_sensor = SensorData(
             name="Water Level",
             value=float(water_level) if water_level is not None else None,
             unit=UNIT_CENTIMETERS if water_level is not None else None,
         )
-        water_level_measurement_date = datetime.strptime(
-            f"{data[API_WATER_LEVEL_MEASUREMENT_DATE]}",
+        water_level_measurement_date = self._get_datetime(
+            data[API_WATER_LEVEL_MEASUREMENT_DATE],
             "%Y-%m-%d %H:%M:%S",
-        ).replace(tzinfo=UTC)
+        )
         water_temperature = data[API_WATER_TEMPERATURE]
         water_temperature_sensor = SensorData(
             name="Water Temperature",
             value=float(water_temperature) if water_temperature is not None else None,
             unit=UNIT_CELSIUS if water_temperature is not None else None,
         )
-        water_temperature_measurement_date = datetime.strptime(
-            f"{data[API_WATER_TEMPERATURE_MEASUREMENT_DATE]}",
+        water_temperature_measurement_date = self._get_datetime(
+            data[API_WATER_TEMPERATURE_MEASUREMENT_DATE],
             "%Y-%m-%d %H:%M:%S",
-        ).replace(tzinfo=UTC)
+        )
 
         return HydrologicalData(
             water_level=water_level_sensor,
@@ -242,3 +245,11 @@ class ImgwPib:
             water_level_measurement_date=water_level_measurement_date,
             water_temperature_measurement_date=water_temperature_measurement_date,
         )
+
+    @staticmethod
+    def _get_datetime(date_time: str, date_format: str) -> datetime | None:
+        """Get datetime object from date-time string."""
+        try:
+            return datetime.strptime(date_time, date_format).replace(tzinfo=UTC)
+        except ValueError:
+            return None
