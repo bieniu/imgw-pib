@@ -20,6 +20,7 @@ from .const import (
     API_WIND_DIRECTION,
     API_WIND_SPEED,
     HEADERS,
+    TIMEOUT,
     UNIT_CELSIUS,
     UNIT_DEGREE,
     UNIT_HPA,
@@ -94,7 +95,9 @@ class ImgwPib:
         """Make an HTTP request."""
         _LOGGER.debug("Requesting %s", url)
 
-        response = await self._session.request("get", url, headers=HEADERS)
+        response = await self._session.request(
+            "get", url, headers=HEADERS, timeout=TIMEOUT
+        )
 
         _LOGGER.debug("Response status: %s", response.status)
 

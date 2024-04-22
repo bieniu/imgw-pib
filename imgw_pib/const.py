@@ -1,8 +1,11 @@
 """IMDB-PIB constants."""
 
+from aiohttp import ClientTimeout
+
 API_ENDPOINT = "https://danepubliczne.imgw.pl/api/data/synop"
 
 HEADERS = {"Content-Type": "application/json"}
+TIMEOUT = ClientTimeout(total=20)
 
 API_HUMIDITY = "wilgotnosc_wzgledna"
 API_MEASUREMENT_DATE = "data_pomiaru"
