@@ -9,7 +9,12 @@ from aioresponses import aioresponses
 from syrupy import SnapshotAssertion
 
 from imgw_pib import ImgwPib
-from imgw_pib.const import API_HYDROLOGICAL_ENDPOINT, API_WEATHER_ENDPOINT
+from imgw_pib.const import (
+    API_HYDROLOGICAL_ENDPOINT,
+    API_WATER_LEVEL,
+    API_WATER_LEVEL_MEASUREMENT_DATE,
+    API_WEATHER_ENDPOINT,
+)
 from imgw_pib.exceptions import ApiError
 
 
@@ -153,3 +158,83 @@ async def test_api_error() -> None:
     await session.close()
 
     assert str(exc.value) == "Invalid response: 400"
+
+
+@pytest.mark.asyncio()
+async def test_get_weather_data_without_station_id() -> None:
+    """Test get_weather_data() without station ID."""
+    session = aiohttp.ClientSession()
+
+    imgwpib = await ImgwPib.create(session)
+
+    with pytest.raises(ApiError) as exc:
+        await imgwpib.get_weather_data()
+
+    await session.close()
+
+    assert str(exc.value) == "Weather station ID is not set"
+
+
+@pytest.mark.asyncio()
+async def test_get_hydrological_data_without_station_id() -> None:
+    """Test get_hydrological_data() without station ID."""
+    session = aiohttp.ClientSession()
+
+    imgwpib = await ImgwPib.create(session)
+
+    with pytest.raises(ApiError) as exc:
+        await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert str(exc.value) == "Hydrological station ID is not set"
+
+
+@pytest.mark.asyncio()
+async def test_invalid_water_level_value(
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_station: dict[str, Any],
+) -> None:
+    """Test invalid water level value."""
+    session = aiohttp.ClientSession()
+
+    hydrological_station[API_WATER_LEVEL] = None
+
+    with aioresponses() as session_mock:
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
+        )
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+
+        with pytest.raises(ApiError) as exc:
+            await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert str(exc.value) == "Invalid water level value"
+
+
+@pytest.mark.asyncio()
+async def test_invalid_date(
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_station: dict[str, Any],
+) -> None:
+    """Test invalid water level value."""
+    session = aiohttp.ClientSession()
+
+    hydrological_station[API_WATER_LEVEL_MEASUREMENT_DATE] = None
+
+    with aioresponses() as session_mock:
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
+        )
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+        hydrological_data = await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert hydrological_data.water_level_measurement_date is None
