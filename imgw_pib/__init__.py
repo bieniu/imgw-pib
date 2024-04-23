@@ -229,15 +229,15 @@ class ImgwPib:
             data[ApiNames.WATER_LEVEL_MEASUREMENT_DATE],
             "%Y-%m-%d %H:%M:%S",
         )
-        warning_water_level_sensor = SensorData(
-            name="Warning Water Level",
+        flood_warning_level_sensor = SensorData(
+            name="Flood Warning Level",
             value=self._warning_water_level,
             unit=Units.CENTIMETERS.value
             if self._warning_water_level is not None
             else None,
         )
-        alarm_water_level_sensor = SensorData(
-            name="Alarm Water Level",
+        flood_alarm_level_sensor = SensorData(
+            name="Flood Alarm Level",
             value=self._alarm_water_level,
             unit=Units.CENTIMETERS.value
             if self._alarm_water_level is not None
@@ -256,8 +256,8 @@ class ImgwPib:
 
         return HydrologicalData(
             water_level=water_level_sensor,
-            warning_water_level=warning_water_level_sensor,
-            alarm_water_level=alarm_water_level_sensor,
+            flood_warning_level=flood_warning_level_sensor,
+            flood_alarm_level=flood_alarm_level_sensor,
             water_temperature=water_temperature_sensor,
             station=data[ApiNames.STATION],
             river=data[ApiNames.RIVER],

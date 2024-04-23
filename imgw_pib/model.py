@@ -42,8 +42,8 @@ class HydrologicalData(ImgwPibData):
     """Hudrological Data class for IMGW-PIB."""
 
     water_level: SensorData
-    alarm_water_level: SensorData
-    warning_water_level: SensorData
+    flood_alarm_level: SensorData
+    flood_warning_level: SensorData
     water_temperature: SensorData
 
     river: str
@@ -53,19 +53,19 @@ class HydrologicalData(ImgwPibData):
     water_level_measurement_date: datetime | None
     water_temperature_measurement_date: datetime | None
 
-    alarm_level: bool | None = None
-    warning_level: bool | None = None
+    flood_alarm: bool | None = None
+    flood_warning: bool | None = None
 
     def __post_init__(self: Self) -> None:
         """Call after initialization."""
         if self.water_level.value is not None:
-            if self.alarm_water_level.value is not None:
-                self.alarm_level = (
-                    self.water_level.value >= self.alarm_water_level.value
+            if self.flood_warning_level.value is not None:
+                self.flood_alarm = (
+                    self.water_level.value >= self.flood_warning_level.value
                 )
-            if self.warning_water_level.value is not None:
-                self.warning_level = (
-                    self.water_level.value >= self.warning_water_level.value
+            if self.flood_alarm_level.value is not None:
+                self.flood_warning = (
+                    self.water_level.value >= self.flood_alarm_level.value
                 )
 
 
