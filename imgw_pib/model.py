@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 from enum import StrEnum
+from typing import Self
 
 
 @dataclass
@@ -29,8 +30,10 @@ class WeatherData(ImgwPibData):
     wind_speed: SensorData
     wind_direction: SensorData
     precipitation: SensorData
+
     station: str
     station_id: str
+
     measurement_date: datetime | None
 
 
@@ -39,12 +42,31 @@ class HydrologicalData(ImgwPibData):
     """Hudrological Data class for IMGW-PIB."""
 
     water_level: SensorData
+    flood_alarm_level: SensorData
+    flood_warning_level: SensorData
     water_temperature: SensorData
-    station: str
+
     river: str
     station_id: str
+    station: str
+
     water_level_measurement_date: datetime | None
     water_temperature_measurement_date: datetime | None
+
+    flood_alarm: bool | None = None
+    flood_warning: bool | None = None
+
+    def __post_init__(self: Self) -> None:
+        """Call after initialization."""
+        if self.water_level.value is not None:
+            if self.flood_warning_level.value is not None:
+                self.flood_alarm = (
+                    self.water_level.value >= self.flood_warning_level.value
+                )
+            if self.flood_alarm_level.value is not None:
+                self.flood_warning = (
+                    self.water_level.value >= self.flood_alarm_level.value
+                )
 
 
 class ApiNames(StrEnum):

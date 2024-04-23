@@ -9,7 +9,11 @@ from aioresponses import aioresponses
 from syrupy import SnapshotAssertion
 
 from imgw_pib import ImgwPib
-from imgw_pib.const import API_HYDROLOGICAL_ENDPOINT, API_WEATHER_ENDPOINT
+from imgw_pib.const import (
+    API_HYDROLOGICAL_DETAILS_ENDPOINT,
+    API_HYDROLOGICAL_ENDPOINT,
+    API_WEATHER_ENDPOINT,
+)
 from imgw_pib.exceptions import ApiError
 from imgw_pib.model import ApiNames
 
@@ -100,6 +104,7 @@ async def test_hydrological_station(
     snapshot: SnapshotAssertion,
     hydrological_stations: list[dict[str, Any]],
     hydrological_station: dict[str, Any],
+    hydrological_details: dict[str, Any],
 ) -> None:
     """Test weather station."""
     session = aiohttp.ClientSession()
@@ -108,6 +113,12 @@ async def test_hydrological_station(
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
             f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
+                hydrological_station_id="154190050"
+            ),
+            payload=hydrological_details,
         )
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
@@ -190,6 +201,7 @@ async def test_get_hydrological_data_without_station_id() -> None:
 async def test_invalid_water_level_value(
     hydrological_stations: list[dict[str, Any]],
     hydrological_station: dict[str, Any],
+    hydrological_details: dict[str, Any],
 ) -> None:
     """Test invalid water level value."""
     session = aiohttp.ClientSession()
@@ -200,6 +212,12 @@ async def test_invalid_water_level_value(
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
             f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
+                hydrological_station_id="154190050"
+            ),
+            payload=hydrological_details,
         )
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
@@ -216,6 +234,7 @@ async def test_invalid_water_level_value(
 async def test_invalid_date(
     hydrological_stations: list[dict[str, Any]],
     hydrological_station: dict[str, Any],
+    hydrological_details: dict[str, Any],
 ) -> None:
     """Test invalid water level value."""
     session = aiohttp.ClientSession()
@@ -226,6 +245,12 @@ async def test_invalid_date(
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
             f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
+                hydrological_station_id="154190050"
+            ),
+            payload=hydrological_details,
         )
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")

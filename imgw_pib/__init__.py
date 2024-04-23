@@ -7,7 +7,13 @@ from typing import Any, Self
 
 from aiohttp import ClientSession
 
-from .const import API_HYDROLOGICAL_ENDPOINT, API_WEATHER_ENDPOINT, HEADERS, TIMEOUT
+from .const import (
+    API_HYDROLOGICAL_DETAILS_ENDPOINT,
+    API_HYDROLOGICAL_ENDPOINT,
+    API_WEATHER_ENDPOINT,
+    HEADERS,
+    TIMEOUT,
+)
 from .exceptions import ApiError
 from .model import ApiNames, HydrologicalData, SensorData, Units, WeatherData
 
@@ -27,6 +33,8 @@ class ImgwPib:
         self._session = session
         self._weather_station_list: dict[str, str] = {}
         self._hydrological_station_list: dict[str, str] = {}
+        self._alarm_water_level: float | None = None
+        self._warning_water_level: float | None = None
 
         self.weather_station_id = weather_station_id
         self.hydrological_station_id = hydrological_station_id
@@ -72,6 +80,8 @@ class ImgwPib:
                 msg = f"Invalid hydrological station ID: {self.hydrological_station_id}"
                 raise ApiError(msg)
 
+            await self._update_hydrological_details()
+
     async def update_weather_stations(self: Self) -> None:
         """Update list of weather stations."""
         url = API_WEATHER_ENDPOINT
@@ -107,6 +117,17 @@ class ImgwPib:
             ]: f"{station[ApiNames.STATION]} ({station[ApiNames.RIVER]})"
             for station in stations_data
         }
+
+    async def _update_hydrological_details(self: Self) -> None:
+        """Update hydrological details."""
+        url = API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
+            hydrological_station_id=self.hydrological_station_id
+        )
+
+        hydrological_details = await self._http_request(url)
+
+        self._warning_water_level = hydrological_details["status"]["warningValue"]
+        self._alarm_water_level = hydrological_details["status"]["alarmValue"]
 
     async def get_hydrological_data(self: Self) -> HydrologicalData:
         """Get hydrological data."""
@@ -208,6 +229,20 @@ class ImgwPib:
             data[ApiNames.WATER_LEVEL_MEASUREMENT_DATE],
             "%Y-%m-%d %H:%M:%S",
         )
+        flood_warning_level_sensor = SensorData(
+            name="Flood Warning Level",
+            value=self._warning_water_level,
+            unit=Units.CENTIMETERS.value
+            if self._warning_water_level is not None
+            else None,
+        )
+        flood_alarm_level_sensor = SensorData(
+            name="Flood Alarm Level",
+            value=self._alarm_water_level,
+            unit=Units.CENTIMETERS.value
+            if self._alarm_water_level is not None
+            else None,
+        )
         water_temperature = data[ApiNames.WATER_TEMPERATURE]
         water_temperature_sensor = SensorData(
             name="Water Temperature",
@@ -221,6 +256,8 @@ class ImgwPib:
 
         return HydrologicalData(
             water_level=water_level_sensor,
+            flood_warning_level=flood_warning_level_sensor,
+            flood_alarm_level=flood_alarm_level_sensor,
             water_temperature=water_temperature_sensor,
             station=data[ApiNames.STATION],
             river=data[ApiNames.RIVER],
