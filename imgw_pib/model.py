@@ -39,6 +39,8 @@ class HydrologicalData(ImgwPibData):
     """Hudrological Data class for IMGW-PIB."""
 
     water_level: SensorData
+    warning_water_level: SensorData
+    alarm_water_level: SensorData
     water_temperature: SensorData
     station: str
     river: str
