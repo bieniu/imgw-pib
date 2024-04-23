@@ -7,36 +7,9 @@ from typing import Any, Self
 
 from aiohttp import ClientSession
 
-from .const import (
-    API_HUMIDITY,
-    API_HYDROLOGICAL_ENDPOINT,
-    API_MEASUREMENT_DATE,
-    API_MEASUREMENT_TIME,
-    API_PRECIPITATION,
-    API_PRESSURE,
-    API_RIVER,
-    API_STATION,
-    API_STATION_ID,
-    API_TEMPERATURE,
-    API_WATER_LEVEL,
-    API_WATER_LEVEL_MEASUREMENT_DATE,
-    API_WATER_TEMPERATURE,
-    API_WATER_TEMPERATURE_MEASUREMENT_DATE,
-    API_WEATHER_ENDPOINT,
-    API_WIND_DIRECTION,
-    API_WIND_SPEED,
-    HEADERS,
-    TIMEOUT,
-    UNIT_CELSIUS,
-    UNIT_CENTIMETERS,
-    UNIT_DEGREE,
-    UNIT_HPA,
-    UNIT_METERS_PER_SECOND,
-    UNIT_MILLIMETERS,
-    UNIT_PERCENT,
-)
+from .const import API_HYDROLOGICAL_ENDPOINT, API_WEATHER_ENDPOINT, HEADERS, TIMEOUT
 from .exceptions import ApiError
-from .model import HydrologicalData, SensorData, WeatherData
+from .model import ApiNames, HydrologicalData, SensorData, Units, WeatherData
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -106,7 +79,8 @@ class ImgwPib:
         stations_data = await self._http_request(url)
 
         self._weather_station_list = {
-            station[API_STATION_ID]: station[API_STATION] for station in stations_data
+            station[ApiNames.STATION_ID]: station[ApiNames.STATION]
+            for station in stations_data
         }
 
     async def get_weather_data(self: Self) -> WeatherData:
@@ -128,7 +102,9 @@ class ImgwPib:
         stations_data = await self._http_request(url)
 
         self._hydrological_station_list = {
-            station[API_STATION_ID]: f"{station[API_STATION]} ({station[API_RIVER]})"
+            station[
+                ApiNames.STATION_ID
+            ]: f"{station[ApiNames.STATION]} ({station[ApiNames.RIVER]})"
             for station in stations_data
         }
 
@@ -162,44 +138,44 @@ class ImgwPib:
 
     def _parse_weather_data(self: Self, data: dict[str, Any]) -> WeatherData:
         """Parse weather data."""
-        temperature = data[API_TEMPERATURE]
+        temperature = data[ApiNames.TEMPERATURE]
         temperature_sensor = SensorData(
             name="Temperature",
             value=float(temperature) if temperature is not None else None,
-            unit=UNIT_CELSIUS if temperature is not None else None,
+            unit=Units.CELSIUS.value if temperature is not None else None,
         )
-        humidity = data[API_HUMIDITY]
+        humidity = data[ApiNames.HUMIDITY]
         humidity_sensor = SensorData(
             name="Humidity",
             value=float(humidity) if humidity is not None else None,
-            unit=UNIT_PERCENT if humidity is not None else None,
+            unit=Units.PERCENT.value if humidity is not None else None,
         )
-        wind_speed = data[API_WIND_SPEED]
+        wind_speed = data[ApiNames.WIND_SPEED]
         wind_speed_sensor = SensorData(
             name="Wind Speed",
             value=float(wind_speed) if wind_speed is not None else None,
-            unit=UNIT_METERS_PER_SECOND if wind_speed is not None else None,
+            unit=Units.METERS_PER_SECOND.value if wind_speed is not None else None,
         )
-        wind_direction = data[API_WIND_DIRECTION]
+        wind_direction = data[ApiNames.WIND_DIRECTION]
         wind_direction_sensor = SensorData(
             name="Wind Direction",
             value=float(wind_direction) if wind_direction is not None else None,
-            unit=UNIT_DEGREE if wind_direction is not None else None,
+            unit=Units.DEGREE.value if wind_direction is not None else None,
         )
-        precipitation = data[API_PRECIPITATION]
+        precipitation = data[ApiNames.PRECIPITATION]
         precipitation_sensor = SensorData(
             name="Precipitation",
             value=float(precipitation) if precipitation is not None else None,
-            unit=UNIT_MILLIMETERS if precipitation is not None else None,
+            unit=Units.MILLIMETERS.value if precipitation is not None else None,
         )
-        pressure = data[API_PRESSURE]
+        pressure = data[ApiNames.PRESSURE]
         pressure_sensor = SensorData(
             name="Pressure",
             value=float(pressure) if pressure is not None else None,
-            unit=UNIT_HPA if pressure is not None else None,
+            unit=Units.HPA.value if pressure is not None else None,
         )
         measurement_date = self._get_datetime(
-            f"{data[API_MEASUREMENT_DATE]} {data[API_MEASUREMENT_TIME]}",
+            f"{data[ApiNames.MEASUREMENT_DATE]} {data[ApiNames.MEASUREMENT_TIME]}",
             "%Y-%m-%d %H",
         )
 
@@ -210,14 +186,14 @@ class ImgwPib:
             wind_speed=wind_speed_sensor,
             wind_direction=wind_direction_sensor,
             precipitation=precipitation_sensor,
-            station=data[API_STATION],
-            station_id=data[API_STATION_ID],
+            station=data[ApiNames.STATION],
+            station_id=data[ApiNames.STATION_ID],
             measurement_date=measurement_date,
         )
 
     def _parse_hydrological_data(self: Self, data: dict[str, Any]) -> HydrologicalData:
         """Parse hydrological data."""
-        water_level = data[API_WATER_LEVEL]
+        water_level = data[ApiNames.WATER_LEVEL]
 
         if water_level is None:
             msg = "Invalid water level value"
@@ -226,29 +202,29 @@ class ImgwPib:
         water_level_sensor = SensorData(
             name="Water Level",
             value=float(water_level) if water_level is not None else None,
-            unit=UNIT_CENTIMETERS if water_level is not None else None,
+            unit=Units.CENTIMETERS.value if water_level is not None else None,
         )
         water_level_measurement_date = self._get_datetime(
-            data[API_WATER_LEVEL_MEASUREMENT_DATE],
+            data[ApiNames.WATER_LEVEL_MEASUREMENT_DATE],
             "%Y-%m-%d %H:%M:%S",
         )
-        water_temperature = data[API_WATER_TEMPERATURE]
+        water_temperature = data[ApiNames.WATER_TEMPERATURE]
         water_temperature_sensor = SensorData(
             name="Water Temperature",
             value=float(water_temperature) if water_temperature is not None else None,
-            unit=UNIT_CELSIUS if water_temperature is not None else None,
+            unit=Units.CELSIUS.value if water_temperature is not None else None,
         )
         water_temperature_measurement_date = self._get_datetime(
-            data[API_WATER_TEMPERATURE_MEASUREMENT_DATE],
+            data[ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE],
             "%Y-%m-%d %H:%M:%S",
         )
 
         return HydrologicalData(
             water_level=water_level_sensor,
             water_temperature=water_temperature_sensor,
-            station=data[API_STATION],
-            river=data[API_RIVER],
-            station_id=data[API_STATION_ID],
+            station=data[ApiNames.STATION],
+            river=data[ApiNames.RIVER],
+            station_id=data[ApiNames.STATION_ID],
             water_level_measurement_date=water_level_measurement_date,
             water_temperature_measurement_date=water_temperature_measurement_date,
         )
