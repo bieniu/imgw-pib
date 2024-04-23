@@ -9,13 +9,9 @@ from aioresponses import aioresponses
 from syrupy import SnapshotAssertion
 
 from imgw_pib import ImgwPib
-from imgw_pib.const import (
-    API_HYDROLOGICAL_ENDPOINT,
-    API_WATER_LEVEL,
-    API_WATER_LEVEL_MEASUREMENT_DATE,
-    API_WEATHER_ENDPOINT,
-)
+from imgw_pib.const import API_HYDROLOGICAL_ENDPOINT, API_WEATHER_ENDPOINT
 from imgw_pib.exceptions import ApiError
+from imgw_pib.model import ApiNames
 
 
 @pytest.mark.asyncio()
@@ -198,7 +194,7 @@ async def test_invalid_water_level_value(
     """Test invalid water level value."""
     session = aiohttp.ClientSession()
 
-    hydrological_station[API_WATER_LEVEL] = None
+    hydrological_station[ApiNames.WATER_LEVEL] = None
 
     with aioresponses() as session_mock:
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
@@ -224,7 +220,7 @@ async def test_invalid_date(
     """Test invalid water level value."""
     session = aiohttp.ClientSession()
 
-    hydrological_station[API_WATER_LEVEL_MEASUREMENT_DATE] = None
+    hydrological_station[ApiNames.WATER_LEVEL_MEASUREMENT_DATE] = None
 
     with aioresponses() as session_mock:
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)

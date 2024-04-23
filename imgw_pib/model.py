@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 from datetime import datetime
+from enum import StrEnum
 
 
 @dataclass
@@ -44,3 +45,35 @@ class HydrologicalData(ImgwPibData):
     station_id: str
     water_level_measurement_date: datetime | None
     water_temperature_measurement_date: datetime | None
+
+
+class ApiNames(StrEnum):
+    """Names type for API."""
+
+    HUMIDITY = "wilgotnosc_wzgledna"
+    MEASUREMENT_DATE = "data_pomiaru"
+    MEASUREMENT_TIME = "godzina_pomiaru"
+    PRECIPITATION = "suma_opadu"
+    PRESSURE = "cisnienie"
+    RIVER = "rzeka"
+    STATION = "stacja"
+    STATION_ID = "id_stacji"
+    TEMPERATURE = "temperatura"
+    WATER_LEVEL = "stan_wody"
+    WATER_LEVEL_MEASUREMENT_DATE = "stan_wody_data_pomiaru"
+    WATER_TEMPERATURE = "temperatura_wody"
+    WATER_TEMPERATURE_MEASUREMENT_DATE = "temperatura_wody_data_pomiaru"
+    WIND_DIRECTION = "kierunek_wiatru"
+    WIND_SPEED = "predkosc_wiatru"
+
+
+class Units(StrEnum):
+    """Units."""
+
+    CELSIUS = "°C"
+    CENTIMETERS = "cm"
+    DEGREE = "°"
+    HPA = "hPa"
+    METERS_PER_SECOND = "m/s"
+    MILLIMETERS = "mm"
+    PERCENT = "%"
