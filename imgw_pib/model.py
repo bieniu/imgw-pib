@@ -30,8 +30,10 @@ class WeatherData(ImgwPibData):
     wind_speed: SensorData
     wind_direction: SensorData
     precipitation: SensorData
+
     station: str
     station_id: str
+
     measurement_date: datetime | None
 
 
@@ -40,14 +42,17 @@ class HydrologicalData(ImgwPibData):
     """Hudrological Data class for IMGW-PIB."""
 
     water_level: SensorData
-    warning_water_level: SensorData
     alarm_water_level: SensorData
+    warning_water_level: SensorData
     water_temperature: SensorData
-    station: str
+
     river: str
     station_id: str
+    station: str
+
     water_level_measurement_date: datetime | None
     water_temperature_measurement_date: datetime | None
+
     alarm_level: bool | None = None
     warning_level: bool | None = None
 
