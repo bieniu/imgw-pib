@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 from enum import StrEnum
+from typing import Self
 
 
 @dataclass
@@ -47,6 +48,20 @@ class HydrologicalData(ImgwPibData):
     station_id: str
     water_level_measurement_date: datetime | None
     water_temperature_measurement_date: datetime | None
+    alarm_level: bool | None = None
+    warning_level: bool | None = None
+
+    def __post_init__(self: Self) -> None:
+        """Call after initialization."""
+        if self.water_level.value is not None:
+            if self.alarm_water_level.value is not None:
+                self.alarm_level = (
+                    self.water_level.value >= self.alarm_water_level.value
+                )
+            if self.warning_water_level.value is not None:
+                self.warning_level = (
+                    self.water_level.value >= self.warning_water_level.value
+                )
 
 
 class ApiNames(StrEnum):

@@ -1,0 +1,52 @@
+{
+    "properties": {
+        "maximumStateValue": 700,
+        "maximumStateDate": "2009-10-14",
+        "minimumStateValue": 375,
+        "minimumStateDate": "1999-12-04",
+        "province": null,
+        "dataClause": null
+    },
+    "stateCode": "high",
+    "info": null,
+    "area": null,
+    "status": {
+        "id": 4693,
+        "name": "154190050",
+        "description": "NOWAKOWO",
+        "river": "Zalew Wi\u015blany (5119)",
+        "parameter": "B00020S",
+        "currentState": {
+            "date": "2024-04-23T12:40:00Z",
+            "value": 539.0
+        },
+        "previousState": {
+            "date": "2024-04-23T12:30:00Z",
+            "value": 539.0
+        },
+        "lastState": null,
+        "status": 180,
+        "outdatedState": false,
+        "riverCourseKm": 2.75,
+        "catchmentArea": 1449.07,
+        "trend": 10,
+        "province": "warmi\u0144sko-mazurskie",
+        "notes": [
+            "Stany wody okresowo sztucznie pi\u0119trzone",
+            "W pobli\u017cu stacji hydrologicznej prace budowlane w korycie rzeki lub w jego s\u0105siedztwie",
+            "Stany wody pod wp\u0142ywem waha\u0144 poziomu zalewu",
+            "Przerwa w danych spowodowana czynnikami niezale\u017cnymi od IMGW-PIB",
+            "Stacja hydrologiczna w zasi\u0119gu cofki recypienta"
+        ],
+        "waterGaugeZeroOrdinate": null,
+        "waterGaugeZeroOrdinateReferenceSystem": null,
+        "alarmValue": 630.0,
+        "warningValue": 590.0
+    },
+    "id": "154190050",
+    "coordinates": {
+        "y": 54.2305565,
+        "x": 19.3630562
+    },
+    "mapSettings": null
+}

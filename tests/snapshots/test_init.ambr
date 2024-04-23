@@ -1,6 +1,6 @@
 # serializer version: 1
 # name: test_hydrological_station
-  HydrologicalData(water_level=SensorData(name='Water Level', value=568.0, unit='cm'), water_temperature=SensorData(name='Water Temperature', value=8.1, unit='°C'), station='Nowe Batorowo', river='Zalew Wiślany', station_id='154190050', water_level_measurement_date=datetime.datetime(2024, 4, 22, 10, 0, tzinfo=datetime.timezone.utc), water_temperature_measurement_date=datetime.datetime(2024, 4, 22, 10, 10, tzinfo=datetime.timezone.utc))
+  HydrologicalData(water_level=SensorData(name='Water Level', value=568.0, unit='cm'), warning_water_level=SensorData(name='Warning Water Level', value=590.0, unit='cm'), alarm_water_level=SensorData(name='Alarm Water Level', value=630.0, unit='cm'), water_temperature=SensorData(name='Water Temperature', value=8.1, unit='°C'), station='Nowe Batorowo', river='Zalew Wiślany', station_id='154190050', water_level_measurement_date=datetime.datetime(2024, 4, 22, 10, 0, tzinfo=datetime.timezone.utc), water_temperature_measurement_date=datetime.datetime(2024, 4, 22, 10, 10, tzinfo=datetime.timezone.utc))
 # ---
 # name: test_hydrological_stations
   dict({

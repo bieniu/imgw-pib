@@ -76,11 +76,11 @@ class ImgwPib:
         if self.hydrological_station_id is not None:
             await self.update_hydrological_stations()
 
-            await self._update_hydrological_details()
-
             if self.hydrological_station_id not in self.hydrological_stations:
                 msg = f"Invalid hydrological station ID: {self.hydrological_station_id}"
                 raise ApiError(msg)
+
+            await self._update_hydrological_details()
 
     async def update_weather_stations(self: Self) -> None:
         """Update list of weather stations."""
