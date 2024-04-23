@@ -84,53 +84,60 @@ class ImgwPib:
     async def initialize(self: Self) -> None:
         """Initialize."""
         _LOGGER.debug("Initializing IMGW-PIB")
-        self._weather_station_list = await self.get_weather_stations()
-        self._hydrological_station_list = await self.get_hydrological_stations()
 
-        if (
-            self.weather_station_id is not None
-            and self.weather_station_id not in self.weather_stations
-        ):
-            msg = f"Invalid weather station ID: {self.weather_station_id}"
-            raise ApiError(msg)
-        if (
-            self.hydrological_station_id is not None
-            and self.hydrological_station_id not in self.hydrological_stations
-        ):
-            msg = f"Invalid hydrological station ID: {self.hydrological_station_id}"
-            raise ApiError(msg)
+        if self.weather_station_id is not None:
+            await self.update_weather_stations()
 
-    async def get_weather_stations(self: Self) -> dict[str, str]:
-        """Get list of weather stations."""
+            if self.weather_station_id not in self.weather_stations:
+                msg = f"Invalid weather station ID: {self.weather_station_id}"
+                raise ApiError(msg)
+
+        if self.hydrological_station_id is not None:
+            await self.update_hydrological_stations()
+
+            if self.hydrological_station_id not in self.hydrological_stations:
+                msg = f"Invalid hydrological station ID: {self.hydrological_station_id}"
+                raise ApiError(msg)
+
+    async def update_weather_stations(self: Self) -> None:
+        """Update list of weather stations."""
         url = API_WEATHER_ENDPOINT
 
         stations_data = await self._http_request(url)
 
-        return {
+        self._weather_station_list = {
             station[API_STATION_ID]: station[API_STATION] for station in stations_data
         }
 
     async def get_weather_data(self: Self) -> WeatherData:
         """Get weather data."""
+        if self.weather_station_id is None:
+            msg = "Weather station ID is not set"
+            raise ApiError(msg)
+
         url = f"{API_WEATHER_ENDPOINT}/id/{self.weather_station_id}"
 
         weather_data = await self._http_request(url)
 
         return self._parse_weather_data(weather_data)
 
-    async def get_hydrological_stations(self: Self) -> dict[str, str]:
-        """Get list of hydrological stations."""
+    async def update_hydrological_stations(self: Self) -> None:
+        """Update list of hydrological stations."""
         url = API_HYDROLOGICAL_ENDPOINT
 
         stations_data = await self._http_request(url)
 
-        return {
+        self._hydrological_station_list = {
             station[API_STATION_ID]: f"{station[API_STATION]} ({station[API_RIVER]})"
             for station in stations_data
         }
 
     async def get_hydrological_data(self: Self) -> HydrologicalData:
         """Get hydrological data."""
+        if self.hydrological_station_id is None:
+            msg = "Hydrological station ID is not set"
+            raise ApiError(msg)
+
         url = f"{API_HYDROLOGICAL_ENDPOINT}/id/{self.hydrological_station_id}"
 
         hydrological_data = await self._http_request(url)

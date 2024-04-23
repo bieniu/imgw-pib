@@ -9,7 +9,12 @@ from aioresponses import aioresponses
 from syrupy import SnapshotAssertion
 
 from imgw_pib import ImgwPib
-from imgw_pib.const import API_HYDROLOGICAL_ENDPOINT, API_WEATHER_ENDPOINT
+from imgw_pib.const import (
+    API_HYDROLOGICAL_ENDPOINT,
+    API_WATER_LEVEL,
+    API_WATER_LEVEL_MEASUREMENT_DATE,
+    API_WEATHER_ENDPOINT,
+)
 from imgw_pib.exceptions import ApiError
 
 
@@ -20,13 +25,18 @@ async def test_weather_stations(
     """Test weather stations."""
     session = aiohttp.ClientSession()
 
+    imgwpib = await ImgwPib.create(session)
+
+    assert len(imgwpib.weather_stations) == 0
+
     with aioresponses() as session_mock:
         session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=[])
 
-        imgwpib = await ImgwPib.create(session)
+        await imgwpib.update_weather_stations()
 
     await session.close()
+
+    assert len(imgwpib.weather_stations)
 
     assert imgwpib.weather_stations == snapshot
 
@@ -43,9 +53,8 @@ async def test_weather_station(
     with aioresponses() as session_mock:
         session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
         session_mock.get(f"{API_WEATHER_ENDPOINT}/id/12295", payload=weather_station)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=[])
 
-        imgwpib = await ImgwPib.create(session, "12295")
+        imgwpib = await ImgwPib.create(session, weather_station_id="12295")
         weather_data = await imgwpib.get_weather_data()
 
     await session.close()
@@ -60,10 +69,9 @@ async def test_wrong_weather_station_id(weather_stations: list[dict[str, Any]]) 
 
     with aioresponses() as session_mock:
         session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=[])
 
         with pytest.raises(ApiError) as exc_info:
-            await ImgwPib.create(session, "abcd1234")
+            await ImgwPib.create(session, weather_station_id="abcd1234")
 
     await session.close()
 
@@ -77,11 +85,14 @@ async def test_hydrological_stations(
     """Test hydrological stations."""
     session = aiohttp.ClientSession()
 
+    imgwpib = await ImgwPib.create(session)
+
+    assert len(imgwpib.hydrological_stations) == 0
+
     with aioresponses() as session_mock:
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_WEATHER_ENDPOINT, payload=[])
 
-        imgwpib = await ImgwPib.create(session)
+        await imgwpib.update_hydrological_stations()
 
     await session.close()
 
@@ -99,7 +110,6 @@ async def test_hydrological_station(
 
     with aioresponses() as session_mock:
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_WEATHER_ENDPOINT, payload=[])
         session_mock.get(
             f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
         )
@@ -121,7 +131,6 @@ async def test_wrong_weather_hydrological_id(
 
     with aioresponses() as session_mock:
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_WEATHER_ENDPOINT, payload=[])
 
         with pytest.raises(ApiError) as exc_info:
             await ImgwPib.create(session, hydrological_station_id="abcd1234")
@@ -144,8 +153,88 @@ async def test_api_error() -> None:
         )
 
         with pytest.raises(ApiError) as exc:
-            await ImgwPib.create(session)
+            await ImgwPib.create(session, weather_station_id="12345")
 
     await session.close()
 
     assert str(exc.value) == "Invalid response: 400"
+
+
+@pytest.mark.asyncio()
+async def test_get_weather_data_without_station_id() -> None:
+    """Test get_weather_data() without station ID."""
+    session = aiohttp.ClientSession()
+
+    imgwpib = await ImgwPib.create(session)
+
+    with pytest.raises(ApiError) as exc:
+        await imgwpib.get_weather_data()
+
+    await session.close()
+
+    assert str(exc.value) == "Weather station ID is not set"
+
+
+@pytest.mark.asyncio()
+async def test_get_hydrological_data_without_station_id() -> None:
+    """Test get_hydrological_data() without station ID."""
+    session = aiohttp.ClientSession()
+
+    imgwpib = await ImgwPib.create(session)
+
+    with pytest.raises(ApiError) as exc:
+        await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert str(exc.value) == "Hydrological station ID is not set"
+
+
+@pytest.mark.asyncio()
+async def test_invalid_water_level_value(
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_station: dict[str, Any],
+) -> None:
+    """Test invalid water level value."""
+    session = aiohttp.ClientSession()
+
+    hydrological_station[API_WATER_LEVEL] = None
+
+    with aioresponses() as session_mock:
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
+        )
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+
+        with pytest.raises(ApiError) as exc:
+            await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert str(exc.value) == "Invalid water level value"
+
+
+@pytest.mark.asyncio()
+async def test_invalid_date(
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_station: dict[str, Any],
+) -> None:
+    """Test invalid water level value."""
+    session = aiohttp.ClientSession()
+
+    hydrological_station[API_WATER_LEVEL_MEASUREMENT_DATE] = None
+
+    with aioresponses() as session_mock:
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
+        )
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+        hydrological_data = await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert hydrological_data.water_level_measurement_date is None
