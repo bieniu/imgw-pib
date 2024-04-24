@@ -1,7 +1,6 @@
 """Python wrapper for IMGW-PIB API."""
 
 import logging
-from datetime import UTC, datetime
 from http import HTTPStatus
 from typing import Any, Self
 
@@ -16,6 +15,7 @@ from .const import (
 )
 from .exceptions import ApiError
 from .model import ApiNames, HydrologicalData, SensorData, Units, WeatherData
+from .utils import gen_station_name, get_datetime
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -112,9 +112,9 @@ class ImgwPib:
         stations_data = await self._http_request(url)
 
         self._hydrological_station_list = {
-            station[
-                ApiNames.STATION_ID
-            ]: f"{station[ApiNames.STATION]} ({station[ApiNames.RIVER]})"
+            station[ApiNames.STATION_ID]: gen_station_name(
+                station[ApiNames.STATION], station[ApiNames.RIVER]
+            )
             for station in stations_data
         }
 
@@ -157,7 +157,8 @@ class ImgwPib:
 
         return await response.json()
 
-    def _parse_weather_data(self: Self, data: dict[str, Any]) -> WeatherData:
+    @staticmethod
+    def _parse_weather_data(data: dict[str, Any]) -> WeatherData:
         """Parse weather data."""
         temperature = data[ApiNames.TEMPERATURE]
         temperature_sensor = SensorData(
@@ -195,7 +196,7 @@ class ImgwPib:
             value=float(pressure) if pressure is not None else None,
             unit=Units.HPA.value if pressure is not None else None,
         )
-        measurement_date = self._get_datetime(
+        measurement_date = get_datetime(
             f"{data[ApiNames.MEASUREMENT_DATE]} {data[ApiNames.MEASUREMENT_TIME]}",
             "%Y-%m-%d %H",
         )
@@ -225,7 +226,7 @@ class ImgwPib:
             value=float(water_level) if water_level is not None else None,
             unit=Units.CENTIMETERS.value if water_level is not None else None,
         )
-        water_level_measurement_date = self._get_datetime(
+        water_level_measurement_date = get_datetime(
             data[ApiNames.WATER_LEVEL_MEASUREMENT_DATE],
             "%Y-%m-%d %H:%M:%S",
         )
@@ -249,7 +250,7 @@ class ImgwPib:
             value=float(water_temperature) if water_temperature is not None else None,
             unit=Units.CELSIUS.value if water_temperature is not None else None,
         )
-        water_temperature_measurement_date = self._get_datetime(
+        water_temperature_measurement_date = get_datetime(
             data[ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE],
             "%Y-%m-%d %H:%M:%S",
         )
@@ -265,11 +266,3 @@ class ImgwPib:
             water_level_measurement_date=water_level_measurement_date,
             water_temperature_measurement_date=water_temperature_measurement_date,
         )
-
-    @staticmethod
-    def _get_datetime(date_time: str, date_format: str) -> datetime | None:
-        """Get datetime object from date-time string."""
-        try:
-            return datetime.strptime(date_time, date_format).replace(tzinfo=UTC)
-        except (TypeError, ValueError):
-            return None
