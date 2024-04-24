@@ -114,7 +114,7 @@ class ImgwPib:
         self._hydrological_station_list = {
             station[
                 ApiNames.STATION_ID
-            ]: f"{station[ApiNames.STATION]} ({station[ApiNames.RIVER]})"
+            ]: f"{station[ApiNames.RIVER]} ({station[ApiNames.STATION]})"
             for station in stations_data
         }
 
