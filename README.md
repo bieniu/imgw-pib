@@ -7,6 +7,13 @@
 
 Python async wrapper for IMGW-PIB API.
 
+## Installation
+
+You can install the library with pip:
+
+```
+pip install imgw-pib
+```
 
 ## How to use package
 
@@ -54,6 +61,14 @@ loop = asyncio.new_event_loop()
 loop.run_until_complete(main())
 loop.close()
 ```
+
+## Error Handling
+
+The library raises `ApiError` when the IMGW-PIB API returns an error, `ClientError` for network-related errors, and `TimeoutError` when a request times out.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 [releases]: https://github.com/bieniu/imgw-pib/releases
 [releases-shield]: https://img.shields.io/github/release/bieniu/imgw-pib.svg?style=popout

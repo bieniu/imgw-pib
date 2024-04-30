@@ -230,16 +230,18 @@ async def test_invalid_water_level_value(
     assert str(exc.value) == "Invalid water level value"
 
 
+@pytest.mark.parametrize("date_time", [None, "lorem ipsum"])
 @pytest.mark.asyncio()
 async def test_invalid_date(
     hydrological_stations: list[dict[str, Any]],
     hydrological_station: dict[str, Any],
     hydrological_details: dict[str, Any],
+    date_time: str | None,
 ) -> None:
     """Test invalid water level value."""
     session = aiohttp.ClientSession()
 
-    hydrological_station[ApiNames.WATER_LEVEL_MEASUREMENT_DATE] = None
+    hydrological_station[ApiNames.WATER_LEVEL_MEASUREMENT_DATE] = date_time
 
     with aioresponses() as session_mock:
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
