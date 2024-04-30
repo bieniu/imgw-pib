@@ -11,7 +11,7 @@ class ImgwPibData:
     """IMGW-PIB data class."""
 
 
-@dataclass
+@dataclass(kw_only=True, slots=True)
 class SensorData:
     """Data class for sensor."""
 
@@ -20,7 +20,7 @@ class SensorData:
     unit: str | None = None
 
 
-@dataclass
+@dataclass(kw_only=True, slots=True)
 class WeatherData(ImgwPibData):
     """Weather Data class for IMGW-PIB."""
 
@@ -37,7 +37,7 @@ class WeatherData(ImgwPibData):
     measurement_date: datetime | None
 
 
-@dataclass
+@dataclass(kw_only=True, slots=True)
 class HydrologicalData(ImgwPibData):
     """Hudrological Data class for IMGW-PIB."""
 
