@@ -14,10 +14,14 @@ def gen_station_name(station: str, river: str) -> str:
     return f"{river} ({station})"
 
 
-def get_datetime(date_time: str, date_format: str) -> datetime | None:
+def get_datetime(date_time: str | None, date_format: str) -> datetime | None:
     """Get datetime object from date-time string."""
+    if date_time is None:
+        _LOGGER.debug("None is not a valid date-time string")
+        return None
+
     try:
         return datetime.strptime(date_time, date_format).replace(tzinfo=UTC)
-    except (TypeError, ValueError):
-        _LOGGER.debug("Invalid date-time string: %s", date_time)
+    except (TypeError, ValueError) as exc:
+        _LOGGER.debug("Invalid date-time string: %s, %s", date_time, exc)
         return None
