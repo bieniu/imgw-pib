@@ -15,7 +15,7 @@ You can install the library with pip:
 pip install imgw-pib
 ```
 
-## How to use package
+## How to use the library
 
 ```python
 """Example of usage IMGW-PIB."""
@@ -62,7 +62,7 @@ loop.run_until_complete(main())
 loop.close()
 ```
 
-## Error Handling
+## Error handling
 
 The library raises `ApiError` when the IMGW-PIB API returns an error, `ClientError` for network-related errors, and `TimeoutError` when a request times out.
 
