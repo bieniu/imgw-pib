@@ -11,7 +11,7 @@ Python async wrapper for IMGW-PIB API.
 
 You can install the library with pip:
 
-```bash
+```
 pip install imgw-pib
 ```
 
