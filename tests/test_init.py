@@ -261,3 +261,81 @@ async def test_invalid_date(
     await session.close()
 
     assert hydrological_data.water_level_measurement_date is None
+
+
+@pytest.mark.parametrize(
+    ("water_level", "flood_warning_level", "expected"),
+    [(100.0, 200.0, False), (100.0, 100.0, True), (100.0, 50.0, True)],
+)
+@pytest.mark.asyncio()
+async def test_flood_warning(
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_station: dict[str, Any],
+    hydrological_details: dict[str, Any],
+    water_level: float,
+    flood_warning_level: float,
+    expected: bool,
+) -> None:
+    """Test flood warning value."""
+    session = aiohttp.ClientSession()
+
+    hydrological_station[ApiNames.WATER_LEVEL] = water_level
+    hydrological_details["status"]["warningValue"] = flood_warning_level
+
+    with aioresponses() as session_mock:
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
+                hydrological_station_id="154190050"
+            ),
+            payload=hydrological_details,
+        )
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+        result = await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert result.flood_warning == expected
+
+
+@pytest.mark.parametrize(
+    ("water_level", "flood_alarm_level", "expected"),
+    [(100.0, 200.0, False), (100.0, 100.0, True), (100.0, 50.0, True)],
+)
+@pytest.mark.asyncio()
+async def test_flood_alarm(
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_station: dict[str, Any],
+    hydrological_details: dict[str, Any],
+    water_level: float,
+    flood_alarm_level: float,
+    expected: bool,
+) -> None:
+    """Test flood alarm value."""
+    session = aiohttp.ClientSession()
+
+    hydrological_station[ApiNames.WATER_LEVEL] = water_level
+    hydrological_details["status"]["alarmValue"] = flood_alarm_level
+
+    with aioresponses() as session_mock:
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
+                hydrological_station_id="154190050"
+            ),
+            payload=hydrological_details,
+        )
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+        result = await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert result.flood_alarm == expected

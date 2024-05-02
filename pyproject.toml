@@ -36,8 +36,10 @@ lint.ignore = [
     "T201",      # `print` found
 ]
 "tests/*" = [
+    "FBT001",    # Boolean-typed positional argument in function definition
+    "PLR0913",   # Too many arguments in function definition
     "S101",      # Use of `assert` detected
-    ]
+]
 
 
 [tool.ruff.lint.mccabe]
