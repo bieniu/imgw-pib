@@ -59,13 +59,13 @@ class HydrologicalData(ImgwPibData):
     def __post_init__(self: Self) -> None:
         """Call after initialization."""
         if self.water_level.value is not None:
-            if self.flood_warning_level.value is not None:
-                self.flood_alarm = (
-                    self.water_level.value >= self.flood_warning_level.value
-                )
             if self.flood_alarm_level.value is not None:
-                self.flood_warning = (
+                self.flood_alarm = (
                     self.water_level.value >= self.flood_alarm_level.value
+                )
+            if self.flood_warning_level.value is not None:
+                self.flood_warning = (
+                    self.water_level.value >= self.flood_warning_level.value
                 )
 
 
