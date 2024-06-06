@@ -127,7 +127,7 @@ class ImgwPib:
         hydrological_details = await self._http_request(url)
 
         if hydrological_details is None:
-            msg = "Invalid hydrological_details format"
+            msg = "Invalid hydrological details format"
             raise ApiError(msg)
 
         self._warning_water_level = hydrological_details["status"]["warningValue"]

@@ -368,4 +368,4 @@ async def test_hydrological_details_is_none(
 
     await session.close()
 
-    assert str(exc_info.value) == "Invalid hydrological_details format"
+    assert str(exc_info.value) == "Invalid hydrological details format"
