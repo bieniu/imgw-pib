@@ -1,6 +1,7 @@
 """Python wrapper for IMGW-PIB API."""
 
 import logging
+from datetime import UTC, datetime
 from http import HTTPStatus
 from typing import Any, Self
 
@@ -248,15 +249,24 @@ class ImgwPib:
             if self._alarm_water_level is not None
             else None,
         )
-        water_temperature = data[ApiNames.WATER_TEMPERATURE]
+
+        water_temperature_measurement_date = get_datetime(
+            data[ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE],
+            "%Y-%m-%d %H:%M:%S",
+        )
+        if (
+            water_temperature_measurement_date is not None
+            and water_temperature_measurement_date.date() == datetime.now(tz=UTC).date()
+        ):
+            water_temperature = data[ApiNames.WATER_TEMPERATURE]
+        else:
+            water_temperature_measurement_date = None
+            water_temperature = None
+
         water_temperature_sensor = SensorData(
             name="Water Temperature",
             value=float(water_temperature) if water_temperature is not None else None,
             unit=Units.CELSIUS.value if water_temperature is not None else None,
-        )
-        water_temperature_measurement_date = get_datetime(
-            data[ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE],
-            "%Y-%m-%d %H:%M:%S",
         )
 
         return HydrologicalData(
