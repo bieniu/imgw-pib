@@ -384,7 +384,8 @@ async def test_water_temperature_not_current(
     """Test water_temperature is not current."""
     session = aiohttp.ClientSession()
 
-    hydrological_station["temperatura_wody_data_pomiaru"] = "2002-01-01 12:00:01"
+    # The measurement was performed more than 6 hours before the test time
+    hydrological_station["temperatura_wody_data_pomiaru"] = "2024-04-22 05:00:00"
 
     with aioresponses() as session_mock, freeze_time(TEST_TIME):
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)

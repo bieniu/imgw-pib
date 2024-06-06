@@ -1,7 +1,7 @@
 """Python wrapper for IMGW-PIB API."""
 
 import logging
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from http import HTTPStatus
 from typing import Any, Self
 
@@ -254,10 +254,9 @@ class ImgwPib:
             data[ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE],
             "%Y-%m-%d %H:%M:%S",
         )
-        if (
-            water_temperature_measurement_date is not None
-            and water_temperature_measurement_date.date() == datetime.now(tz=UTC).date()
-        ):
+        if water_temperature_measurement_date is not None and datetime.now(
+            tz=UTC
+        ) - water_temperature_measurement_date < timedelta(hours=6):
             water_temperature = data[ApiNames.WATER_TEMPERATURE]
         else:
             water_temperature_measurement_date = None
