@@ -1,11 +1,13 @@
 """Tests for imgw-pib package."""
 
+from datetime import UTC, datetime
 from http import HTTPStatus
 from typing import Any
 
 import aiohttp
 import pytest
 from aioresponses import aioresponses
+from freezegun import freeze_time
 from syrupy import SnapshotAssertion
 
 from imgw_pib import ImgwPib
@@ -16,6 +18,8 @@ from imgw_pib.const import (
 )
 from imgw_pib.exceptions import ApiError
 from imgw_pib.model import ApiNames
+
+TEST_TIME = datetime(2024, 4, 22, 11, 10, 32, tzinfo=UTC)
 
 
 @pytest.mark.asyncio()
@@ -109,7 +113,7 @@ async def test_hydrological_station(
     """Test weather station."""
     session = aiohttp.ClientSession()
 
-    with aioresponses() as session_mock:
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
             f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
@@ -369,3 +373,35 @@ async def test_hydrological_details_is_none(
     await session.close()
 
     assert str(exc_info.value) == "Invalid hydrological details format"
+
+
+@pytest.mark.asyncio()
+async def test_water_temperature_not_current(
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_station: dict[str, Any],
+    hydrological_details: dict[str, Any],
+) -> None:
+    """Test water_temperature is not current."""
+    session = aiohttp.ClientSession()
+
+    hydrological_station["temperatura_wody_data_pomiaru"] = "2002-01-01 12:00:01"
+
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
+                hydrological_station_id="154190050"
+            ),
+            payload=hydrological_details,
+        )
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+        result = await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert result.water_temperature.value is None
+    assert result.water_temperature_measurement_date is None
