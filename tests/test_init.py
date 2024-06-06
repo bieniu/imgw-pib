@@ -339,3 +339,33 @@ async def test_flood_alarm(
     await session.close()
 
     assert result.flood_alarm == expected
+
+
+@pytest.mark.asyncio()
+async def test_hydrological_details_is_none(
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_station: dict[str, Any],
+) -> None:
+    """Test hydrological_details is None."""
+    session = aiohttp.ClientSession()
+
+    hydrological_station = None
+
+    with aioresponses() as session_mock:
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
+                hydrological_station_id="154190050"
+            ),
+            payload=None,
+        )
+
+        with pytest.raises(ApiError) as exc_info:
+            await ImgwPib.create(session, hydrological_station_id="154190050")
+
+    await session.close()
+
+    assert str(exc_info.value) == "Invalid hydrological details format"
