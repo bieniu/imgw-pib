@@ -423,7 +423,7 @@ async def test_no_hydrological_data(
 async def test_hydrological_details_is_null(
     hydrological_stations: list[dict[str, Any]],
 ) -> None:
-    """Test when response has invalid content type."""
+    """Test when hydrological details is null."""
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock, freeze_time(TEST_TIME):
