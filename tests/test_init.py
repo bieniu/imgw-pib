@@ -107,7 +107,6 @@ async def test_hydrological_stations(
 async def test_hydrological_station(
     snapshot: SnapshotAssertion,
     hydrological_stations: list[dict[str, Any]],
-    hydrological_station: dict[str, Any],
     hydrological_details: dict[str, Any],
 ) -> None:
     """Test weather station."""
@@ -115,9 +114,7 @@ async def test_hydrological_station(
 
     with aioresponses() as session_mock, freeze_time(TEST_TIME):
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
-        )
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
                 hydrological_station_id="154190050"
@@ -204,19 +201,16 @@ async def test_get_hydrological_data_without_station_id() -> None:
 @pytest.mark.asyncio()
 async def test_invalid_water_level_value(
     hydrological_stations: list[dict[str, Any]],
-    hydrological_station: dict[str, Any],
     hydrological_details: dict[str, Any],
 ) -> None:
     """Test invalid water level value."""
     session = aiohttp.ClientSession()
 
-    hydrological_station[ApiNames.WATER_LEVEL] = None
+    hydrological_stations[5][ApiNames.WATER_LEVEL] = None
 
     with aioresponses() as session_mock:
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
-        )
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
                 hydrological_station_id="154190050"
@@ -238,20 +232,17 @@ async def test_invalid_water_level_value(
 @pytest.mark.asyncio()
 async def test_invalid_date(
     hydrological_stations: list[dict[str, Any]],
-    hydrological_station: dict[str, Any],
     hydrological_details: dict[str, Any],
     date_time: str | None,
 ) -> None:
     """Test invalid water level value."""
     session = aiohttp.ClientSession()
 
-    hydrological_station[ApiNames.WATER_LEVEL_MEASUREMENT_DATE] = date_time
+    hydrological_stations[5][ApiNames.WATER_LEVEL_MEASUREMENT_DATE] = date_time
 
     with aioresponses() as session_mock:
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
-        )
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
                 hydrological_station_id="154190050"
@@ -274,7 +265,6 @@ async def test_invalid_date(
 @pytest.mark.asyncio()
 async def test_flood_warning(
     hydrological_stations: list[dict[str, Any]],
-    hydrological_station: dict[str, Any],
     hydrological_details: dict[str, Any],
     water_level: float,
     flood_warning_level: float,
@@ -283,14 +273,12 @@ async def test_flood_warning(
     """Test flood warning value."""
     session = aiohttp.ClientSession()
 
-    hydrological_station[ApiNames.WATER_LEVEL] = water_level
+    hydrological_stations[5][ApiNames.WATER_LEVEL] = water_level
     hydrological_details["status"]["warningValue"] = flood_warning_level
 
     with aioresponses() as session_mock:
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
-        )
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
                 hydrological_station_id="154190050"
@@ -313,7 +301,6 @@ async def test_flood_warning(
 @pytest.mark.asyncio()
 async def test_flood_alarm(
     hydrological_stations: list[dict[str, Any]],
-    hydrological_station: dict[str, Any],
     hydrological_details: dict[str, Any],
     water_level: float,
     flood_alarm_level: float,
@@ -322,14 +309,12 @@ async def test_flood_alarm(
     """Test flood alarm value."""
     session = aiohttp.ClientSession()
 
-    hydrological_station[ApiNames.WATER_LEVEL] = water_level
+    hydrological_stations[5][ApiNames.WATER_LEVEL] = water_level
     hydrological_details["status"]["alarmValue"] = flood_alarm_level
 
     with aioresponses() as session_mock:
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
-        )
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
                 hydrological_station_id="154190050"
@@ -346,52 +331,21 @@ async def test_flood_alarm(
 
 
 @pytest.mark.asyncio()
-async def test_hydrological_details_is_none(
-    hydrological_stations: list[dict[str, Any]],
-    hydrological_station: dict[str, Any],
-) -> None:
-    """Test hydrological_details is None."""
-    session = aiohttp.ClientSession()
-
-    hydrological_station = None
-
-    with aioresponses() as session_mock:
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
-        )
-        session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
-                hydrological_station_id="154190050"
-            ),
-            payload=None,
-        )
-
-        with pytest.raises(ApiError) as exc_info:
-            await ImgwPib.create(session, hydrological_station_id="154190050")
-
-    await session.close()
-
-    assert str(exc_info.value) == "Invalid hydrological details format"
-
-
-@pytest.mark.asyncio()
 async def test_water_temperature_not_current(
     hydrological_stations: list[dict[str, Any]],
-    hydrological_station: dict[str, Any],
     hydrological_details: dict[str, Any],
 ) -> None:
     """Test water_temperature is not current."""
     session = aiohttp.ClientSession()
 
     # The measurement was performed more than 6 hours before the test time
-    hydrological_station["temperatura_wody_data_pomiaru"] = "2024-04-22 05:00:00"
+    hydrological_stations[5][ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE] = (
+        "2024-04-22 05:00:00"
+    )
 
     with aioresponses() as session_mock, freeze_time(TEST_TIME):
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            f"{API_HYDROLOGICAL_ENDPOINT}/id/154190050", payload=hydrological_station
-        )
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
                 hydrological_station_id="154190050"

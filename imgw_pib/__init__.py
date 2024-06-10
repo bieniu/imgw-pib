@@ -146,7 +146,7 @@ class ImgwPib:
             (
                 item
                 for item in all_stations_data
-                if item[ApiNames.STATION_ID] == self.hydrological_station_id
+                if item.get(ApiNames.STATION_ID) == self.hydrological_station_id
             ),
             None,
         )
