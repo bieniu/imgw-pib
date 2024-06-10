@@ -417,3 +417,27 @@ async def test_no_hydrological_data(
     await session.close()
 
     assert str(exc_info.value) == "No hydrological data for station ID: 154190050"
+
+
+@pytest.mark.asyncio()
+async def test_hydrological_details_is_null(
+    hydrological_stations: list[dict[str, Any]],
+) -> None:
+    """Test when response has invalid content type."""
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
+                hydrological_station_id="154190050"
+            ),
+            payload=None,
+        )
+
+        with pytest.raises(ApiError) as exc_info:
+            await ImgwPib.create(session, hydrological_station_id="154190050")
+
+    await session.close()
+
+    assert str(exc_info.value) == "Invalid hydrological details format"
