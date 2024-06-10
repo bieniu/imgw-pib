@@ -152,7 +152,7 @@ class ImgwPib:
         )
 
         if hydrological_data is None:
-            msg = "Invalid hydrological data format"
+            msg = f"No hydrological data for station ID: {self.hydrological_station_id}"
             raise ApiError(msg)
 
         return self._parse_hydrological_data(hydrological_data)

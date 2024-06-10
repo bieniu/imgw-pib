@@ -360,3 +360,60 @@ async def test_water_temperature_not_current(
 
     assert result.water_temperature.value is None
     assert result.water_temperature_measurement_date is None
+
+
+@pytest.mark.asyncio()
+async def test_hydrological_data_invalid_content(
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_details: dict[str, Any],
+) -> None:
+    """Test when response has invalid content type."""
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, content_type="text/html")
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
+                hydrological_station_id="154190050"
+            ),
+            payload=hydrological_details,
+        )
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+        with pytest.raises(ApiError) as exc_info:
+            await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert str(exc_info.value) == "Invalid content type: text/html"
+
+
+@pytest.mark.asyncio()
+async def test_no_hydrological_data(
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_details: dict[str, Any],
+) -> None:
+    """Test when response has invalid content type."""
+    session = aiohttp.ClientSession()
+
+    incomplete_data = hydrological_stations.copy()
+    incomplete_data.pop(5)
+
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=incomplete_data)
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
+                hydrological_station_id="154190050"
+            ),
+            payload=hydrological_details,
+        )
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+        with pytest.raises(ApiError) as exc_info:
+            await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert str(exc_info.value) == "No hydrological data for station ID: 154190050"
