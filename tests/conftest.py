@@ -34,15 +34,6 @@ def hydrological_stations() -> list[dict[str, Any]]:
 
 
 @pytest.fixture()
-def hydrological_station() -> dict[str, Any]:
-    """Return hydrological station data from the fixture file."""
-    with Path.open(
-        "tests/fixtures/hydrological_station.json", encoding="utf-8"
-    ) as file:
-        return cast(dict[str, Any], json.load(file))
-
-
-@pytest.fixture()
 def hydrological_details() -> dict[str, Any]:
     """Return hydrological details from the fixture file."""
     with Path.open(

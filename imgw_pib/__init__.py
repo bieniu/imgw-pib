@@ -140,9 +140,20 @@ class ImgwPib:
             msg = "Hydrological station ID is not set"
             raise ApiError(msg)
 
-        url = f"{API_HYDROLOGICAL_ENDPOINT}/id/{self.hydrological_station_id}"
+        all_stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT)
 
-        hydrological_data = await self._http_request(url)
+        hydrological_data = next(
+            (
+                item
+                for item in all_stations_data
+                if item.get(ApiNames.STATION_ID) == self.hydrological_station_id
+            ),
+            None,
+        )
+
+        if hydrological_data is None:
+            msg = f"No hydrological data for station ID: {self.hydrological_station_id}"
+            raise ApiError(msg)
 
         return self._parse_hydrological_data(hydrological_data)
 
@@ -158,6 +169,10 @@ class ImgwPib:
 
         if response.status != HTTPStatus.OK.value:
             msg = f"Invalid response: {response.status}"
+            raise ApiError(msg)
+
+        if "application/json" not in response.content_type:
+            msg = f"Invalid content type: {response.content_type}"
             raise ApiError(msg)
 
         return await response.json()
