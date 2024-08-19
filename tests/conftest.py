@@ -10,21 +10,21 @@ from syrupy.extensions.amber import AmberSnapshotExtension
 from syrupy.location import PyTestLocation
 
 
-@pytest.fixture()
+@pytest.fixture
 def weather_stations() -> list[dict[str, Any]]:
     """Return weather stations data from the fixture file."""
     with Path.open("tests/fixtures/weather_stations.json", encoding="utf-8") as file:
         return cast(list[dict[str, Any]], json.load(file))
 
 
-@pytest.fixture()
+@pytest.fixture
 def weather_station() -> dict[str, Any]:
     """Return weather station data from the fixture file."""
     with Path.open("tests/fixtures/weather_station.json", encoding="utf-8") as file:
         return cast(dict[str, Any], json.load(file))
 
 
-@pytest.fixture()
+@pytest.fixture
 def hydrological_stations() -> list[dict[str, Any]]:
     """Return hydrological stations data from the fixture file."""
     with Path.open(
@@ -33,7 +33,7 @@ def hydrological_stations() -> list[dict[str, Any]]:
         return cast(list[dict[str, Any]], json.load(file))
 
 
-@pytest.fixture()
+@pytest.fixture
 def hydrological_details() -> dict[str, Any]:
     """Return hydrological details from the fixture file."""
     with Path.open(
@@ -42,7 +42,7 @@ def hydrological_details() -> dict[str, Any]:
         return cast(dict[str, Any], json.load(file))
 
 
-@pytest.fixture()
+@pytest.fixture
 def snapshot(snapshot: SnapshotAssertion) -> SnapshotAssertion:
     """Return snapshot assertion fixture."""
     return snapshot.use_extension(SnapshotExtension)
