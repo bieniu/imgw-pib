@@ -22,7 +22,7 @@ from imgw_pib.model import ApiNames
 TEST_TIME = datetime(2024, 4, 22, 11, 10, 32, tzinfo=UTC)
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_weather_stations(
     snapshot: SnapshotAssertion, weather_stations: list[dict[str, Any]]
 ) -> None:
@@ -45,7 +45,7 @@ async def test_weather_stations(
     assert imgwpib.weather_stations == snapshot
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_weather_station(
     snapshot: SnapshotAssertion,
     weather_stations: list[dict[str, Any]],
@@ -66,7 +66,7 @@ async def test_weather_station(
     assert weather_data == snapshot
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_wrong_weather_station_id(weather_stations: list[dict[str, Any]]) -> None:
     """Test wrong weather station ID."""
     session = aiohttp.ClientSession()
@@ -82,7 +82,7 @@ async def test_wrong_weather_station_id(weather_stations: list[dict[str, Any]]) 
     assert str(exc_info.value) == "Invalid weather station ID: abcd1234"
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_hydrological_stations(
     snapshot: SnapshotAssertion, hydrological_stations: list[dict[str, Any]]
 ) -> None:
@@ -103,7 +103,7 @@ async def test_hydrological_stations(
     assert imgwpib.hydrological_stations == snapshot
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_hydrological_station(
     snapshot: SnapshotAssertion,
     hydrological_stations: list[dict[str, Any]],
@@ -130,7 +130,7 @@ async def test_hydrological_station(
     assert hydrological_data == snapshot
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_wrong_weather_hydrological_id(
     hydrological_stations: list[dict[str, Any]],
 ) -> None:
@@ -148,7 +148,7 @@ async def test_wrong_weather_hydrological_id(
     assert str(exc_info.value) == "Invalid hydrological station ID: abcd1234"
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_api_error() -> None:
     """Test API error."""
     session = aiohttp.ClientSession()
@@ -168,7 +168,7 @@ async def test_api_error() -> None:
     assert str(exc.value) == "Invalid response: 400"
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_get_weather_data_without_station_id() -> None:
     """Test get_weather_data() without station ID."""
     session = aiohttp.ClientSession()
@@ -183,7 +183,7 @@ async def test_get_weather_data_without_station_id() -> None:
     assert str(exc.value) == "Weather station ID is not set"
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_get_hydrological_data_without_station_id() -> None:
     """Test get_hydrological_data() without station ID."""
     session = aiohttp.ClientSession()
@@ -198,7 +198,7 @@ async def test_get_hydrological_data_without_station_id() -> None:
     assert str(exc.value) == "Hydrological station ID is not set"
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_invalid_water_level_value(
     hydrological_stations: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
@@ -229,7 +229,7 @@ async def test_invalid_water_level_value(
 
 
 @pytest.mark.parametrize("date_time", [None, "lorem ipsum"])
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_invalid_date(
     hydrological_stations: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
@@ -262,7 +262,7 @@ async def test_invalid_date(
     ("water_level", "flood_warning_level", "expected"),
     [(100.0, 200.0, False), (100.0, 100.0, True), (100.0, 50.0, True)],
 )
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_flood_warning(
     hydrological_stations: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
@@ -298,7 +298,7 @@ async def test_flood_warning(
     ("water_level", "flood_alarm_level", "expected"),
     [(100.0, 200.0, False), (100.0, 100.0, True), (100.0, 50.0, True)],
 )
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_flood_alarm(
     hydrological_stations: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
@@ -330,7 +330,7 @@ async def test_flood_alarm(
     assert result.flood_alarm == expected
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_water_temperature_not_current(
     hydrological_stations: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
@@ -362,7 +362,7 @@ async def test_water_temperature_not_current(
     assert result.water_temperature_measurement_date is None
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_hydrological_data_invalid_content(
     hydrological_stations: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
@@ -389,7 +389,7 @@ async def test_hydrological_data_invalid_content(
     assert str(exc_info.value) == "Invalid content type: text/html"
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_no_hydrological_data(
     hydrological_stations: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
@@ -419,7 +419,7 @@ async def test_no_hydrological_data(
     assert str(exc_info.value) == "No hydrological data for station ID: 154190050"
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_hydrological_details_is_null(
     hydrological_stations: list[dict[str, Any]],
 ) -> None:
