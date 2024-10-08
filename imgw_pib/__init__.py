@@ -1,7 +1,7 @@
 """Python wrapper for IMGW-PIB API."""
 
 import logging
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, datetime
 from http import HTTPStatus
 from typing import Any, Self
 
@@ -11,6 +11,7 @@ from .const import (
     API_HYDROLOGICAL_DETAILS_ENDPOINT,
     API_HYDROLOGICAL_ENDPOINT,
     API_WEATHER_ENDPOINT,
+    DATA_VALIDITY_PERIOD,
     HEADERS,
     TIMEOUT,
 )
@@ -235,7 +236,19 @@ class ImgwPib:
 
     def _parse_hydrological_data(self: Self, data: dict[str, Any]) -> HydrologicalData:
         """Parse hydrological data."""
-        water_level = data[ApiNames.WATER_LEVEL]
+        water_level_measurement_date = get_datetime(
+            data[ApiNames.WATER_LEVEL_MEASUREMENT_DATE],
+            "%Y-%m-%d %H:%M:%S",
+        )
+        if (
+            water_level_measurement_date is not None
+            and datetime.now(tz=UTC) - water_level_measurement_date
+            < DATA_VALIDITY_PERIOD
+        ):
+            water_level = data[ApiNames.WATER_LEVEL]
+        else:
+            water_level_measurement_date = None
+            water_level = None
 
         if water_level is None:
             msg = "Invalid water level value"
@@ -245,10 +258,6 @@ class ImgwPib:
             name="Water Level",
             value=float(water_level) if water_level is not None else None,
             unit=Units.CENTIMETERS.value if water_level is not None else None,
-        )
-        water_level_measurement_date = get_datetime(
-            data[ApiNames.WATER_LEVEL_MEASUREMENT_DATE],
-            "%Y-%m-%d %H:%M:%S",
         )
         flood_warning_level_sensor = SensorData(
             name="Flood Warning Level",
@@ -269,9 +278,11 @@ class ImgwPib:
             data[ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE],
             "%Y-%m-%d %H:%M:%S",
         )
-        if water_temperature_measurement_date is not None and datetime.now(
-            tz=UTC
-        ) - water_temperature_measurement_date < timedelta(hours=6):
+        if (
+            water_temperature_measurement_date is not None
+            and datetime.now(tz=UTC) - water_temperature_measurement_date
+            < DATA_VALIDITY_PERIOD
+        ):
             water_temperature = data[ApiNames.WATER_TEMPERATURE]
         else:
             water_temperature_measurement_date = None

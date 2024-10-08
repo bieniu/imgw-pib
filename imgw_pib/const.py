@@ -1,5 +1,7 @@
 """IMDB-PIB constants."""
 
+from datetime import timedelta
+
 from aiohttp import ClientTimeout
 
 API_BASE_ENDPOINT = "https://danepubliczne.imgw.pl/api/data"
@@ -11,3 +13,5 @@ API_HYDROLOGICAL_DETAILS_ENDPOINT = (
 
 HEADERS = {"Content-Type": "application/json"}
 TIMEOUT = ClientTimeout(total=20)
+
+DATA_VALIDITY_PERIOD = timedelta(hours=6)
