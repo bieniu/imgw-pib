@@ -228,7 +228,7 @@ async def test_invalid_water_level_value(
     assert str(exc.value) == "Invalid water level value"
 
 
-@pytest.mark.parametrize("date_time", [None, "lorem ipsum"])
+@pytest.mark.parametrize("date_time", [None, "lorem ipsum", "2024-01-22 09:10:00"])
 @pytest.mark.asyncio
 async def test_invalid_date(
     hydrological_stations: list[dict[str, Any]],
@@ -240,7 +240,7 @@ async def test_invalid_date(
 
     hydrological_stations[5][ApiNames.WATER_LEVEL_MEASUREMENT_DATE] = date_time
 
-    with aioresponses() as session_mock:
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
@@ -251,11 +251,13 @@ async def test_invalid_date(
         )
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
-        hydrological_data = await imgwpib.get_hydrological_data()
+
+        with pytest.raises(ApiError) as exc_info:
+            await imgwpib.get_hydrological_data()
 
     await session.close()
 
-    assert hydrological_data.water_level_measurement_date is None
+    assert str(exc_info.value) == "Invalid water level value"
 
 
 @pytest.mark.parametrize(
@@ -276,7 +278,7 @@ async def test_flood_warning(
     hydrological_stations[5][ApiNames.WATER_LEVEL] = water_level
     hydrological_details["status"]["warningValue"] = flood_warning_level
 
-    with aioresponses() as session_mock:
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
@@ -312,7 +314,7 @@ async def test_flood_alarm(
     hydrological_stations[5][ApiNames.WATER_LEVEL] = water_level
     hydrological_details["status"]["alarmValue"] = flood_alarm_level
 
-    with aioresponses() as session_mock:
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
