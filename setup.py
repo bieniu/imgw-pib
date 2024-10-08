@@ -21,7 +21,7 @@ setup(
     packages=["imgw_pib"],
     package_data={"imgw_pib": ["py.typed"]},
     python_requires=">=3.12",
-    install_requires=["aiohttp>=3.8.0"],
+    install_requires=["aiohttp>=3.9.4"],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "License :: OSI Approved :: Apache Software License",
@@ -29,6 +29,7 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Programming Language :: Python :: 3 :: Only",
         "Typing :: Typed",
     ],
