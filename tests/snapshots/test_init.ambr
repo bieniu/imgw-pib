@@ -1,4 +1,10 @@
 # serializer version: 1
+# name: test_hydrological_details_is_null
+  HydrologicalData(water_level=SensorData(name='Water Level', value=570.0, unit='cm'), flood_alarm_level=SensorData(name='Flood Alarm Level', value=None, unit=None), flood_warning_level=SensorData(name='Flood Warning Level', value=None, unit=None), water_temperature=SensorData(name='Water Temperature', value=8.0, unit='°C'), river='Zalew Wiślany', station_id='154190050', station='Nowe Batorowo', water_level_measurement_date=FakeDatetime(2024, 4, 22, 9, 0, tzinfo=datetime.timezone.utc), water_temperature_measurement_date=FakeDatetime(2024, 4, 22, 9, 10, tzinfo=datetime.timezone.utc), flood_alarm=None, flood_warning=None)
+# ---
+# name: test_hydrological_details_returns_403
+  HydrologicalData(water_level=SensorData(name='Water Level', value=570.0, unit='cm'), flood_alarm_level=SensorData(name='Flood Alarm Level', value=None, unit=None), flood_warning_level=SensorData(name='Flood Warning Level', value=None, unit=None), water_temperature=SensorData(name='Water Temperature', value=8.0, unit='°C'), river='Zalew Wiślany', station_id='154190050', station='Nowe Batorowo', water_level_measurement_date=FakeDatetime(2024, 4, 22, 9, 0, tzinfo=datetime.timezone.utc), water_temperature_measurement_date=FakeDatetime(2024, 4, 22, 9, 10, tzinfo=datetime.timezone.utc), flood_alarm=None, flood_warning=None)
+# ---
 # name: test_hydrological_station
   HydrologicalData(water_level=SensorData(name='Water Level', value=570.0, unit='cm'), flood_alarm_level=SensorData(name='Flood Alarm Level', value=630.0, unit='cm'), flood_warning_level=SensorData(name='Flood Warning Level', value=590.0, unit='cm'), water_temperature=SensorData(name='Water Temperature', value=8.0, unit='°C'), river='Zalew Wiślany', station_id='154190050', station='Nowe Batorowo', water_level_measurement_date=FakeDatetime(2024, 4, 22, 9, 0, tzinfo=datetime.timezone.utc), water_temperature_measurement_date=FakeDatetime(2024, 4, 22, 9, 10, tzinfo=datetime.timezone.utc), flood_alarm=False, flood_warning=False)
 # ---

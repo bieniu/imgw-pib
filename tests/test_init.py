@@ -423,12 +423,14 @@ async def test_no_hydrological_data(
 
 @pytest.mark.asyncio
 async def test_hydrological_details_is_null(
+    snapshot: SnapshotAssertion,
     hydrological_stations: list[dict[str, Any]],
 ) -> None:
     """Test when hydrological details is null."""
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock, freeze_time(TEST_TIME):
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
@@ -437,9 +439,35 @@ async def test_hydrological_details_is_null(
             payload=None,
         )
 
-        with pytest.raises(ApiError) as exc_info:
-            await ImgwPib.create(session, hydrological_station_id="154190050")
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+        hydrological_data = await imgwpib.get_hydrological_data()
 
     await session.close()
 
-    assert str(exc_info.value) == "Invalid hydrological details format"
+    assert hydrological_data == snapshot
+
+
+@pytest.mark.asyncio
+async def test_hydrological_details_returns_403(
+    snapshot: SnapshotAssertion,
+    hydrological_stations: list[dict[str, Any]],
+) -> None:
+    """Test when hydrological details returns 403."""
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
+                hydrological_station_id="154190050"
+            ),
+            status=HTTPStatus.FORBIDDEN.value,
+        )
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+        hydrological_data = await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert hydrological_data == snapshot
