@@ -126,11 +126,15 @@ class ImgwPib:
             hydrological_station_id=self.hydrological_station_id
         )
 
-        hydrological_details = await self._http_request(url)
+        try:
+            hydrological_details = await self._http_request(url)
+        except ApiError as exc:
+            _LOGGER.info("Hydrological details not available: %s", repr(exc))
+            return
 
         if hydrological_details is None:
-            msg = "Invalid hydrological details format"
-            raise ApiError(msg)
+            _LOGGER.info("Invalid hydrological details format")
+            return
 
         self._warning_water_level = hydrological_details["status"]["warningValue"]
         self._alarm_water_level = hydrological_details["status"]["alarmValue"]
