@@ -471,3 +471,25 @@ async def test_hydrological_details_returns_403(
     await session.close()
 
     assert hydrological_data == snapshot
+
+
+@pytest.mark.asyncio
+async def test_hydro_details_is_false(
+    snapshot: SnapshotAssertion,
+    hydrological_stations: list[dict[str, Any]],
+) -> None:
+    """Test when hydro_details is False."""
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+
+        imgwpib = await ImgwPib.create(
+            session, hydrological_station_id="154190050", hydro_details=False
+        )
+        hydrological_data = await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert hydrological_data == snapshot

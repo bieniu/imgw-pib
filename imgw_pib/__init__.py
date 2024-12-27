@@ -30,6 +30,7 @@ class ImgwPib:
         session: ClientSession,
         weather_station_id: str | None = None,
         hydrological_station_id: str | None = None,
+        hydro_details: bool = True,
     ) -> None:
         """Initialize IMGW-PIB API wrapper."""
         self._session = session
@@ -41,15 +42,20 @@ class ImgwPib:
         self.weather_station_id = weather_station_id
         self.hydrological_station_id = hydrological_station_id
 
+        self.hydro_details = hydro_details
+
     @classmethod
     async def create(
         cls: type[Self],
         session: ClientSession,
         weather_station_id: str | None = None,
         hydrological_station_id: str | None = None,
+        hydro_details: bool = True,
     ) -> Self:
         """Create a new instance."""
-        instance = cls(session, weather_station_id, hydrological_station_id)
+        instance = cls(
+            session, weather_station_id, hydrological_station_id, hydro_details
+        )
         await instance.initialize()
 
         return instance
@@ -82,7 +88,8 @@ class ImgwPib:
                 msg = f"Invalid hydrological station ID: {self.hydrological_station_id}"
                 raise ApiError(msg)
 
-            await self._update_hydrological_details()
+            if self.hydro_details is True:
+                await self._update_hydrological_details()
 
     async def update_weather_stations(self: Self) -> None:
         """Update list of weather stations."""
