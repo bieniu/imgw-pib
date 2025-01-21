@@ -8,6 +8,7 @@ on:
 
 jobs:
   prepare:
+    name: Prepare environment
     runs-on: ubuntu-24.04-arm
     strategy:
       matrix:
@@ -41,7 +42,8 @@ jobs:
           source venv/bin/activate
           uv pip install -r requirements-test.txt
 
-  test:
+  lint-ruff:
+    name: Check ruff
     runs-on: ubuntu-24.04-arm
     strategy:
       matrix:
@@ -65,11 +67,44 @@ jobs:
           fail-on-cache-miss: true
           key: ${{ runner.os }}-${{ matrix.python-version }}
 
-      - name: Test with ruff
+      - name: Run ruff
         run: |
           source venv/bin/activate
           ruff check .
+        env:
+          RUFF_OUTPUT_FORMAT: github
+
+  lint-ruff-format:
+    name: Check ruff-format
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      matrix:
+        python-version:
+          - "3.12"
+          - "3.13"
+    needs:
+      - prepare
+    
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Restore Python virtual environment
+        id: cache-venv
+        uses: actions/cache/restore@v4.2.0
+        with:
+          path: venv
+          fail-on-cache-miss: true
+          key: ${{ runner.os }}-${{ matrix.python-version }}
+
+      - name: Run ruff-format
+        run: |
+          source venv/bin/activate
           ruff format --check .
+        env:
+          RUFF_OUTPUT_FORMAT: github
 
       - name: Test with mypy
         run: mypy imgw_pib
