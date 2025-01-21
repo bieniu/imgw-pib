@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  Prepare:
+  prepare:
     runs-on: ubuntu-24.04-arm
     strategy:
       matrix:
@@ -16,24 +16,50 @@ jobs:
           - "3.13"
 
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
+      - name: Restore Python virtual environment
+        id: cache-venv
+        uses: actions/cache@v4.2.0
+        with:
+          path: venv
+          key: ${{ runner.os }}-${{ matrix.python-version }}
+
+      - name: Create Python virtual environment
+        if: steps.cache-venv.outputs.cache-hit != 'true'
         run: |
           pip install uv
-          uv pip install -r requirements-test.txt --system
-  Test:
-    runs-on: ubuntu-24.04-arm
+          uv venv --python ${{ matrix.python-version }} venv
+          source venv/bin/activate
+          uv pip install -r requirements-test.txt
 
-    steps:     
+  test:
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      matrix:
+        python-version:
+          - "3.12"
+          - "3.13"
+    needs:
+      - prepare
+    
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Restore Python virtual environment
+        id: cache-venv
+        uses: actions/cache/restore@v4.2.0
+        with:
+          path: venv
+          fail-on-cache-miss: true
+          key: ${{ runner.os }}-${{ matrix.python-version }}
+
       - name: Test with ruff
         run: |
           ruff check .
