@@ -31,12 +31,12 @@ jobs:
 
       - name: Create venv
         run: |
-          uv venv --python ${{ matrix.python-version }}
+          uv venv --python ${{ matrix.python-version }} venv
           source venv/bin/activate
 
       - name: Install dependencies
         run: |
-          uv pip install -r requirements-test.txt 
+          uv pip install -r requirements-test.txt
 
       - name: Test with pytest
         run: pytest --timeout=30 --cov=imgw_pib --cov-report=xml --error-for-skips
