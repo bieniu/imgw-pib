@@ -67,6 +67,7 @@ jobs:
 
       - name: Test with ruff
         run: |
+          source venv/bin/activate
           ruff check .
           ruff format --check .
 
