@@ -71,7 +71,6 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.12"
           - "3.13"
     needs:
       - prepare
@@ -99,7 +98,6 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.12"
           - "3.13"
     needs:
       - prepare
