@@ -15,25 +15,21 @@ jobs:
         python-version:
           - "3.12"
           - "3.13"
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
-
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-
       - name: Restore Python virtual environment
         id: cache-venv
         uses: actions/cache@v4.2.0
         with:
           path: venv
           key: ${{ runner.os }}-${{ matrix.python-version }}
-
       - name: Create Python virtual environment
         if: steps.cache-venv.outputs.cache-hit != 'true'
         run: |
@@ -41,7 +37,6 @@ jobs:
           uv venv --python ${{ matrix.python-version }} venv
           source venv/bin/activate
           uv pip install -r requirements-test.txt
-
   lint-ruff:
     name: Check ruff
     runs-on: ubuntu-24.04-arm
@@ -52,13 +47,11 @@ jobs:
           - "3.13"
     needs:
       - prepare
-    
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
-
       - name: Restore Python virtual environment
         id: cache-venv
         uses: actions/cache/restore@v4.2.0
@@ -66,16 +59,42 @@ jobs:
           path: venv
           fail-on-cache-miss: true
           key: ${{ runner.os }}-${{ matrix.python-version }}
-
       - name: Run ruff
         run: |
           source venv/bin/activate
           ruff check .
         env:
           RUFF_OUTPUT_FORMAT: github
-
   lint-ruff-format:
     name: Check ruff-format
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      matrix:
+        python-version:
+          - "3.12"
+          - "3.13"
+    needs:
+      - prepare
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Restore Python virtual environment
+        id: cache-venv
+        uses: actions/cache/restore@v4.2.0
+        with:
+          path: venv
+          fail-on-cache-miss: true
+          key: ${{ runner.os }}-${{ matrix.python-version }}
+      - name: Run ruff-format
+        run: |
+          source venv/bin/activate
+          ruff format --check .
+        env:
+          RUFF_OUTPUT_FORMAT: github
+  mypy:
+    name: Check mypy
     runs-on: ubuntu-24.04-arm
     strategy:
       matrix:
@@ -90,7 +109,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
-
       - name: Restore Python virtual environment
         id: cache-venv
         uses: actions/cache/restore@v4.2.0
@@ -98,19 +116,34 @@ jobs:
           path: venv
           fail-on-cache-miss: true
           key: ${{ runner.os }}-${{ matrix.python-version }}
-
-      - name: Run ruff-format
+      - name: Run mypy
         run: |
           source venv/bin/activate
-          ruff format --check .
-        env:
-          RUFF_OUTPUT_FORMAT: github
-
-      - name: Test with mypy
-        run: mypy imgw_pib
-
-      - name: Test with pytest
-        run: pytest --timeout=30 --cov=imgw_pib --cov-report=xml --error-for-skips
-
-      - name: Coverage
-        run: coverage report --fail-under=79
+          mypy imgw_pib
+  pytest:
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      matrix:
+        python-version:
+          - "3.12"
+          - "3.13"
+    name: Run tests Python ${{ matrix.python-version }}
+    needs:
+      - prepare
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Restore Python virtual environment
+        id: cache-venv
+        uses: actions/cache/restore@v4.2.0
+        with:
+          path: venv
+          fail-on-cache-miss: true
+          key: ${{ runner.os }}-${{ matrix.python-version }}
+      - name: Run pytest
+        run: |
+          source venv/bin/activate
+          pytest --timeout=30 --cov=imgw_pib --cov-report=xml --error-for-skips
+          coverage report --fail-under=80
