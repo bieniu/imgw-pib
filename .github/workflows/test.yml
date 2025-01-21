@@ -26,9 +26,17 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Install uv
+        run: pip install uv
+
+      - name: Create venv
+        run: |
+          uv venv --python ${{ matrix.python-version }}
+          source venv/bin/activate
+
       - name: Install dependencies
         run: |
-          pip install uv tox tox-gh-actions tox-uv
+          uv pip install -r requirements-test.txt 
 
-      - name: Test with tox
-        run: tox
+      - name: Test with pytest
+        run: pytest --timeout=30 --cov=imgw_pib --cov-report=xml --error-for-skips
