@@ -43,7 +43,6 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.12"
           - "3.13"
     needs:
       - prepare
@@ -118,7 +117,7 @@ jobs:
       - name: Run mypy
         run: |
           source venv/bin/activate
-          mypy imgw_pib
+          python3 -m mypy imgw_pib
   pytest:
     runs-on: ubuntu-24.04-arm
     strategy:
