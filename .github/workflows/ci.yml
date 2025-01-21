@@ -1,4 +1,4 @@
-name: Test
+name: CI
 
 on:
   push:
@@ -7,7 +7,8 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  test:
+    name: Test with tox
     runs-on: ubuntu-latest
 
     steps:
