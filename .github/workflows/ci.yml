@@ -103,7 +103,8 @@ jobs:
           - "3.13"
     needs:
       - prepare
-    
+      - lint-ruff
+      - lint-ruff-format
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -130,6 +131,9 @@ jobs:
     name: Run tests Python ${{ matrix.python-version }}
     needs:
       - prepare
+      - lint-ruff
+      - lint-ruff-format
+      - mypy
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
