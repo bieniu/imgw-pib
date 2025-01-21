@@ -119,13 +119,13 @@ jobs:
           source venv/bin/activate
           python3 -m mypy imgw_pib
   pytest:
+    name: Run tests
     runs-on: ubuntu-24.04-arm
     strategy:
       matrix:
         python-version:
           - "3.12"
           - "3.13"
-    name: Run tests Python ${{ matrix.python-version }}
     needs:
       - prepare
       - lint-ruff
