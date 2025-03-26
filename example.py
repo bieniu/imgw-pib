@@ -1,4 +1,4 @@
-"""Example of usage IMGW-PIB."""
+"""Example of usage IMGW-PIB lib."""
 
 import asyncio
 import logging
