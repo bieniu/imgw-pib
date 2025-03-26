@@ -3,12 +3,12 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name        = "imgw_pib"
-version     = "0.0.0"
-license     = {text = "Apache-2.0"}
+name = "imgw_pib"
+version = "0.0.0"
+license = {text = "Apache-2.0"}
 description = "Python wrapper for IMGW-PIB API."
-readme      = "README.md"
-authors     = [{name = "Maciej Bieniek"}]
+readme = "README.md"
+authors = [{name = "Maciej Bieniek"}]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "License :: OSI Approved :: Apache Software License",
@@ -21,7 +21,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 requires-python = ">=3.12"
-dependencies    = ["aiohttp>=3.9.4"]
+dependencies = ["aiohttp>=3.9.4"]
 
 [project.urls]
 Homepage = "https://github.com/bieniu/imgw-pib"
