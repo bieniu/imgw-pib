@@ -272,7 +272,8 @@ class ImgwPib:
     def _parse_hydrological_data(self: Self, data: dict[str, Any]) -> HydrologicalData:
         """Parse hydrological data."""
         water_level_measurement_date = get_datetime(
-            data.get(ApiNames.WATER_LEVEL_MEASUREMENT_DATE) or data.get("stan_data"),
+            data.get(ApiNames.WATER_LEVEL_MEASUREMENT_DATE)
+            or data.get(ApiNames.STATE_DATE),
             "%Y-%m-%d %H:%M:%S",
         )
         if (
@@ -280,7 +281,7 @@ class ImgwPib:
             and datetime.now(tz=UTC) - water_level_measurement_date
             < DATA_VALIDITY_PERIOD
         ):
-            water_level = data.get(ApiNames.WATER_LEVEL) or data.get("stan")
+            water_level = data.get(ApiNames.WATER_LEVEL) or data.get(ApiNames.STATE)
         else:
             water_level_measurement_date = None
             water_level = None
