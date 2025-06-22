@@ -45,6 +45,7 @@ class ImgwPib:
         self.hydrological_station_id = hydrological_station_id
 
         self._hydrological_details = hydrological_details
+        self._use_hydrological_endpoint_2 = False
 
     @classmethod
     async def create(
@@ -129,14 +130,23 @@ class ImgwPib:
 
         stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT_2)
 
-        for station in stations_data:
-            station_id = station[ApiNames.STATION_CODE]
-            if (river_name := RIVER_NAMES.get(station_id)) is None:
-                continue
-            if station_id not in self._hydrological_station_list:
-                self._hydrological_station_list[station_id] = gen_station_name(
+        hydrological_station_list_2 = {}
+        hydrological_station_list_2.update(
+            {
+                station_id: gen_station_name(
                     station[ApiNames.STATION_NAME].title(), river_name
                 )
+                for station in stations_data
+                if (station_id := station[ApiNames.STATION_CODE])
+                not in self._hydrological_station_list
+                and (river_name := RIVER_NAMES.get(station_id))
+            }
+        )
+
+        if self.hydrological_station_id in hydrological_station_list_2:
+            self._use_hydrological_endpoint_2 = True
+
+        self._hydrological_station_list.update(hydrological_station_list_2)
 
     async def _update_hydrological_details(self: Self) -> None:
         """Update hydrological details."""
@@ -163,18 +173,18 @@ class ImgwPib:
             msg = "Hydrological station ID is not set"
             raise ApiError(msg)
 
-        all_stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT)
+        if self._use_hydrological_endpoint_2 is False:
+            all_stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT)
 
-        hydrological_data = next(
-            (
-                item
-                for item in all_stations_data
-                if item.get(ApiNames.STATION_ID) == self.hydrological_station_id
-            ),
-            None,
-        )
-
-        if hydrological_data is None:
+            hydrological_data = next(
+                (
+                    item
+                    for item in all_stations_data
+                    if item.get(ApiNames.STATION_ID) == self.hydrological_station_id
+                ),
+                None,
+            )
+        else:
             all_stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT_2)
 
             hydrological_data = next(
