@@ -182,6 +182,7 @@ class ImgwPib:
                     item
                     for item in all_stations_data
                     if item.get(ApiNames.STATION_CODE) == self.hydrological_station_id
+                    and item.get(ApiNames.STATION_CODE) in RIVER_NAMES
                 ),
                 None,
             )
