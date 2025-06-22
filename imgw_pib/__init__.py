@@ -8,11 +8,13 @@ from typing import Any, Self
 from aiohttp import ClientSession
 
 from .const import (
+    API_HYDROLOGICAL2_ENDPOINT,
     API_HYDROLOGICAL_DETAILS_ENDPOINT,
     API_HYDROLOGICAL_ENDPOINT,
     API_WEATHER_ENDPOINT,
     DATA_VALIDITY_PERIOD,
     HEADERS,
+    RIVER_NAMES,
     TIMEOUT,
 )
 from .exceptions import ApiError
@@ -116,9 +118,7 @@ class ImgwPib:
 
     async def update_hydrological_stations(self: Self) -> None:
         """Update list of hydrological stations."""
-        url = API_HYDROLOGICAL_ENDPOINT
-
-        stations_data = await self._http_request(url)
+        stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT)
 
         self._hydrological_station_list = {
             station[ApiNames.STATION_ID]: gen_station_name(
@@ -126,6 +126,17 @@ class ImgwPib:
             )
             for station in stations_data
         }
+
+        stations_data = await self._http_request(API_HYDROLOGICAL2_ENDPOINT)
+
+        for station in stations_data:
+            station_id = station[ApiNames.STATION_CODE]
+            if (river_name := RIVER_NAMES.get(station_id)) is None:
+                continue
+            if station_id not in self._hydrological_station_list:
+                self._hydrological_station_list[station_id] = gen_station_name(
+                    station[ApiNames.STATION_NAME], river_name
+                )
 
     async def _update_hydrological_details(self: Self) -> None:
         """Update hydrological details."""
@@ -162,6 +173,18 @@ class ImgwPib:
             ),
             None,
         )
+
+        if hydrological_data is None:
+            all_stations_data = await self._http_request(API_HYDROLOGICAL2_ENDPOINT)
+
+            hydrological_data = next(
+                (
+                    item
+                    for item in all_stations_data
+                    if item.get(ApiNames.STATION_CODE) == self.hydrological_station_id
+                ),
+                None,
+            )
 
         if hydrological_data is None:
             msg = f"No hydrological data for station ID: {self.hydrological_station_id}"
@@ -248,7 +271,7 @@ class ImgwPib:
     def _parse_hydrological_data(self: Self, data: dict[str, Any]) -> HydrologicalData:
         """Parse hydrological data."""
         water_level_measurement_date = get_datetime(
-            data[ApiNames.WATER_LEVEL_MEASUREMENT_DATE],
+            data.get(ApiNames.WATER_LEVEL_MEASUREMENT_DATE) or data.get("stan_data"),
             "%Y-%m-%d %H:%M:%S",
         )
         if (
@@ -256,7 +279,7 @@ class ImgwPib:
             and datetime.now(tz=UTC) - water_level_measurement_date
             < DATA_VALIDITY_PERIOD
         ):
-            water_level = data[ApiNames.WATER_LEVEL]
+            water_level = data.get(ApiNames.WATER_LEVEL) or data.get("stan")
         else:
             water_level_measurement_date = None
             water_level = None
@@ -286,7 +309,7 @@ class ImgwPib:
         )
 
         water_temperature_measurement_date = get_datetime(
-            data[ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE],
+            data.get(ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE),
             "%Y-%m-%d %H:%M:%S",
         )
         if (
@@ -310,9 +333,9 @@ class ImgwPib:
             flood_warning_level=flood_warning_level_sensor,
             flood_alarm_level=flood_alarm_level_sensor,
             water_temperature=water_temperature_sensor,
-            station=data[ApiNames.STATION],
-            river=data[ApiNames.RIVER],
-            station_id=data[ApiNames.STATION_ID],
+            station=data.get(ApiNames.STATION) or data[ApiNames.STATION_NAME].title(),
+            river=data.get(ApiNames.RIVER) or RIVER_NAMES[data[ApiNames.STATION_CODE]],
+            station_id=data.get(ApiNames.STATION_ID) or data[ApiNames.STATION_CODE],
             water_level_measurement_date=water_level_measurement_date,
             water_temperature_measurement_date=water_temperature_measurement_date,
         )
