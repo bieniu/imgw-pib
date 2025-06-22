@@ -114,7 +114,7 @@ async def test_hydrological_station(
     hydrological_details: dict[str, Any],
     hydrological_stations_2: list[dict[str, Any]],
 ) -> None:
-    """Test weather station."""
+    """Test hydrological station."""
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock, freeze_time(TEST_TIME):
@@ -129,6 +129,30 @@ async def test_hydrological_station(
         )
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+        hydrological_data = await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert hydrological_data == snapshot
+
+
+@pytest.mark.asyncio
+async def test_hydrological_station_2(
+    snapshot: SnapshotAssertion,
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_stations_2: list[dict[str, Any]],
+) -> None:
+    """Test hydrological station from hydro endpoint 2."""
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
+
+        imgwpib = await ImgwPib.create(
+            session, hydrological_station_id="152199992", hydrological_details=False
+        )
         hydrological_data = await imgwpib.get_hydrological_data()
 
     await session.close()
