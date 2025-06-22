@@ -8,9 +8,9 @@ from typing import Any, Self
 from aiohttp import ClientSession
 
 from .const import (
-    API_HYDROLOGICAL2_ENDPOINT,
     API_HYDROLOGICAL_DETAILS_ENDPOINT,
     API_HYDROLOGICAL_ENDPOINT,
+    API_HYDROLOGICAL_ENDPOINT_2,
     API_WEATHER_ENDPOINT,
     DATA_VALIDITY_PERIOD,
     HEADERS,
@@ -127,7 +127,7 @@ class ImgwPib:
             for station in stations_data
         }
 
-        stations_data = await self._http_request(API_HYDROLOGICAL2_ENDPOINT)
+        stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT_2)
 
         for station in stations_data:
             station_id = station[ApiNames.STATION_CODE]
@@ -135,7 +135,7 @@ class ImgwPib:
                 continue
             if station_id not in self._hydrological_station_list:
                 self._hydrological_station_list[station_id] = gen_station_name(
-                    station[ApiNames.STATION_NAME], river_name
+                    station[ApiNames.STATION_NAME].title(), river_name
                 )
 
     async def _update_hydrological_details(self: Self) -> None:
@@ -175,7 +175,7 @@ class ImgwPib:
         )
 
         if hydrological_data is None:
-            all_stations_data = await self._http_request(API_HYDROLOGICAL2_ENDPOINT)
+            all_stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT_2)
 
             hydrological_data = next(
                 (
