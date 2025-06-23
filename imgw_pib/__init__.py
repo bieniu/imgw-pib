@@ -78,7 +78,7 @@ class ImgwPib:
         _LOGGER.debug("Initializing IMGW-PIB")
 
         if self.weather_station_id is not None:
-            _LOGGER.debug("Using Weather station ID: %s", self.weather_station_id)
+            _LOGGER.debug("Using weather station ID: %s", self.weather_station_id)
             await self.update_weather_stations()
 
             if self.weather_station_id not in self.weather_stations:
