@@ -13,6 +13,7 @@ def gen_station_name(station: str, river: str) -> str:
         return station.strip()
 
     river = re.sub(r"\b[Jj]ez\.\s*", "Jezioro ", river)
+    river = re.sub(r"\b[Zz]b\.?\s", "Zbiornik ", river)
 
     return f"{river} ({station.strip()})"
 
