@@ -9,9 +9,9 @@ _LOGGER = logging.getLogger(__name__)
 def gen_station_name(station: str, river: str) -> str:
     """Generate station name."""
     if river == "-":
-        return station
+        return station.strip()
 
-    return f"{river} ({station})"
+    return f"{river} ({station.strip()})"
 
 
 def get_datetime(date_time: str | None, date_format: str) -> datetime | None:

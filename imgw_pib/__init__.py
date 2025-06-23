@@ -353,7 +353,9 @@ class ImgwPib:
             flood_warning_level=flood_warning_level_sensor,
             flood_alarm_level=flood_alarm_level_sensor,
             water_temperature=water_temperature_sensor,
-            station=data.get(ApiNames.STATION) or data[ApiNames.STATION_NAME].title(),
+            station=(
+                data.get(ApiNames.STATION) or data[ApiNames.STATION_NAME].title()
+            ).strip(),
             river=data.get(ApiNames.RIVER) or RIVER_NAMES[data[ApiNames.STATION_CODE]],
             station_id=data.get(ApiNames.STATION_ID) or data[ApiNames.STATION_CODE],
             water_level_measurement_date=water_level_measurement_date,
