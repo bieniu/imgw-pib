@@ -78,6 +78,7 @@ class ImgwPib:
         _LOGGER.debug("Initializing IMGW-PIB")
 
         if self.weather_station_id is not None:
+            _LOGGER.debug("Using Weather station ID: %s", self.weather_station_id)
             await self.update_weather_stations()
 
             if self.weather_station_id not in self.weather_stations:
@@ -85,6 +86,9 @@ class ImgwPib:
                 raise ApiError(msg)
 
         if self.hydrological_station_id is not None:
+            _LOGGER.debug(
+                "Using hydrological station ID: %s", self.hydrological_station_id
+            )
             await self.update_hydrological_stations()
 
             if self.hydrological_station_id not in self.hydrological_stations:
@@ -114,6 +118,8 @@ class ImgwPib:
         url = f"{API_WEATHER_ENDPOINT}/id/{self.weather_station_id}"
 
         weather_data = await self._http_request(url)
+
+        _LOGGER.debug("Weather data: %s", weather_data)
 
         return self._parse_weather_data(weather_data)
 
@@ -200,6 +206,8 @@ class ImgwPib:
         if hydrological_data is None:
             msg = f"No hydrological data for station ID: {self.hydrological_station_id}"
             raise ApiError(msg)
+
+        _LOGGER.debug("Hydrological data: %s", hydrological_data)
 
         return self._parse_hydrological_data(hydrological_data)
 
