@@ -1,6 +1,7 @@
 """Utils for imgw-pib."""
 
 import logging
+import re
 from datetime import UTC, datetime
 
 _LOGGER = logging.getLogger(__name__)
@@ -9,9 +10,12 @@ _LOGGER = logging.getLogger(__name__)
 def gen_station_name(station: str, river: str) -> str:
     """Generate station name."""
     if river == "-":
-        return station
+        return station.strip()
 
-    return f"{river} ({station})"
+    river = re.sub(r"\b[Jj]ez\.\s*", "Jezioro ", river)
+    river = re.sub(r"\b[Zz]b\.?\s", "Zbiornik ", river)
+
+    return f"{river} ({station.strip()})"
 
 
 def get_datetime(date_time: str | None, date_format: str) -> datetime | None:
