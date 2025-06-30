@@ -358,6 +358,8 @@ class ImgwPib:
             ).strip(),
             river=data.get(ApiNames.RIVER) or RIVER_NAMES[data[ApiNames.STATION_CODE]],
             station_id=data.get(ApiNames.STATION_ID) or data[ApiNames.STATION_CODE],
+            latitude=data.get(ApiNames.LATITUDE),
+            longitude=data.get(ApiNames.LONGITUDE),
             water_level_measurement_date=water_level_measurement_date,
             water_temperature_measurement_date=water_temperature_measurement_date,
         )

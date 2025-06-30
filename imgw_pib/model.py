@@ -49,6 +49,8 @@ class HydrologicalData(ImgwPibData):
     river: str
     station_id: str
     station: str
+    latitude: float | None = None
+    longitude: float | None = None
 
     water_level_measurement_date: datetime | None
     water_temperature_measurement_date: datetime | None
@@ -73,17 +75,19 @@ class ApiNames(StrEnum):
     """Names type for API."""
 
     HUMIDITY = "wilgotnosc_wzgledna"
+    LATITUDE = "lat"
+    LONGITUDE = "lon"
     MEASUREMENT_DATE = "data_pomiaru"
     MEASUREMENT_TIME = "godzina_pomiaru"
     PRECIPITATION = "suma_opadu"
     PRESSURE = "cisnienie"
     RIVER = "rzeka"
+    STATE = "stan"
+    STATE_DATE = "stan_data"
     STATION = "stacja"
     STATION_CODE = "kod_stacji"
     STATION_ID = "id_stacji"
     STATION_NAME = "nazwa_stacji"
-    STATE = "stan"
-    STATE_DATE = "stan_data"
     TEMPERATURE = "temperatura"
     WATER_LEVEL = "stan_wody"
     WATER_LEVEL_MEASUREMENT_DATE = "stan_wody_data_pomiaru"
