@@ -360,4 +360,6 @@ class ImgwPib:
             station_id=data.get(ApiNames.STATION_ID) or data[ApiNames.STATION_CODE],
             water_level_measurement_date=water_level_measurement_date,
             water_temperature_measurement_date=water_temperature_measurement_date,
+            latitude=data.get(ApiNames.LATITUDE, None),
+            longitude=data.get(ApiNames.LONGITUDE, None),
         )
