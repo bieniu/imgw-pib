@@ -16,6 +16,7 @@ HEADERS = {"Content-Type": "application/json"}
 TIMEOUT = ClientTimeout(total=20)
 
 DATA_VALIDITY_PERIOD = timedelta(hours=6)
+DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 RIVER_NAMES = {
     "149180010": "Odra",

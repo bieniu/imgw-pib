@@ -42,21 +42,22 @@ class HydrologicalData(ImgwPibData):
     """Hudrological Data class for IMGW-PIB."""
 
     water_level: SensorData
-    flood_alarm_level: SensorData
-    flood_warning_level: SensorData
+    water_level_measurement_date: datetime | None
     water_temperature: SensorData
+    water_temperature_measurement_date: datetime | None
+    water_flow: SensorData
+    water_flow_measurement_date: datetime | None
+
+    flood_alarm: bool | None = None
+    flood_alarm_level: SensorData
+    flood_warning: bool | None = None
+    flood_warning_level: SensorData
 
     river: str
     station_id: str
     station: str
     latitude: float | None = None
     longitude: float | None = None
-
-    water_level_measurement_date: datetime | None
-    water_temperature_measurement_date: datetime | None
-
-    flood_alarm: bool | None = None
-    flood_warning: bool | None = None
 
     def __post_init__(self: Self) -> None:
         """Call after initialization."""
@@ -89,6 +90,8 @@ class ApiNames(StrEnum):
     STATION_ID = "id_stacji"
     STATION_NAME = "nazwa_stacji"
     TEMPERATURE = "temperatura"
+    WATER_FLOW = "przelyw"
+    WATER_FLOW_MEASUREMENT_DATE = "przeplyw_data"
     WATER_LEVEL = "stan_wody"
     WATER_LEVEL_MEASUREMENT_DATE = "stan_wody_data_pomiaru"
     WATER_TEMPERATURE = "temperatura_wody"
@@ -102,6 +105,7 @@ class Units(StrEnum):
 
     CELSIUS = "°C"
     CENTIMETERS = "cm"
+    CUBIC_METERS_PER_SECOND = "m³/s"
     DEGREE = "°"
     HPA = "hPa"
     METERS_PER_SECOND = "m/s"

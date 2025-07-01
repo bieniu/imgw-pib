@@ -13,6 +13,7 @@ from .const import (
     API_HYDROLOGICAL_ENDPOINT_2,
     API_WEATHER_ENDPOINT,
     DATA_VALIDITY_PERIOD,
+    DATE_FORMAT,
     HEADERS,
     RIVER_NAMES,
     TIMEOUT,
@@ -289,15 +290,16 @@ class ImgwPib:
 
     def _parse_hydrological_data(self: Self, data: dict[str, Any]) -> HydrologicalData:
         """Parse hydrological data."""
+        now = datetime.now(tz=UTC)
+
         water_level_measurement_date = get_datetime(
             data.get(ApiNames.WATER_LEVEL_MEASUREMENT_DATE)
             or data.get(ApiNames.STATE_DATE),
-            "%Y-%m-%d %H:%M:%S",
+            DATE_FORMAT,
         )
         if (
             water_level_measurement_date is not None
-            and datetime.now(tz=UTC) - water_level_measurement_date
-            < DATA_VALIDITY_PERIOD
+            and now - water_level_measurement_date < DATA_VALIDITY_PERIOD
         ):
             water_level = data.get(ApiNames.WATER_LEVEL) or data.get(ApiNames.STATE)
         else:
@@ -330,12 +332,11 @@ class ImgwPib:
 
         water_temperature_measurement_date = get_datetime(
             data.get(ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE),
-            "%Y-%m-%d %H:%M:%S",
+            DATE_FORMAT,
         )
         if (
             water_temperature_measurement_date is not None
-            and datetime.now(tz=UTC) - water_temperature_measurement_date
-            < DATA_VALIDITY_PERIOD
+            and now - water_temperature_measurement_date < DATA_VALIDITY_PERIOD
         ):
             water_temperature = data[ApiNames.WATER_TEMPERATURE]
         else:
@@ -348,18 +349,41 @@ class ImgwPib:
             unit=Units.CELSIUS.value if water_temperature is not None else None,
         )
 
+        water_flow_measurement_date = get_datetime(
+            data.get(ApiNames.WATER_FLOW_MEASUREMENT_DATE),
+            DATE_FORMAT,
+        )
+        if (
+            water_flow_measurement_date is not None
+            and now - water_flow_measurement_date < DATA_VALIDITY_PERIOD
+        ):
+            water_flow = data.get(ApiNames.WATER_FLOW)
+        else:
+            water_flow_measurement_date = None
+            water_flow = None
+
+        water_flow_sensor = SensorData(
+            name="Water Flow",
+            value=float(water_flow) if water_flow is not None else None,
+            unit=Units.CUBIC_METERS_PER_SECOND.value
+            if water_flow is not None
+            else None,
+        )
+
         return HydrologicalData(
-            water_level=water_level_sensor,
-            flood_warning_level=flood_warning_level_sensor,
             flood_alarm_level=flood_alarm_level_sensor,
-            water_temperature=water_temperature_sensor,
+            flood_warning_level=flood_warning_level_sensor,
+            latitude=data.get(ApiNames.LATITUDE),
+            longitude=data.get(ApiNames.LONGITUDE),
+            river=data.get(ApiNames.RIVER) or RIVER_NAMES[data[ApiNames.STATION_CODE]],
+            station_id=data.get(ApiNames.STATION_ID) or data[ApiNames.STATION_CODE],
             station=(
                 data.get(ApiNames.STATION) or data[ApiNames.STATION_NAME].title()
             ).strip(),
-            river=data.get(ApiNames.RIVER) or RIVER_NAMES[data[ApiNames.STATION_CODE]],
-            station_id=data.get(ApiNames.STATION_ID) or data[ApiNames.STATION_CODE],
-            latitude=data.get(ApiNames.LATITUDE),
-            longitude=data.get(ApiNames.LONGITUDE),
+            water_flow=water_flow_sensor,
+            water_flow_measurement_date=water_flow_measurement_date,
             water_level_measurement_date=water_level_measurement_date,
+            water_level=water_level_sensor,
             water_temperature_measurement_date=water_temperature_measurement_date,
+            water_temperature=water_temperature_sensor,
         )
