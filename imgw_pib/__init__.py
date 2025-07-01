@@ -157,9 +157,7 @@ class ImgwPib:
 
     async def _update_hydrological_details(self: Self) -> None:
         """Update hydrological details."""
-        url = API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
-            hydrological_station_id=self.hydrological_station_id
-        )
+        url = API_HYDROLOGICAL_DETAILS_ENDPOINT % {"id": self.hydrological_station_id}
 
         try:
             hydrological_details = await self._http_request(url)
