@@ -373,8 +373,8 @@ class ImgwPib:
         return HydrologicalData(
             flood_alarm_level=flood_alarm_level_sensor,
             flood_warning_level=flood_warning_level_sensor,
-            latitude=data.get(ApiNames.LATITUDE),
-            longitude=data.get(ApiNames.LONGITUDE),
+            latitude=float(data[ApiNames.LATITUDE]),
+            longitude=float(data[ApiNames.LONGITUDE]),
             river=data.get(ApiNames.RIVER) or RIVER_NAMES[data[ApiNames.STATION_CODE]],
             station_id=data.get(ApiNames.STATION_ID) or data[ApiNames.STATION_CODE],
             station=(
