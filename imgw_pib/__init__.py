@@ -3,9 +3,10 @@
 import logging
 from datetime import UTC, datetime
 from http import HTTPStatus
-from typing import Any, Self
+from typing import TYPE_CHECKING, Any, Self
 
 from aiohttp import ClientSession
+from yarl import URL
 
 from .const import (
     API_HYDROLOGICAL_DETAILS_ENDPOINT,
@@ -116,7 +117,7 @@ class ImgwPib:
             msg = "Weather station ID is not set"
             raise ApiError(msg)
 
-        url = f"{API_WEATHER_ENDPOINT}/id/{self.weather_station_id}"
+        url = API_WEATHER_ENDPOINT / "id" / self.weather_station_id
 
         weather_data = await self._http_request(url)
 
@@ -157,8 +158,11 @@ class ImgwPib:
 
     async def _update_hydrological_details(self: Self) -> None:
         """Update hydrological details."""
-        url = API_HYDROLOGICAL_DETAILS_ENDPOINT.format(
-            hydrological_station_id=self.hydrological_station_id
+        if TYPE_CHECKING:
+            assert self.hydrological_station_id
+
+        url = API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(
+            id=self.hydrological_station_id
         )
 
         try:
@@ -212,7 +216,7 @@ class ImgwPib:
 
         return self._parse_hydrological_data(hydrological_data)
 
-    async def _http_request(self: Self, url: str) -> Any:  # noqa: ANN401
+    async def _http_request(self: Self, url: URL) -> Any:  # noqa: ANN401
         """Make an HTTP request."""
         _LOGGER.debug("Requesting %s", url)
 

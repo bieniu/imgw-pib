@@ -3,13 +3,14 @@
 from datetime import timedelta
 
 from aiohttp import ClientTimeout
+from yarl import URL
 
-API_BASE_ENDPOINT = "https://danepubliczne.imgw.pl/api/data"
-API_HYDROLOGICAL_ENDPOINT = f"{API_BASE_ENDPOINT}/hydro"
-API_HYDROLOGICAL_ENDPOINT_2 = f"{API_BASE_ENDPOINT}/hydro2/"
-API_WEATHER_ENDPOINT = f"{API_BASE_ENDPOINT}/synop"
-API_HYDROLOGICAL_DETAILS_ENDPOINT = (
-    "https://hydro-back.imgw.pl/station/hydro/status?id={hydrological_station_id}"
+API_BASE_ENDPOINT = URL("https://danepubliczne.imgw.pl/api/data")
+API_HYDROLOGICAL_ENDPOINT = API_BASE_ENDPOINT / "hydro"
+API_HYDROLOGICAL_ENDPOINT_2 = API_BASE_ENDPOINT / "hydro2"
+API_WEATHER_ENDPOINT = API_BASE_ENDPOINT / "synop"
+API_HYDROLOGICAL_DETAILS_ENDPOINT = URL(
+    "https://hydro-back.imgw.pl/station/hydro/status"
 )
 
 HEADERS = {"Content-Type": "application/json"}
