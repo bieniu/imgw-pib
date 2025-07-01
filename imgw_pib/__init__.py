@@ -6,6 +6,7 @@ from http import HTTPStatus
 from typing import Any, Self
 
 from aiohttp import ClientSession
+from yarl import URL
 
 from .const import (
     API_HYDROLOGICAL_DETAILS_ENDPOINT,
@@ -210,7 +211,7 @@ class ImgwPib:
 
         return self._parse_hydrological_data(hydrological_data)
 
-    async def _http_request(self: Self, url: str) -> Any:  # noqa: ANN401
+    async def _http_request(self: Self, url: URL) -> Any:  # noqa: ANN401
         """Make an HTTP request."""
         _LOGGER.debug("Requesting %s", url)
 
