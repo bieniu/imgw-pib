@@ -117,7 +117,7 @@ class ImgwPib:
             msg = "Weather station ID is not set"
             raise ApiError(msg)
 
-        url = f"{API_WEATHER_ENDPOINT}/id/{self.weather_station_id}"
+        url = API_WEATHER_ENDPOINT / "id" / self.weather_station_id
 
         weather_data = await self._http_request(url)
 
