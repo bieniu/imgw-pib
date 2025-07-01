@@ -161,7 +161,9 @@ class ImgwPib:
         if TYPE_CHECKING:
             assert self.hydrological_station_id
 
-        url = API_HYDROLOGICAL_DETAILS_ENDPOINT % {"id": self.hydrological_station_id}
+        url = API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(
+            id=self.hydrological_station_id
+        )
 
         try:
             hydrological_details = await self._http_request(url)

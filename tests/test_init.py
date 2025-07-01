@@ -122,7 +122,7 @@ async def test_hydrological_station(
         session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT % {"id": "154190050"},
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=hydrological_details,
         )
 
@@ -244,7 +244,7 @@ async def test_invalid_water_level_value(
         session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT % {"id": "154190050"},
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=hydrological_details,
         )
 
@@ -276,7 +276,7 @@ async def test_invalid_date(
         session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT % {"id": "154190050"},
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=hydrological_details,
         )
 
@@ -314,7 +314,7 @@ async def test_flood_warning(
         session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT % {"id": "154190050"},
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=hydrological_details,
         )
 
@@ -350,7 +350,7 @@ async def test_flood_alarm(
         session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT % {"id": "154190050"},
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=hydrological_details,
         )
 
@@ -381,7 +381,7 @@ async def test_water_temperature_not_current(
         session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT % {"id": "154190050"},
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=hydrological_details,
         )
 
@@ -408,7 +408,7 @@ async def test_hydrological_data_invalid_content(
         session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, content_type="text/html")
         session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT % {"id": "154190050"},
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=hydrological_details,
         )
 
@@ -438,7 +438,7 @@ async def test_no_hydrological_data(
         session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=incomplete_data)
         session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT % {"id": "154190050"},
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=hydrological_details,
         )
 
@@ -465,7 +465,7 @@ async def test_hydrological_details_is_null(
         session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT % {"id": "154190050"},
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=None,
         )
 
@@ -491,7 +491,7 @@ async def test_hydrological_details_returns_403(
         session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT % {"id": "154190050"},
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             status=HTTPStatus.FORBIDDEN.value,
         )
 
