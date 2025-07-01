@@ -3,7 +3,7 @@
 import logging
 from datetime import UTC, datetime
 from http import HTTPStatus
-from typing import Any, Self
+from typing import TYPE_CHECKING, Any, Self
 
 from aiohttp import ClientSession
 from yarl import URL
@@ -158,6 +158,9 @@ class ImgwPib:
 
     async def _update_hydrological_details(self: Self) -> None:
         """Update hydrological details."""
+        if TYPE_CHECKING:
+            assert self.hydrological_station_id
+
         url = API_HYDROLOGICAL_DETAILS_ENDPOINT % {"id": self.hydrological_station_id}
 
         try:
