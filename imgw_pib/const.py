@@ -9,6 +9,7 @@ API_BASE_ENDPOINT = URL("https://danepubliczne.imgw.pl/api/data")
 API_HYDROLOGICAL_ENDPOINT = API_BASE_ENDPOINT / "hydro"
 API_HYDROLOGICAL_ENDPOINT_2 = API_BASE_ENDPOINT / "hydro2"
 API_WEATHER_ENDPOINT = API_BASE_ENDPOINT / "synop"
+API_WEATHER_WARNINGS_ENDPOINT = API_BASE_ENDPOINT / "warningsmeteo"
 API_HYDROLOGICAL_DETAILS_ENDPOINT = URL(
     "https://hydro-back.imgw.pl/station/hydro/status"
 )
@@ -900,4 +901,10 @@ RIVER_NAMES = {
     "154230030": "Czarna Hańcza",
     "154230040": "Marycha",
     "250161110": "Ścinawka",
+}
+
+TERYT_MAP = {
+    "Białystok": "2061",
+    "Bielsko Biała": "2461",
+    "Przemyśl": "1862",
 }

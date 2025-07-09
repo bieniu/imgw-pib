@@ -36,6 +36,8 @@ class WeatherData(ImgwPibData):
 
     measurement_date: datetime | None
 
+    warning: str | None = None
+
 
 @dataclass(kw_only=True, slots=True)
 class HydrologicalData(ImgwPibData):
