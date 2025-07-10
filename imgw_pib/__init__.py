@@ -3,7 +3,7 @@
 import logging
 from datetime import UTC, datetime
 from http import HTTPStatus
-from typing import TYPE_CHECKING, Any, Self, cast
+from typing import TYPE_CHECKING, Any, Self
 
 from aiohttp import ClientSession
 from yarl import URL
@@ -22,12 +22,17 @@ from .const import (
     TIMEOUT,
 )
 from .exceptions import ApiError
-from .model import ApiNames, HydrologicalData, SensorData, Units, WeatherData
+from .model import (
+    ApiNames,
+    HydrologicalData,
+    SensorData,
+    Units,
+    WarningData,
+    WeatherData,
+)
 from .utils import gen_station_name, get_datetime
 
 _LOGGER = logging.getLogger(__name__)
-
-NOW = datetime.now(tz=UTC)
 
 
 class ImgwPib:
@@ -122,7 +127,6 @@ class ImgwPib:
             raise ApiError(msg)
 
         url = API_WEATHER_ENDPOINT / "id" / self.weather_station_id
-
         weather_data = await self._http_request(url)
 
         _LOGGER.debug("Weather data: %s", weather_data)
@@ -138,18 +142,26 @@ class ImgwPib:
 
     def _extract_weather_warning(
         self, weather_warnings: list[dict[str, Any]], teryt: str
-    ) -> str | None:
+    ) -> WarningData | None:
         """Extract weather warning for a given TERYT."""
         for warning in weather_warnings:
-            if teryt in warning["teryt"]:
-                from_date = get_datetime(warning["obowiazuje_od"], DATE_FORMAT)
-                to_date = get_datetime(warning["obowiazuje_do"], DATE_FORMAT)
+            if teryt in warning[ApiNames.TERRITORY]:
+                _LOGGER.warning(datetime.now(tz=UTC))
+                from_date = get_datetime(warning[ApiNames.VALID_FROM], DATE_FORMAT)
+                _LOGGER.warning(from_date)
+                to_date = get_datetime(warning[ApiNames.VALID_TO], DATE_FORMAT)
+                _LOGGER.warning(to_date)
                 if (
                     from_date is not None
                     and to_date is not None
-                    and from_date <= NOW <= to_date
+                    and from_date <= datetime.now(tz=UTC) <= to_date
                 ):
-                    return cast(str, warning["nazwa_zdarzenia"].lower())
+                    return WarningData(
+                        event=warning[ApiNames.EVENT_NAME].lower(),
+                        valid_from=from_date,
+                        valid_to=to_date,
+                        probability=warning[ApiNames.PROBABILITY],
+                    )
 
         return None
 
@@ -265,7 +277,9 @@ class ImgwPib:
         return await response.json()
 
     @staticmethod
-    def _parse_weather_data(data: dict[str, Any], warning: str | None) -> WeatherData:
+    def _parse_weather_data(
+        data: dict[str, Any], warning: WarningData | None
+    ) -> WeatherData:
         """Parse weather data."""
         temperature = data[ApiNames.TEMPERATURE]
         temperature_sensor = SensorData(
@@ -323,6 +337,8 @@ class ImgwPib:
 
     def _parse_hydrological_data(self: Self, data: dict[str, Any]) -> HydrologicalData:
         """Parse hydrological data."""
+        now = datetime.now(tz=UTC)
+
         water_level_measurement_date = get_datetime(
             data.get(ApiNames.WATER_LEVEL_MEASUREMENT_DATE)
             or data.get(ApiNames.STATE_DATE),
@@ -330,7 +346,7 @@ class ImgwPib:
         )
         if (
             water_level_measurement_date is not None
-            and NOW - water_level_measurement_date < DATA_VALIDITY_PERIOD
+            and now - water_level_measurement_date < DATA_VALIDITY_PERIOD
         ):
             water_level = data.get(ApiNames.WATER_LEVEL) or data.get(ApiNames.STATE)
         else:
@@ -367,7 +383,7 @@ class ImgwPib:
         )
         if (
             water_temperature_measurement_date is not None
-            and NOW - water_temperature_measurement_date < DATA_VALIDITY_PERIOD
+            and now - water_temperature_measurement_date < DATA_VALIDITY_PERIOD
         ):
             water_temperature = data[ApiNames.WATER_TEMPERATURE]
         else:
@@ -386,7 +402,7 @@ class ImgwPib:
         )
         if (
             water_flow_measurement_date is not None
-            and NOW - water_flow_measurement_date < DATA_VALIDITY_PERIOD
+            and now - water_flow_measurement_date < DATA_VALIDITY_PERIOD
         ):
             water_flow = data.get(ApiNames.WATER_FLOW)
         else:
