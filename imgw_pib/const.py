@@ -902,9 +902,6 @@ RIVER_NAMES = {
     "154230040": "Marycha",
     "250161110": "Ścinawka",
 }
-
-TERYT_MAP = {
-    "Białystok": "2061",
-    "Bielsko Biała": "2461",
-    "Przemyśl": "1862",
+ID_TO_TERYT_MAP = {
+    "12295": "2461",
 }

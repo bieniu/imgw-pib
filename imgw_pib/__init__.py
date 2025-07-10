@@ -17,8 +17,8 @@ from .const import (
     DATA_VALIDITY_PERIOD,
     DATE_FORMAT,
     HEADERS,
+    ID_TO_TERYT_MAP,
     RIVER_NAMES,
-    TERYT_MAP,
     TIMEOUT,
 )
 from .exceptions import ApiError
@@ -131,11 +131,10 @@ class ImgwPib:
 
         _LOGGER.debug("Weather data: %s", weather_data)
 
-        weather_warnings = await self._http_request(API_WEATHER_WARNINGS_ENDPOINT)
-        teryt = TERYT_MAP.get(weather_data[ApiNames.STATION])
-
         weather_warning = None
-        if teryt is not None:
+
+        if teryt := ID_TO_TERYT_MAP.get(self.weather_station_id):
+            weather_warnings = await self._http_request(API_WEATHER_WARNINGS_ENDPOINT)
             weather_warning = self._extract_weather_warning(weather_warnings, teryt)
 
         _LOGGER.debug("Weather worning: %s", weather_warning)
