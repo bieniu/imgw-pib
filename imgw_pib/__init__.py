@@ -145,21 +145,27 @@ class ImgwPib:
         self, weather_warnings: list[dict[str, Any]], teryt: str
     ) -> WarningData | None:
         """Extract weather warning for a given TERYT."""
+        now = datetime.now(tz=UTC)
+
         for warning in reversed(weather_warnings):
-            if teryt in warning[ApiNames.TERRITORY]:
-                from_date = get_datetime(warning[ApiNames.VALID_FROM], DATE_FORMAT)
-                to_date = get_datetime(warning[ApiNames.VALID_TO], DATE_FORMAT)
-                if (
-                    from_date is not None
-                    and to_date is not None
-                    and from_date <= datetime.now(tz=UTC) <= to_date
-                ):
-                    return WarningData(
-                        event=warning[ApiNames.EVENT_NAME].lower(),
-                        valid_from=from_date,
-                        valid_to=to_date,
-                        probability=warning[ApiNames.PROBABILITY],
-                    )
+            territories = warning[ApiNames.TERRITORY]
+
+            if teryt not in territories:
+                continue
+
+            from_date = get_datetime(warning[ApiNames.VALID_FROM], DATE_FORMAT)
+            to_date = get_datetime(warning[ApiNames.VALID_TO], DATE_FORMAT)
+
+            if from_date is None or to_date is None:
+                continue
+
+            if (from_date - DATA_VALIDITY_PERIOD) <= now <= to_date:
+                return WarningData(
+                    event=warning[ApiNames.EVENT_NAME].lower(),
+                    valid_from=from_date,
+                    valid_to=to_date,
+                    probability=warning[ApiNames.PROBABILITY],
+                )
 
         return None
 
