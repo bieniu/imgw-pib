@@ -138,19 +138,18 @@ class ImgwPib:
         if teryt is not None:
             weather_warning = self._extract_weather_warning(weather_warnings, teryt)
 
+        _LOGGER.debug("Weather worning: %s", weather_warning)
+
         return self._parse_weather_data(weather_data, weather_warning)
 
     def _extract_weather_warning(
         self, weather_warnings: list[dict[str, Any]], teryt: str
     ) -> WarningData | None:
         """Extract weather warning for a given TERYT."""
-        for warning in weather_warnings:
+        for warning in reversed(weather_warnings):
             if teryt in warning[ApiNames.TERRITORY]:
-                _LOGGER.warning(datetime.now(tz=UTC))
                 from_date = get_datetime(warning[ApiNames.VALID_FROM], DATE_FORMAT)
-                _LOGGER.warning(from_date)
                 to_date = get_datetime(warning[ApiNames.VALID_TO], DATE_FORMAT)
-                _LOGGER.warning(to_date)
                 if (
                     from_date is not None
                     and to_date is not None
