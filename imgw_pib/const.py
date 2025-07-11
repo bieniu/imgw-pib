@@ -966,3 +966,8 @@ WEATHER_WARNINGS_MAP = {
     "intensywne opady deszczu": "heavy_rainfall",
     "silny wiatr": "strong_wind",
 }
+WARNING_LEVEL_MAP = {
+    "1": "yellow",
+    "2": "orange",
+    "3": "red",
+}

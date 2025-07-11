@@ -20,6 +20,7 @@ from .const import (
     ID_TO_TERYT_MAP,
     RIVER_NAMES,
     TIMEOUT,
+    WARNING_LEVEL_MAP,
     WEATHER_WARNINGS_MAP,
 )
 from .exceptions import ApiError
@@ -167,6 +168,7 @@ class ImgwPib:
                     valid_from=from_date,
                     valid_to=to_date,
                     probability=warning[ApiNames.PROBABILITY],
+                    level=WARNING_LEVEL_MAP[warning[ApiNames.WARNING_LEVEL]],
                 )
 
         return None

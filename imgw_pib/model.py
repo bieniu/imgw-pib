@@ -28,6 +28,7 @@ class WarningData:
     valid_from: datetime
     valid_to: datetime
     probability: int
+    level: str
 
 
 @dataclass(kw_only=True, slots=True)
@@ -107,6 +108,7 @@ class ApiNames(StrEnum):
     TERRITORY = "teryt"
     VALID_FROM = "obowiazuje_od"
     VALID_TO = "obowiazuje_do"
+    WARNING_LEVEL = "stopien"
     WATER_FLOW = "przelyw"
     WATER_FLOW_MEASUREMENT_DATE = "przeplyw_data"
     WATER_LEVEL = "stan_wody"
