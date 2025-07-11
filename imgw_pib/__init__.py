@@ -137,7 +137,7 @@ class ImgwPib:
             weather_warnings = await self._http_request(API_WEATHER_WARNINGS_ENDPOINT)
             weather_warning = self._extract_weather_warning(weather_warnings, teryt)
 
-        _LOGGER.debug("Weather worning: %s", weather_warning)
+        _LOGGER.debug("Weather warning: %s", weather_warning)
 
         return self._parse_weather_data(weather_data, weather_warning)
 
