@@ -9,6 +9,7 @@ from aiohttp import ClientSession
 from yarl import URL
 
 from .const import (
+    ALERT_LEVEL_MAP,
     API_HYDROLOGICAL_DETAILS_ENDPOINT,
     API_HYDROLOGICAL_ENDPOINT,
     API_HYDROLOGICAL_ENDPOINT_2,
@@ -20,8 +21,7 @@ from .const import (
     ID_TO_TERYT_MAP,
     RIVER_NAMES,
     TIMEOUT,
-    WARNING_LEVEL_MAP,
-    WEATHER_WARNINGS_MAP,
+    WEATHER_ALERTS_MAP,
 )
 from .exceptions import ApiError
 from .model import (
@@ -29,7 +29,7 @@ from .model import (
     HydrologicalData,
     SensorData,
     Units,
-    WarningData,
+    WeatherAlert,
     WeatherData,
 )
 from .utils import gen_station_name, get_datetime
@@ -133,42 +133,42 @@ class ImgwPib:
 
         _LOGGER.debug("Weather data: %s", weather_data)
 
-        weather_warning = None
+        weather_alert = None
 
         if teryt := ID_TO_TERYT_MAP.get(self.weather_station_id):
-            weather_warnings = await self._http_request(API_WEATHER_WARNINGS_ENDPOINT)
-            weather_warning = self._extract_weather_warning(weather_warnings, teryt)
+            weather_alerts = await self._http_request(API_WEATHER_WARNINGS_ENDPOINT)
+            weather_alert = self._extract_weather_alert(weather_alerts, teryt)
 
-        _LOGGER.debug("Weather warning: %s", weather_warning)
+        _LOGGER.debug("Weather alert: %s", weather_alert)
 
-        return self._parse_weather_data(weather_data, weather_warning)
+        return self._parse_weather_data(weather_data, weather_alerts)
 
-    def _extract_weather_warning(
-        self, weather_warnings: list[dict[str, Any]], teryt: str
-    ) -> WarningData | None:
-        """Extract weather warning for a given TERYT."""
+    def _extract_weather_alert(
+        self, weather_alerts: list[dict[str, Any]], teryt: str
+    ) -> WeatherAlert | None:
+        """Extract weather alert for a given TERYT."""
         now = datetime.now(tz=UTC)
 
-        for warning in reversed(weather_warnings):
-            territories = warning[ApiNames.TERRITORY]
+        for alert in reversed(weather_alerts):
+            territories = alert[ApiNames.TERRITORY]
 
             if teryt not in territories:
                 continue
 
-            from_date = get_datetime(warning[ApiNames.VALID_FROM], DATE_FORMAT)
-            to_date = get_datetime(warning[ApiNames.VALID_TO], DATE_FORMAT)
+            from_date = get_datetime(alert[ApiNames.VALID_FROM], DATE_FORMAT)
+            to_date = get_datetime(alert[ApiNames.VALID_TO], DATE_FORMAT)
 
             if from_date is None or to_date is None:
                 continue
 
             if (from_date - DATA_VALIDITY_PERIOD) <= now <= to_date:
-                event = warning[ApiNames.EVENT_NAME].lower()
-                return WarningData(
-                    event=WEATHER_WARNINGS_MAP.get(event, event),
+                event = alert[ApiNames.EVENT_NAME].lower()
+                return WeatherAlert(
+                    event=WEATHER_ALERTS_MAP.get(event, event),
                     valid_from=from_date,
                     valid_to=to_date,
-                    probability=warning[ApiNames.PROBABILITY],
-                    level=WARNING_LEVEL_MAP[warning[ApiNames.WARNING_LEVEL]],
+                    probability=alert[ApiNames.PROBABILITY],
+                    level=ALERT_LEVEL_MAP[alert[ApiNames.ALERT_LEVEL]],
                 )
 
         return None
@@ -286,7 +286,7 @@ class ImgwPib:
 
     @staticmethod
     def _parse_weather_data(
-        data: dict[str, Any], warning: WarningData | None
+        data: dict[str, Any], alert: WeatherAlert | None
     ) -> WeatherData:
         """Parse weather data."""
         temperature = data[ApiNames.TEMPERATURE]
@@ -340,7 +340,7 @@ class ImgwPib:
             station=data[ApiNames.STATION],
             station_id=data[ApiNames.STATION_ID],
             measurement_date=measurement_date,
-            warning=warning,
+            alert=alert,
         )
 
     def _parse_hydrological_data(self: Self, data: dict[str, Any]) -> HydrologicalData:

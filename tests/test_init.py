@@ -52,7 +52,7 @@ async def test_weather_station(
     snapshot: SnapshotAssertion,
     weather_stations: list[dict[str, Any]],
     weather_station: dict[str, Any],
-    weather_warnings: list[dict[str, Any]],
+    weather_alerts: list[dict[str, Any]],
 ) -> None:
     """Test weather station."""
     session = aiohttp.ClientSession()
@@ -60,7 +60,7 @@ async def test_weather_station(
     with aioresponses() as session_mock, freeze_time(TEST_TIME):
         session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
         session_mock.get(f"{API_WEATHER_ENDPOINT}/id/12295", payload=weather_station)
-        session_mock.get(API_WEATHER_WARNINGS_ENDPOINT, payload=weather_warnings)
+        session_mock.get(API_WEATHER_WARNINGS_ENDPOINT, payload=weather_alerts)
 
         imgwpib = await ImgwPib.create(session, weather_station_id="12295")
         weather_data = await imgwpib.get_weather_data()

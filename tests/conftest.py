@@ -25,9 +25,9 @@ def weather_station() -> dict[str, Any]:
 
 
 @pytest.fixture
-def weather_warnings() -> list[dict[str, Any]]:
-    """Return weather warning data from the fixture file."""
-    with Path.open("tests/fixtures/weather_warnings.json", encoding="utf-8") as file:
+def weather_alerts() -> list[dict[str, Any]]:
+    """Return weather alert data from the fixture file."""
+    with Path.open("tests/fixtures/weather_alerts.json", encoding="utf-8") as file:
         return cast(list[dict[str, Any]], json.load(file))
 
 
