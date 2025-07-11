@@ -20,6 +20,7 @@ from .const import (
     ID_TO_TERYT_MAP,
     RIVER_NAMES,
     TIMEOUT,
+    WEATHER_WARNINGS_MAP,
 )
 from .exceptions import ApiError
 from .model import (
@@ -160,8 +161,9 @@ class ImgwPib:
                 continue
 
             if (from_date - DATA_VALIDITY_PERIOD) <= now <= to_date:
+                event = warning[ApiNames.EVENT_NAME].lower()
                 return WarningData(
-                    event=warning[ApiNames.EVENT_NAME].lower(),
+                    event=WEATHER_WARNINGS_MAP.get(event, event),
                     valid_from=from_date,
                     valid_to=to_date,
                     probability=warning[ApiNames.PROBABILITY],

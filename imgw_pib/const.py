@@ -961,3 +961,8 @@ ID_TO_TERYT_MAP = {
     "12595": "0664",  # Zamość
     "12400": "0862",  # Zielona Góra
 }
+
+WEATHER_WARNINGS_MAP = {
+    "intensywne opady deszczu": "heavy_rainfall",
+    "silny wiatr": "strong_wind",
+}
