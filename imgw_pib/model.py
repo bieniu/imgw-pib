@@ -21,6 +21,17 @@ class SensorData:
 
 
 @dataclass(kw_only=True, slots=True)
+class WeatherAlert:
+    """Data class for weather alrt."""
+
+    event: str
+    valid_from: datetime
+    valid_to: datetime
+    probability: int
+    level: str
+
+
+@dataclass(kw_only=True, slots=True)
 class WeatherData(ImgwPibData):
     """Weather Data class for IMGW-PIB."""
 
@@ -35,6 +46,8 @@ class WeatherData(ImgwPibData):
     station_id: str
 
     measurement_date: datetime | None
+
+    alert: WeatherAlert | None = None
 
 
 @dataclass(kw_only=True, slots=True)
@@ -75,6 +88,8 @@ class HydrologicalData(ImgwPibData):
 class ApiNames(StrEnum):
     """Names type for API."""
 
+    ALERT_LEVEL = "stopien"
+    EVENT_NAME = "nazwa_zdarzenia"
     HUMIDITY = "wilgotnosc_wzgledna"
     LATITUDE = "lat"
     LONGITUDE = "lon"
@@ -82,6 +97,7 @@ class ApiNames(StrEnum):
     MEASUREMENT_TIME = "godzina_pomiaru"
     PRECIPITATION = "suma_opadu"
     PRESSURE = "cisnienie"
+    PROBABILITY = "prawdopodobienstwo"
     RIVER = "rzeka"
     STATE = "stan"
     STATE_DATE = "stan_data"
@@ -90,6 +106,9 @@ class ApiNames(StrEnum):
     STATION_ID = "id_stacji"
     STATION_NAME = "nazwa_stacji"
     TEMPERATURE = "temperatura"
+    TERRITORY = "teryt"
+    VALID_FROM = "obowiazuje_od"
+    VALID_TO = "obowiazuje_do"
     WATER_FLOW = "przelyw"
     WATER_FLOW_MEASUREMENT_DATE = "przeplyw_data"
     WATER_LEVEL = "stan_wody"

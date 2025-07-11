@@ -2,7 +2,8 @@
 
 import logging
 import re
-from datetime import UTC, datetime
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -24,7 +25,9 @@ def get_datetime(date_time: str | None, date_format: str) -> datetime | None:
         return None
 
     try:
-        return datetime.strptime(date_time, date_format).replace(tzinfo=UTC)
+        return datetime.strptime(date_time, date_format).replace(
+            tzinfo=ZoneInfo("Europe/Warsaw")
+        )
     except (TypeError, ValueError) as exc:
         _LOGGER.debug("Invalid date-time string '%s', %s", date_time, exc)
         return None
