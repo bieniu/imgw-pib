@@ -141,7 +141,7 @@ class ImgwPib:
 
         _LOGGER.debug("Weather alert: %s", weather_alert)
 
-        return self._parse_weather_data(weather_data, weather_alerts)
+        return self._parse_weather_data(weather_data, weather_alert)
 
     def _extract_weather_alert(
         self, weather_alerts: list[dict[str, Any]], teryt: str
