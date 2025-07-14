@@ -58,6 +58,7 @@ class HydrologicalAlert:
     valid_from: datetime
     valid_to: datetime
     probability: int
+    level: str
 
 
 @dataclass(kw_only=True, slots=True)
@@ -101,6 +102,7 @@ class ApiNames(StrEnum):
     """Names type for API."""
 
     ALERT_LEVEL = "stopien"
+    ALERT_LEVEL_HYDRO = "stopień"
     DATE_FROM = "data_od"
     DATE_TO = "data_do"
     EVENT = "zdarzenie"

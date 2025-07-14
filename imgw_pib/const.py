@@ -975,6 +975,7 @@ HYDROLOGICAL_ALERTS_MAP = {
     "gwałtowne wzrosty stanów wody": "rapid_water_level_rise",
 }
 ALERT_LEVEL_MAP = {
+    "-1": "none",
     "1": "yellow",
     "2": "orange",
     "3": "red",
