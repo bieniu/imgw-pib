@@ -13,11 +13,13 @@ from .const import (
     API_HYDROLOGICAL_DETAILS_ENDPOINT,
     API_HYDROLOGICAL_ENDPOINT,
     API_HYDROLOGICAL_ENDPOINT_2,
+    API_HYDROLOGICAL_WARNINGS_ENDPOINT,
     API_WEATHER_ENDPOINT,
     API_WEATHER_WARNINGS_ENDPOINT,
     DATA_VALIDITY_PERIOD,
     DATE_FORMAT,
     HEADERS,
+    HYDROLOGICAL_ALERTS_MAP,
     ID_TO_TERYT_MAP,
     RIVER_NAMES,
     TIMEOUT,
@@ -26,6 +28,7 @@ from .const import (
 from .exceptions import ApiError
 from .model import (
     ApiNames,
+    HydrologicalAlert,
     HydrologicalData,
     SensorData,
     Units,
@@ -262,7 +265,11 @@ class ImgwPib:
 
         _LOGGER.debug("Hydrological data: %s", hydrological_data)
 
-        return self._parse_hydrological_data(hydrological_data)
+        hydrological_alerts = await self._http_request(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT
+        )
+
+        return self._parse_hydrological_data(hydrological_data, hydrological_alerts)
 
     async def _http_request(self: Self, url: URL) -> Any:  # noqa: ANN401
         """Make an HTTP request."""
@@ -343,7 +350,9 @@ class ImgwPib:
             alert=alert,
         )
 
-    def _parse_hydrological_data(self: Self, data: dict[str, Any]) -> HydrologicalData:
+    def _parse_hydrological_data(
+        self: Self, data: dict[str, Any], alerts: list[dict[str, Any]]
+    ) -> HydrologicalData:
         """Parse hydrological data."""
         now = datetime.now(tz=UTC)
 
@@ -425,12 +434,18 @@ class ImgwPib:
             else None,
         )
 
+        river = data.get(ApiNames.RIVER) or RIVER_NAMES[data[ApiNames.STATION_CODE]]
+
+        alert = self._extract_hydrological_alert(
+            alerts, river.lower(), data.get(ApiNames.VOIVODESHIP, "").lower()
+        )
+
         return HydrologicalData(
             flood_alarm_level=flood_alarm_level_sensor,
             flood_warning_level=flood_warning_level_sensor,
             latitude=float(data[ApiNames.LATITUDE]),
             longitude=float(data[ApiNames.LONGITUDE]),
-            river=data.get(ApiNames.RIVER) or RIVER_NAMES[data[ApiNames.STATION_CODE]],
+            river=river,
             station_id=data.get(ApiNames.STATION_ID) or data[ApiNames.STATION_CODE],
             station=(
                 data.get(ApiNames.STATION) or data[ApiNames.STATION_NAME].title()
@@ -441,4 +456,35 @@ class ImgwPib:
             water_level=water_level_sensor,
             water_temperature_measurement_date=water_temperature_measurement_date,
             water_temperature=water_temperature_sensor,
+            alert=alert,
         )
+
+    def _extract_hydrological_alert(
+        self, hydrological_alerts: list[dict[str, Any]], river: str, voivodeship: str
+    ) -> HydrologicalAlert | None:
+        """Extract hydrological alert for a given river."""
+        now = datetime.now(tz=UTC)
+
+        for alert in reversed(hydrological_alerts):
+            if river not in alert["obszar"].lower():
+                continue
+
+            if voivodeship != alert[ApiNames.VOIVODESHIP].lower():
+                continue
+
+            from_date = get_datetime(alert[ApiNames.DATE_FROM], DATE_FORMAT)
+            to_date = get_datetime(alert[ApiNames.DATE_TO], DATE_FORMAT)
+
+            if from_date is None or to_date is None:
+                continue
+
+            if from_date <= now <= to_date:
+                event = alert[ApiNames.EVENT].lower()
+                return HydrologicalAlert(
+                    event=HYDROLOGICAL_ALERTS_MAP.get(event, event),
+                    valid_from=from_date,
+                    valid_to=to_date,
+                    probability=alert[ApiNames.PROBABILITY],
+                )
+
+        return None

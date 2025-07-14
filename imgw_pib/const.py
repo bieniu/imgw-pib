@@ -13,6 +13,7 @@ API_WEATHER_WARNINGS_ENDPOINT = API_BASE_ENDPOINT / "warningsmeteo"
 API_HYDROLOGICAL_DETAILS_ENDPOINT = URL(
     "https://hydro-back.imgw.pl/station/hydro/status"
 )
+API_HYDROLOGICAL_WARNINGS_ENDPOINT = API_BASE_ENDPOINT / "warningshydro"
 
 HEADERS = {"Content-Type": "application/json"}
 TIMEOUT = ClientTimeout(total=20)
@@ -968,6 +969,10 @@ WEATHER_ALERTS_MAP = {
     "intensywne opady deszczu": "heavy_rainfall",
     "silny deszcz z burzami": "heavy_rain_with_storms",
     "silny wiatr": "strong_wind",
+}
+HYDROLOGICAL_ALERTS_MAP = {
+    "susza hydrologiczna": "hydrological_drought",
+    "gwałtowne wzrosty stanów wody": "rapid_water_level_rise",
 }
 ALERT_LEVEL_MAP = {
     "1": "yellow",
