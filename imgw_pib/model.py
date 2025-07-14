@@ -103,6 +103,7 @@ class ApiNames(StrEnum):
 
     ALERT_LEVEL = "stopien"
     ALERT_LEVEL_HYDRO = "stopień"
+    AREA = "obszar"
     DATE_FROM = "data_od"
     DATE_TO = "data_do"
     EVENT = "zdarzenie"

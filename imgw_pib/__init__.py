@@ -436,9 +436,11 @@ class ImgwPib:
 
         river = data.get(ApiNames.RIVER) or RIVER_NAMES[data[ApiNames.STATION_CODE]]
 
-        alert = self._extract_hydrological_alert(
+        hydrological_alert = self._extract_hydrological_alert(
             alerts, river.lower(), data.get(ApiNames.VOIVODESHIP, "").lower()
         )
+
+        _LOGGER.debug("Hydrological alert: %s", hydrological_alert)
 
         return HydrologicalData(
             flood_alarm_level=flood_alarm_level_sensor,
@@ -456,7 +458,7 @@ class ImgwPib:
             water_level=water_level_sensor,
             water_temperature_measurement_date=water_temperature_measurement_date,
             water_temperature=water_temperature_sensor,
-            alert=alert,
+            alert=hydrological_alert,
         )
 
     def _extract_hydrological_alert(
@@ -466,7 +468,7 @@ class ImgwPib:
         now = datetime.now(tz=UTC)
 
         for alert in reversed(hydrological_alerts):
-            if river not in alert["obszar"].lower():
+            if river not in alert[ApiNames.AREA].lower():
                 continue
 
             if voivodeship != alert[ApiNames.VOIVODESHIP].lower():
