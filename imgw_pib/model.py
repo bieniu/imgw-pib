@@ -54,7 +54,7 @@ class WeatherData(ImgwPibData):
 class HydrologicalAlert:
     """Data class for hydrological alert."""
 
-    event: str
+    value: str
     valid_from: datetime
     valid_to: datetime
     probability: int

@@ -496,7 +496,7 @@ class ImgwPib:
             if from_date <= now <= to_date:
                 event = alert[ApiNames.EVENT].lower()
                 return HydrologicalAlert(
-                    event=HYDROLOGICAL_ALERTS_MAP.get(event, event),
+                    value=HYDROLOGICAL_ALERTS_MAP.get(event, event),
                     valid_from=from_date,
                     valid_to=to_date,
                     probability=alert[ApiNames.PROBABILITY],
