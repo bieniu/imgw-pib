@@ -86,14 +86,14 @@ ID_TO_TERYT_MAP = {
 }
 
 WEATHER_ALERTS_MAP = {
-    "brak": "none",
+    "brak": "no_alert",
     "burze": "storms",
     "intensywne opady deszczu": "heavy_rainfall",
     "silny deszcz z burzami": "heavy_rain_with_storms",
     "silny wiatr": "strong_wind",
 }
 HYDROLOGICAL_ALERTS_MAP = {
-    "brak": "none",
+    "brak": "no_alert",
     "susza hydrologiczna": "hydrological_drought",
     "gwałtowne wzrosty stanów wody": "rapid_water_level_rise",
 }
