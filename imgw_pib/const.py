@@ -963,8 +963,10 @@ ID_TO_TERYT_MAP = {
 }
 
 WEATHER_ALERTS_MAP = {
+    "brak": "none",
     "burze": "storms",
     "intensywne opady deszczu": "heavy_rainfall",
+    "silny deszcz z burzami": "heavy_rain_with_storms",
     "silny wiatr": "strong_wind",
 }
 ALERT_LEVEL_MAP = {
