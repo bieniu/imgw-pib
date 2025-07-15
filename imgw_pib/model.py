@@ -127,7 +127,7 @@ class ApiNames(StrEnum):
     TERRITORY = "teryt"
     VALID_FROM = "obowiazuje_od"
     VALID_TO = "obowiazuje_do"
-    VOIVODESHIP = "wojewodztwo"
+    PROVINCE = "wojewodztwo"
     WATER_FLOW = "przelyw"
     WATER_FLOW_MEASUREMENT_DATE = "przeplyw_data"
     WATER_LEVEL = "stan_wody"

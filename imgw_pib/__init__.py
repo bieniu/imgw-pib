@@ -447,13 +447,11 @@ class ImgwPib:
             data.get(ApiNames.RIVER)
             or self._rivers[data[ApiNames.STATION_CODE]]["name"]
         )
-        voivodeship = data.get(ApiNames.VOIVODESHIP, "") or self._rivers[
+        province = data.get(ApiNames.PROVINCE, "") or self._rivers[
             data[ApiNames.STATION_CODE]
-        ].get("voivodeship", "")
+        ].get("province", "")
 
-        hydrological_alert = self._extract_hydrological_alert(
-            alerts, river, voivodeship
-        )
+        hydrological_alert = self._extract_hydrological_alert(alerts, river, province)
 
         _LOGGER.debug("Hydrological alert: %s", hydrological_alert)
 
@@ -477,7 +475,7 @@ class ImgwPib:
         )
 
     def _extract_hydrological_alert(
-        self, hydrological_alerts: list[dict[str, Any]], river: str, voivodeship: str
+        self, hydrological_alerts: list[dict[str, Any]], river: str, province: str
     ) -> HydrologicalAlert | None:
         """Extract hydrological alert for a given river."""
         now = datetime.now(tz=UTC)
@@ -486,7 +484,7 @@ class ImgwPib:
             if river[:-1].lower() not in alert[ApiNames.AREA].lower():
                 continue
 
-            if voivodeship.lower() != alert[ApiNames.VOIVODESHIP].lower():
+            if province.lower() != alert[ApiNames.PROVINCE].lower():
                 continue
 
             from_date = get_datetime(alert[ApiNames.DATE_FROM], DATE_FORMAT)
