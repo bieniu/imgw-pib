@@ -23,18 +23,18 @@ from .const import (
     HEADERS,
     HYDROLOGICAL_ALERTS_MAP,
     ID_TO_TERYT_MAP,
+    NO_ALERT,
     RIVERS_FILE,
     TIMEOUT,
     WEATHER_ALERTS_MAP,
 )
 from .exceptions import ApiError
 from .model import (
+    Alert,
     ApiNames,
-    HydrologicalAlert,
     HydrologicalData,
     SensorData,
     Units,
-    WeatherAlert,
     WeatherData,
 )
 from .utils import gen_station_name, get_datetime
@@ -145,11 +145,11 @@ class ImgwPib:
 
         _LOGGER.debug("Weather data: %s", weather_data)
 
-        weather_alert = None
-
+        weather_alerts = []
         if teryt := ID_TO_TERYT_MAP.get(self.weather_station_id):
             weather_alerts = await self._http_request(API_WEATHER_WARNINGS_ENDPOINT)
-            weather_alert = self._extract_weather_alert(weather_alerts, teryt)
+
+        weather_alert = self._extract_weather_alert(weather_alerts, teryt or "unknown")
 
         _LOGGER.debug("Weather alert: %s", weather_alert)
 
@@ -157,7 +157,7 @@ class ImgwPib:
 
     def _extract_weather_alert(
         self, weather_alerts: list[dict[str, Any]], teryt: str
-    ) -> WeatherAlert | None:
+    ) -> Alert:
         """Extract weather alert for a given TERYT."""
         now = datetime.now(tz=UTC)
 
@@ -175,15 +175,15 @@ class ImgwPib:
 
             if (from_date - DATA_VALIDITY_PERIOD) <= now <= to_date:
                 event = alert[ApiNames.EVENT_NAME].lower()
-                return WeatherAlert(
-                    event=WEATHER_ALERTS_MAP.get(event, event),
+                return Alert(
+                    value=WEATHER_ALERTS_MAP.get(event, event),
                     valid_from=from_date,
                     valid_to=to_date,
                     probability=alert[ApiNames.PROBABILITY],
                     level=ALERT_LEVEL_MAP[alert[ApiNames.ALERT_LEVEL]],
                 )
 
-        return None
+        return Alert(value=NO_ALERT)
 
     async def update_hydrological_stations(self: Self) -> None:
         """Update list of hydrological stations."""
@@ -301,9 +301,7 @@ class ImgwPib:
         return await response.json()
 
     @staticmethod
-    def _parse_weather_data(
-        data: dict[str, Any], alert: WeatherAlert | None
-    ) -> WeatherData:
+    def _parse_weather_data(data: dict[str, Any], alert: Alert) -> WeatherData:
         """Parse weather data."""
         temperature = data[ApiNames.TEMPERATURE]
         temperature_sensor = SensorData(
@@ -476,7 +474,7 @@ class ImgwPib:
 
     def _extract_hydrological_alert(
         self, hydrological_alerts: list[dict[str, Any]], river: str, province: str
-    ) -> HydrologicalAlert:
+    ) -> Alert:
         """Extract hydrological alert for a given river."""
         now = datetime.now(tz=UTC)
 
@@ -495,7 +493,7 @@ class ImgwPib:
 
             if from_date <= now <= to_date:
                 event = alert[ApiNames.EVENT].lower()
-                return HydrologicalAlert(
+                return Alert(
                     value=HYDROLOGICAL_ALERTS_MAP.get(event, event),
                     valid_from=from_date,
                     valid_to=to_date,
@@ -503,4 +501,4 @@ class ImgwPib:
                     level=ALERT_LEVEL_MAP[alert[ApiNames.ALERT_LEVEL_HYDRO]],
                 )
 
-        return HydrologicalAlert(value="no_alert")
+        return Alert(value=NO_ALERT)

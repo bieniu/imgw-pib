@@ -84,7 +84,7 @@ ID_TO_TERYT_MAP = {
     "12595": "0664",  # Zamość
     "12400": "0862",  # Zielona Góra
 }
-
+NO_ALERT = "no_alert"
 WEATHER_ALERTS_MAP = {
     "brak": "no_alert",
     "burze": "storms",

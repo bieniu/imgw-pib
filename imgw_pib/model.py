@@ -21,14 +21,14 @@ class SensorData:
 
 
 @dataclass(kw_only=True, slots=True)
-class WeatherAlert:
-    """Data class for weather alert."""
+class Alert:
+    """Data class for alert."""
 
-    event: str
-    valid_from: datetime
-    valid_to: datetime
-    probability: int
-    level: str
+    value: str
+    valid_from: datetime | None = None
+    valid_to: datetime | None = None
+    probability: int | None = None
+    level: str | None = None
 
 
 @dataclass(kw_only=True, slots=True)
@@ -47,18 +47,7 @@ class WeatherData(ImgwPibData):
 
     measurement_date: datetime | None
 
-    alert: WeatherAlert | None = None
-
-
-@dataclass(kw_only=True, slots=True)
-class HydrologicalAlert:
-    """Data class for hydrological alert."""
-
-    value: str
-    valid_from: datetime | None = None
-    valid_to: datetime | None = None
-    probability: int | None = None
-    level: str | None = None
+    alert: Alert
 
 
 @dataclass(kw_only=True, slots=True)
@@ -83,7 +72,7 @@ class HydrologicalData(ImgwPibData):
     latitude: float | None = None
     longitude: float | None = None
 
-    alert: HydrologicalAlert
+    alert: Alert
 
     def __post_init__(self: Self) -> None:
         """Call after initialization."""
