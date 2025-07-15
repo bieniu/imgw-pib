@@ -1,0 +1,3522 @@
+{
+    "149180010": {
+        "name": "Odra",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180020": {
+        "name": "Odra",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180030": {
+        "name": "Olza",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180040": {
+        "name": "Szotk\u00f3wka",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180050": {
+        "name": "Piotr\u00f3wka",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180060": {
+        "name": "Olza",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180070": {
+        "name": "M\u0142yn\u00f3wka",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180080": {
+        "name": "Wis\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180100": {
+        "name": "Wis\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180110": {
+        "name": "Wis\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180120": {
+        "name": "Brennica",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180130": {
+        "name": "Olza",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180140": {
+        "name": "Wis\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180160": {
+        "name": "Wis\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180180": {
+        "name": "Bia\u0142a Wise\u0142ka",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180200": {
+        "name": "Wis\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180210": {
+        "name": "Wis\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180220": {
+        "name": "Pszczynka",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180230": {
+        "name": "Wapienica",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180240": {
+        "name": "Wis\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180250": {
+        "name": "I\u0142ownica",
+        "province": "\u015bl\u0105skie"
+    },
+    "149180300": {
+        "name": "Odra",
+        "province": "\u015bl\u0105skie"
+    },
+    "149190010": {
+        "name": "Bia\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "149190020": {
+        "name": "Bystra",
+        "province": "\u015bl\u0105skie"
+    },
+    "149190030": {
+        "name": "Bia\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "149190040": {
+        "name": "Woda Ujsolska",
+        "province": "\u015bl\u0105skie"
+    },
+    "149190050": {
+        "name": "So\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "149190060": {
+        "name": "Wis\u0142a",
+        "province": "ma\u0142opolskie"
+    },
+    "149190070": {
+        "name": "\u017bylica",
+        "province": "\u015bl\u0105skie"
+    },
+    "149190080": {
+        "name": "So\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "149190090": {
+        "name": "\u017babniczanka",
+        "province": "\u015bl\u0105skie"
+    },
+    "149190100": {
+        "name": "So\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "149190120": {
+        "name": "So\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "149190140": {
+        "name": "\u0141\u0119kawka",
+        "province": "\u015bl\u0105skie"
+    },
+    "149190150": {
+        "name": "Koszarawa",
+        "province": "\u015bl\u0105skie"
+    },
+    "149190160": {
+        "name": "Wieprz\u00f3wka",
+        "province": "ma\u0142opolskie"
+    },
+    "149190170": {
+        "name": "Skawa",
+        "province": "ma\u0142opolskie"
+    },
+    "149190180": {
+        "name": "Skawa",
+        "province": "ma\u0142opolskie"
+    },
+    "149190200": {
+        "name": "Stryszawka",
+        "province": "ma\u0142opolskie"
+    },
+    "149190210": {
+        "name": "Skawa",
+        "province": "ma\u0142opolskie"
+    },
+    "149190220": {
+        "name": "Skawica",
+        "province": "ma\u0142opolskie"
+    },
+    "149190230": {
+        "name": "Wis\u0142a",
+        "province": "ma\u0142opolskie"
+    },
+    "149190260": {
+        "name": "Skawa",
+        "province": "ma\u0142opolskie"
+    },
+    "149190270": {
+        "name": "Skawinka",
+        "province": "ma\u0142opolskie"
+    },
+    "149190280": {
+        "name": "Dunajec",
+        "province": "ma\u0142opolskie"
+    },
+    "149190290": {
+        "name": "Skawa",
+        "province": "ma\u0142opolskie"
+    },
+    "149190300": {
+        "name": "Kirowa Woda",
+        "province": "ma\u0142opolskie"
+    },
+    "149190310": {
+        "name": "Raba",
+        "province": "ma\u0142opolskie"
+    },
+    "149190320": {
+        "name": "M\u0142yniska",
+        "province": "ma\u0142opolskie"
+    },
+    "149190340": {
+        "name": "Raba",
+        "province": "ma\u0142opolskie"
+    },
+    "149190350": {
+        "name": "Krzczon\u00f3wka",
+        "province": "ma\u0142opolskie"
+    },
+    "149190360": {
+        "name": "Lepietnica",
+        "province": "ma\u0142opolskie"
+    },
+    "149190370": {
+        "name": "Lubie\u0144ka",
+        "province": "ma\u0142opolskie"
+    },
+    "149190380": {
+        "name": "Bia\u0142y Dunajec",
+        "province": "ma\u0142opolskie"
+    },
+    "149190390": {
+        "name": "Wielki Rogo\u017anik",
+        "province": "ma\u0142opolskie"
+    },
+    "149190480": {
+        "name": "Paleczka",
+        "province": "ma\u0142opolskie"
+    },
+    "149190490": {
+        "name": "Bystrzanka",
+        "province": "ma\u0142opolskie"
+    },
+    "149190500": {
+        "name": "Wieprz\u00f3wka",
+        "province": "ma\u0142opolskie"
+    },
+    "149190510": {
+        "name": "Cedron",
+        "province": "ma\u0142opolskie"
+    },
+    "149200010": {
+        "name": "Poroniec",
+        "province": "ma\u0142opolskie"
+    },
+    "149200020": {
+        "name": "Bia\u0142y Dunajec",
+        "province": "ma\u0142opolskie"
+    },
+    "149200030": {
+        "name": "Dunajec",
+        "province": "ma\u0142opolskie"
+    },
+    "149200040": {
+        "name": "Raba",
+        "province": "ma\u0142opolskie"
+    },
+    "149200050": {
+        "name": "Dunajec",
+        "province": "ma\u0142opolskie"
+    },
+    "149200060": {
+        "name": "Raba",
+        "province": "ma\u0142opolskie"
+    },
+    "149200080": {
+        "name": "Mszanka",
+        "province": "ma\u0142opolskie"
+    },
+    "149200090": {
+        "name": "Raba",
+        "province": "ma\u0142opolskie"
+    },
+    "149200100": {
+        "name": "Bia\u0142ka",
+        "province": "ma\u0142opolskie"
+    },
+    "149200110": {
+        "name": "Bia\u0142ka",
+        "province": "ma\u0142opolskie"
+    },
+    "149200120": {
+        "name": "Niedziczanka",
+        "province": "ma\u0142opolskie"
+    },
+    "149200130": {
+        "name": "Stradomka",
+        "province": "ma\u0142opolskie"
+    },
+    "149200140": {
+        "name": "Dunajec",
+        "province": "ma\u0142opolskie"
+    },
+    "149200150": {
+        "name": "Ochotnica",
+        "province": "ma\u0142opolskie"
+    },
+    "149200160": {
+        "name": "Dunajec",
+        "province": "ma\u0142opolskie"
+    },
+    "149200170": {
+        "name": "Raba",
+        "province": "ma\u0142opolskie"
+    },
+    "149200180": {
+        "name": "Grajcarek",
+        "province": "ma\u0142opolskie"
+    },
+    "149200190": {
+        "name": "Dunajec",
+        "province": "ma\u0142opolskie"
+    },
+    "149200200": {
+        "name": "\u0141ososina",
+        "province": "ma\u0142opolskie"
+    },
+    "149200220": {
+        "name": "Poprad",
+        "province": "ma\u0142opolskie"
+    },
+    "149200230": {
+        "name": "Dunajec",
+        "province": "ma\u0142opolskie"
+    },
+    "149200240": {
+        "name": "Dunajec",
+        "province": "ma\u0142opolskie"
+    },
+    "149200250": {
+        "name": "Kamienica",
+        "province": "ma\u0142opolskie"
+    },
+    "149200260": {
+        "name": "\u0141ubinka",
+        "province": "ma\u0142opolskie"
+    },
+    "149200270": {
+        "name": "Kamienica",
+        "province": "ma\u0142opolskie"
+    },
+    "149200280": {
+        "name": "Dunajec",
+        "province": "ma\u0142opolskie"
+    },
+    "149200290": {
+        "name": "Poprad",
+        "province": "ma\u0142opolskie"
+    },
+    "149200300": {
+        "name": "Poprad",
+        "province": "ma\u0142opolskie"
+    },
+    "149200310": {
+        "name": "Bia\u0142a",
+        "province": "ma\u0142opolskie"
+    },
+    "149200320": {
+        "name": "Bia\u0142a",
+        "province": "ma\u0142opolskie"
+    },
+    "149200330": {
+        "name": "Bia\u0142a",
+        "province": "ma\u0142opolskie"
+    },
+    "149200520": {
+        "name": "Kr\u00f3lewski Potok",
+        "province": "ma\u0142opolskie"
+    },
+    "149200530": {
+        "name": "Krzyworzeka",
+        "province": "ma\u0142opolskie"
+    },
+    "149200540": {
+        "name": "Raba",
+        "province": "ma\u0142opolskie"
+    },
+    "149209990": {
+        "name": "\u0141ososina",
+        "province": "ma\u0142opolskie"
+    },
+    "149210010": {
+        "name": "Ropa",
+        "province": "ma\u0142opolskie"
+    },
+    "149210020": {
+        "name": "S\u0119k\u00f3wka",
+        "province": "ma\u0142opolskie"
+    },
+    "149210030": {
+        "name": "Ropa",
+        "province": "ma\u0142opolskie"
+    },
+    "149210040": {
+        "name": "Wis\u0142oka",
+        "province": "podkarpackie"
+    },
+    "149210050": {
+        "name": "Wis\u0142oka",
+        "province": "podkarpackie"
+    },
+    "149210060": {
+        "name": "Ropa",
+        "province": "podkarpackie"
+    },
+    "149210070": {
+        "name": "Wis\u0142oka",
+        "province": "podkarpackie"
+    },
+    "149210080": {
+        "name": "Jasio\u0142ka",
+        "province": "podkarpackie"
+    },
+    "149210090": {
+        "name": "Wis\u0142oka",
+        "province": "podkarpackie"
+    },
+    "149210100": {
+        "name": "Jasio\u0142ka",
+        "province": "podkarpackie"
+    },
+    "149210110": {
+        "name": "Wis\u0142ok",
+        "province": "podkarpackie"
+    },
+    "149210120": {
+        "name": "Stobnica",
+        "province": "podkarpackie"
+    },
+    "149210130": {
+        "name": "Wis\u0142ok",
+        "province": "podkarpackie"
+    },
+    "149210140": {
+        "name": "Morwawa",
+        "province": "podkarpackie"
+    },
+    "149210150": {
+        "name": "Wis\u0142ok",
+        "province": "podkarpackie"
+    },
+    "149210160": {
+        "name": "Wis\u0142ok",
+        "province": "podkarpackie"
+    },
+    "149210180": {
+        "name": "Przys\u0142opianka",
+        "province": "ma\u0142opolskie"
+    },
+    "149210190": {
+        "name": "Ropa",
+        "province": "ma\u0142opolskie"
+    },
+    "149210200": {
+        "name": "Zdynia",
+        "province": "ma\u0142opolskie"
+    },
+    "149210210": {
+        "name": "Wis\u0142ok",
+        "province": "podkarpackie"
+    },
+    "149210450": {
+        "name": "Wis\u0142ok",
+        "province": "podkarpackie"
+    },
+    "149210460": {
+        "name": "Odrzechowski",
+        "province": "podkarpackie"
+    },
+    "149210470": {
+        "name": "Lubat\u00f3wka",
+        "province": "podkarpackie"
+    },
+    "149210480": {
+        "name": "Wis\u0142ok",
+        "province": "podkarpackie"
+    },
+    "149220010": {
+        "name": "Pielnica",
+        "province": "podkarpackie"
+    },
+    "149220020": {
+        "name": "Os\u0142awa",
+        "province": "podkarpackie"
+    },
+    "149220030": {
+        "name": "San",
+        "province": "podkarpackie"
+    },
+    "149220040": {
+        "name": "San",
+        "province": "podkarpackie"
+    },
+    "149220050": {
+        "name": "Os\u0142awa",
+        "province": "podkarpackie"
+    },
+    "149220060": {
+        "name": "San",
+        "province": "podkarpackie"
+    },
+    "149220070": {
+        "name": "Hoczewka",
+        "province": "podkarpackie"
+    },
+    "149220080": {
+        "name": "Solinka",
+        "province": "podkarpackie"
+    },
+    "149220100": {
+        "name": "Solinka",
+        "province": "podkarpackie"
+    },
+    "149220110": {
+        "name": "Wetlina",
+        "province": "podkarpackie"
+    },
+    "149220130": {
+        "name": "San",
+        "province": "podkarpackie"
+    },
+    "149220140": {
+        "name": "Czarna",
+        "province": "podkarpackie"
+    },
+    "149220150": {
+        "name": "San",
+        "province": "podkarpackie"
+    },
+    "149220160": {
+        "name": "Wiar",
+        "province": "podkarpackie"
+    },
+    "149220170": {
+        "name": "Strwi\u0105\u017c",
+        "province": "podkarpackie"
+    },
+    "149220180": {
+        "name": "Wo\u0142osaty",
+        "province": "podkarpackie"
+    },
+    "149220190": {
+        "name": "San",
+        "province": "podkarpackie"
+    },
+    "149220200": {
+        "name": "Wiar",
+        "province": "podkarpackie"
+    },
+    "149220210": {
+        "name": "Wisznia",
+        "province": "podkarpackie"
+    },
+    "149229998": {
+        "name": "Mleczka",
+        "province": "podkarpackie"
+    },
+    "149229999": {
+        "name": "Mleczka",
+        "province": "podkarpackie"
+    },
+    "149230020": {
+        "name": "Szk\u0142o",
+        "province": "podkarpackie"
+    },
+    "150140010": {
+        "name": "Nysa \u0141u\u017cycka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150140020": {
+        "name": "Nysa \u0141u\u017cycka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150140030": {
+        "name": "Miedzianka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150140100": {
+        "name": "Miedzianka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150140140": {
+        "name": "Lubota",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150010": {
+        "name": "Kwisa",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150020": {
+        "name": "Czarny Potok",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150030": {
+        "name": "Kamienna",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150040": {
+        "name": "Kamienica",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150050": {
+        "name": "Kamienna",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150060": {
+        "name": "B\u00f3br",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150070": {
+        "name": "Kamienna",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150080": {
+        "name": "B\u00f3br",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150090": {
+        "name": "\u0141omnica",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150100": {
+        "name": "B\u00f3br",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150110": {
+        "name": "Jedlica",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150120": {
+        "name": "B\u00f3br",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150130": {
+        "name": "B\u00f3br",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150190": {
+        "name": "Podg\u00f3rna",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150200": {
+        "name": "So\u015bniak",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150150230": {
+        "name": "B\u00f3br",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150159997": {
+        "name": "Z\u0142otna",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160010": {
+        "name": "B\u00f3br",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160020": {
+        "name": "Pe\u0142cznica",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160030": {
+        "name": "Strzegomka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160040": {
+        "name": "Klikawa",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160060": {
+        "name": "Bystrzyca",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160070": {
+        "name": "Bystrzyca",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160080": {
+        "name": "\u015acinawka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160090": {
+        "name": "Strzegomka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160100": {
+        "name": "\u015acinawka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160110": {
+        "name": "Bystrzyca Dusznicka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160120": {
+        "name": "Bystrzyca",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160130": {
+        "name": "Pi\u0142awa",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160140": {
+        "name": "Pi\u0142awa",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160150": {
+        "name": "Bystrzyca",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160160": {
+        "name": "Bystrzyca",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160170": {
+        "name": "Nysa K\u0142odzka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160180": {
+        "name": "Nysa K\u0142odzka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160190": {
+        "name": "Nysa K\u0142odzka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160200": {
+        "name": "Bia\u0142a L\u0105decka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160210": {
+        "name": "Wilczka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160220": {
+        "name": "Nysa K\u0142odzka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160230": {
+        "name": "Bia\u0142a L\u0105decka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160250": {
+        "name": "\u015al\u0119za",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160270": {
+        "name": "Budz\u00f3wka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160280": {
+        "name": "\u015al\u0119za",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160290": {
+        "name": "Czarna Woda",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160330": {
+        "name": "Kamienny Potok",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160340": {
+        "name": "W\u0142odzica",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160350": {
+        "name": "Bystrzyca Dusznicka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160360": {
+        "name": "Duna Dolna",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160370": {
+        "name": "Duna G\u00f3rna",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160380": {
+        "name": "Duna G\u00f3rna",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160390": {
+        "name": "Gowor\u00f3wka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160400": {
+        "name": "Nysa K\u0142odzka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160410": {
+        "name": "Cieszyca",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160420": {
+        "name": "Gowor\u00f3wka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150160430": {
+        "name": "Bystrzyca",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150169999": {
+        "name": "B\u00f3br",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150170010": {
+        "name": "O\u0142awa",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150170030": {
+        "name": "O\u0142awa",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150170040": {
+        "name": "Odra",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "150170050": {
+        "name": "Bia\u0142a G\u0142ucho\u0142aska",
+        "province": "opolskie"
+    },
+    "150170060": {
+        "name": "Nysa K\u0142odzka",
+        "province": "opolskie"
+    },
+    "150170070": {
+        "name": "Bia\u0142a G\u0142ucho\u0142aska",
+        "province": "opolskie"
+    },
+    "150170080": {
+        "name": "Z\u0142oty Potok",
+        "province": "opolskie"
+    },
+    "150170090": {
+        "name": "Odra",
+        "province": "opolskie"
+    },
+    "150170100": {
+        "name": "Nysa K\u0142odzka",
+        "province": "opolskie"
+    },
+    "150170110": {
+        "name": "Prudnik",
+        "province": "opolskie"
+    },
+    "150170120": {
+        "name": "\u015acinawa Niemodli\u0144ska",
+        "province": "opolskie"
+    },
+    "150170130": {
+        "name": "Odra",
+        "province": "opolskie"
+    },
+    "150170140": {
+        "name": "Nysa K\u0142odzka",
+        "province": "opolskie"
+    },
+    "150170150": {
+        "name": "Stobrawa",
+        "province": "opolskie"
+    },
+    "150170160": {
+        "name": "Opawa",
+        "province": "opolskie"
+    },
+    "150170170": {
+        "name": "Boczne koryto Opawy",
+        "province": "opolskie"
+    },
+    "150170180": {
+        "name": "Osob\u0142oga",
+        "province": "opolskie"
+    },
+    "150170200": {
+        "name": "Bogacica",
+        "province": "opolskie"
+    },
+    "150170210": {
+        "name": "Budkowiczanka",
+        "province": "opolskie"
+    },
+    "150170220": {
+        "name": "Bia\u0142a",
+        "province": "opolskie"
+    },
+    "150170240": {
+        "name": "Odra",
+        "province": "opolskie"
+    },
+    "150170290": {
+        "name": "Odra",
+        "province": "opolskie"
+    },
+    "150170320": {
+        "name": "Nysa K\u0142odzka",
+        "province": "opolskie"
+    },
+    "150170330": {
+        "name": "Nysa K\u0142odzka",
+        "province": "opolskie"
+    },
+    "150170340": {
+        "name": "\u015awidna",
+        "province": "opolskie"
+    },
+    "150170350": {
+        "name": "Widna",
+        "province": "opolskie"
+    },
+    "150170360": {
+        "name": "Osob\u0142oga",
+        "province": "opolskie"
+    },
+    "150180010": {
+        "name": "Stradunia",
+        "province": "opolskie"
+    },
+    "150180020": {
+        "name": "Ma\u0142a Panew",
+        "province": "opolskie"
+    },
+    "150180030": {
+        "name": "Odra",
+        "province": "opolskie"
+    },
+    "150180040": {
+        "name": "Psina",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180050": {
+        "name": "Ma\u0142a Panew",
+        "province": "opolskie"
+    },
+    "150180060": {
+        "name": "Odra",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180070": {
+        "name": "K\u0142odnica",
+        "province": "opolskie"
+    },
+    "150180080": {
+        "name": "Bierawka",
+        "province": "opolskie"
+    },
+    "150180090": {
+        "name": "Sumina",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180100": {
+        "name": "Ma\u0142a Panew",
+        "province": "opolskie"
+    },
+    "150180110": {
+        "name": "Ruda",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180130": {
+        "name": "Ruda",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180140": {
+        "name": "Nacyna",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180150": {
+        "name": "K\u0142odnica",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180160": {
+        "name": "Drama",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180170": {
+        "name": "Drama",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180190": {
+        "name": "Ma\u0142a Panew",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180210": {
+        "name": "Liswarta",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180220": {
+        "name": "K\u0142odnica",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180230": {
+        "name": "Sto\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180250": {
+        "name": "K\u0142odnica",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180270": {
+        "name": "Brynica",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180280": {
+        "name": "Ruda",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180300": {
+        "name": "Gostynia",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180310": {
+        "name": "Brynica",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180320": {
+        "name": "K\u0142odnica",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180330": {
+        "name": "Ruda",
+        "province": "\u015bl\u0105skie"
+    },
+    "150180340": {
+        "name": "Stobrawa",
+        "province": "opolskie"
+    },
+    "150190010": {
+        "name": "Brynica",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190050": {
+        "name": "Mleczna",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190060": {
+        "name": "Gostynia",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190070": {
+        "name": "Brynica",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190080": {
+        "name": "Przemsza",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190100": {
+        "name": "Bia\u0142a Przemsza",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190120": {
+        "name": "Przemsza",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190130": {
+        "name": "Przemsza",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190140": {
+        "name": "Wis\u0142a",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190150": {
+        "name": "Warta",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190160": {
+        "name": "So\u0142a",
+        "province": "ma\u0142opolskie"
+    },
+    "150190170": {
+        "name": "Wis\u0142a",
+        "province": "ma\u0142opolskie"
+    },
+    "150190180": {
+        "name": "Przemsza",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190190": {
+        "name": "Przemsza",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190200": {
+        "name": "Warta",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190210": {
+        "name": "Mitr\u0119ga",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190220": {
+        "name": "Warta",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190240": {
+        "name": "Warta",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190250": {
+        "name": "Bia\u0142a Przemsza",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190260": {
+        "name": "Wis\u0142a",
+        "province": "ma\u0142opolskie"
+    },
+    "150190270": {
+        "name": "Bia\u0142a Przemsza",
+        "province": "ma\u0142opolskie"
+    },
+    "150190280": {
+        "name": "Pilica",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190310": {
+        "name": "Rudawa",
+        "province": "ma\u0142opolskie"
+    },
+    "150190330": {
+        "name": "Pr\u0105dnik",
+        "province": "ma\u0142opolskie"
+    },
+    "150190340": {
+        "name": "Wis\u0142a",
+        "province": "ma\u0142opolskie"
+    },
+    "150190350": {
+        "name": "Czarna",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150190360": {
+        "name": "Wis\u0142a",
+        "province": "ma\u0142opolskie"
+    },
+    "150190390": {
+        "name": "Stradomka",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190400": {
+        "name": "Kucelinka",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190410": {
+        "name": "Warta",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190430": {
+        "name": "Kamieniczka",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190440": {
+        "name": "Warta",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190450": {
+        "name": "Bo\u017cy Stok",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190460": {
+        "name": "Ordonka",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190470": {
+        "name": "Wiercica",
+        "province": "\u015bl\u0105skie"
+    },
+    "150190480": {
+        "name": "Wilga",
+        "province": "ma\u0142opolskie"
+    },
+    "150200010": {
+        "name": "Nida",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150200020": {
+        "name": "Wierna Rzeka",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150200030": {
+        "name": "Nida",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150200040": {
+        "name": "Czarna Nida",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150200050": {
+        "name": "Mierzawa",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150200060": {
+        "name": "Wis\u0142a",
+        "province": "ma\u0142opolskie"
+    },
+    "150200070": {
+        "name": "Szreniawa",
+        "province": "ma\u0142opolskie"
+    },
+    "150200080": {
+        "name": "Nida",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150200090": {
+        "name": "Bobrza",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150200100": {
+        "name": "Wis\u0142a",
+        "province": "ma\u0142opolskie"
+    },
+    "150200120": {
+        "name": "Czarna Nida",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150200140": {
+        "name": "Uszwica",
+        "province": "ma\u0142opolskie"
+    },
+    "150200150": {
+        "name": "Wis\u0142a",
+        "province": "ma\u0142opolskie"
+    },
+    "150200160": {
+        "name": "Czarna Nida",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150200170": {
+        "name": "Dunajec",
+        "province": "ma\u0142opolskie"
+    },
+    "150200180": {
+        "name": "Szreniawa",
+        "province": "ma\u0142opolskie"
+    },
+    "150200190": {
+        "name": "Nidzica",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150200200": {
+        "name": "Nida",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150200210": {
+        "name": "Lubrzanka",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150200220": {
+        "name": "Wis\u0142a",
+        "province": "ma\u0142opolskie"
+    },
+    "150210010": {
+        "name": "Czarna",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150210020": {
+        "name": "Wis\u0142a",
+        "province": "ma\u0142opolskie"
+    },
+    "150210030": {
+        "name": "\u0141agowica",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150210040": {
+        "name": "\u015awi\u015blina",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150210050": {
+        "name": "Wschodnia",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150210060": {
+        "name": "Czarna",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150210070": {
+        "name": "Bre\u0144",
+        "province": "podkarpackie"
+    },
+    "150210080": {
+        "name": "\u015awi\u015blina",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150210090": {
+        "name": "Kamienna",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150210100": {
+        "name": "Czarna",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150210110": {
+        "name": "Grabinka",
+        "province": "podkarpackie"
+    },
+    "150210120": {
+        "name": "Wis\u0142oka",
+        "province": "podkarpackie"
+    },
+    "150210130": {
+        "name": "Wis\u0142oka",
+        "province": "podkarpackie"
+    },
+    "150210140": {
+        "name": "Brze\u017anica",
+        "province": "podkarpackie"
+    },
+    "150210150": {
+        "name": "Wis\u0142a",
+        "province": "podkarpackie"
+    },
+    "150210160": {
+        "name": "Koprzywianka",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150210170": {
+        "name": "Wis\u0142a",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150210180": {
+        "name": "Wis\u0142a",
+        "province": "lubelskie"
+    },
+    "150210190": {
+        "name": "Wis\u0142a",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150210200": {
+        "name": "\u0141\u0119g",
+        "province": "podkarpackie"
+    },
+    "150210210": {
+        "name": "San",
+        "province": "podkarpackie"
+    },
+    "150210220": {
+        "name": "Pokrzywianka",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150210410": {
+        "name": "\u0141\u0119g",
+        "province": "podkarpackie"
+    },
+    "150220010": {
+        "name": "Wis\u0142ok",
+        "province": "podkarpackie"
+    },
+    "150220020": {
+        "name": "Bukowa",
+        "province": "podkarpackie"
+    },
+    "150220030": {
+        "name": "San",
+        "province": "podkarpackie"
+    },
+    "150220040": {
+        "name": "Trzebo\u015bnica",
+        "province": "podkarpackie"
+    },
+    "150220050": {
+        "name": "Tanew",
+        "province": "podkarpackie"
+    },
+    "150220060": {
+        "name": "Mleczka",
+        "province": "podkarpackie"
+    },
+    "150220070": {
+        "name": "San",
+        "province": "podkarpackie"
+    },
+    "150220080": {
+        "name": "Wis\u0142ok",
+        "province": "podkarpackie"
+    },
+    "150220090": {
+        "name": "San",
+        "province": "podkarpackie"
+    },
+    "150220100": {
+        "name": "San",
+        "province": "podkarpackie"
+    },
+    "150220110": {
+        "name": "\u0141ada",
+        "province": "lubelskie"
+    },
+    "150220120": {
+        "name": "P\u00f3r",
+        "province": "lubelskie"
+    },
+    "150220130": {
+        "name": "Lubacz\u00f3wka",
+        "province": "podkarpackie"
+    },
+    "150220140": {
+        "name": "Szk\u0142o",
+        "province": "podkarpackie"
+    },
+    "150220160": {
+        "name": "Tanew",
+        "province": "lubelskie"
+    },
+    "150230010": {
+        "name": "Wieprz",
+        "province": "lubelskie"
+    },
+    "150230020": {
+        "name": "Wieprz",
+        "province": "lubelskie"
+    },
+    "150230030": {
+        "name": "\u0141abu\u0144ka",
+        "province": "lubelskie"
+    },
+    "150230040": {
+        "name": "Wieprz",
+        "province": "lubelskie"
+    },
+    "150230050": {
+        "name": "Wolica",
+        "province": "lubelskie"
+    },
+    "150230070": {
+        "name": "Huczwa",
+        "province": "lubelskie"
+    },
+    "150230080": {
+        "name": "Wieprz",
+        "province": "lubelskie"
+    },
+    "150240010": {
+        "name": "Bug",
+        "province": "lubelskie"
+    },
+    "150240020": {
+        "name": "Bug",
+        "province": "lubelskie"
+    },
+    "151140010": {
+        "name": "Nysa \u0141u\u017cycka",
+        "province": "lubuskie"
+    },
+    "151140020": {
+        "name": "Lubsza",
+        "province": "lubuskie"
+    },
+    "151140030": {
+        "name": "Skroda",
+        "province": "lubuskie"
+    },
+    "151140040": {
+        "name": "Nysa \u0141u\u017cycka",
+        "province": "lubuskie"
+    },
+    "151140050": {
+        "name": "Witka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151140060": {
+        "name": "Nysa \u0141u\u017cycka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151140170": {
+        "name": "Nysa \u0141u\u017cycka",
+        "province": "lubuskie"
+    },
+    "151140180": {
+        "name": "Nysa \u0141u\u017cycka",
+        "province": "lubuskie"
+    },
+    "151140190": {
+        "name": "Lubsza",
+        "province": "lubuskie"
+    },
+    "151140200": {
+        "name": "Nysa \u0141u\u017cycka",
+        "province": "lubuskie"
+    },
+    "151150010": {
+        "name": "Czerwona Woda",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151150020": {
+        "name": "Witka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151150030": {
+        "name": "Czerna Ma\u0142a",
+        "province": "lubuskie"
+    },
+    "151150040": {
+        "name": "B\u00f3br",
+        "province": "lubuskie"
+    },
+    "151150050": {
+        "name": "B\u00f3br",
+        "province": "lubuskie"
+    },
+    "151150060": {
+        "name": "Kwisa",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151150070": {
+        "name": "Czerna Wielka",
+        "province": "lubuskie"
+    },
+    "151150080": {
+        "name": "B\u00f3br",
+        "province": "lubuskie"
+    },
+    "151150090": {
+        "name": "Kwisa",
+        "province": "lubuskie"
+    },
+    "151150100": {
+        "name": "Kwisa",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151150110": {
+        "name": "Kwisa",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151150120": {
+        "name": "B\u00f3br",
+        "province": "lubuskie"
+    },
+    "151150130": {
+        "name": "Szprotawa",
+        "province": "lubuskie"
+    },
+    "151150140": {
+        "name": "B\u00f3br",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151150150": {
+        "name": "Odra",
+        "province": "lubuskie"
+    },
+    "151150160": {
+        "name": "Skora",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151150170": {
+        "name": "Kaczawa",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151150180": {
+        "name": "Skora",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160020": {
+        "name": "Kaczawa",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160030": {
+        "name": "Jezioro S\u0142awskie",
+        "province": "lubuskie"
+    },
+    "151160040": {
+        "name": "Czarna Woda",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160050": {
+        "name": "Kaczawa",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160060": {
+        "name": "Odra",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160070": {
+        "name": "Nysa Szalona",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160080": {
+        "name": "Czarna Woda",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160090": {
+        "name": "Nysa Szalona",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160100": {
+        "name": "Kaczawa",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160130": {
+        "name": "Odra",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160140": {
+        "name": "Barycz",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160150": {
+        "name": "Odra",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160160": {
+        "name": "Polski R\u00f3w",
+        "province": "wielkopolskie"
+    },
+    "151160170": {
+        "name": "Odra",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160180": {
+        "name": "Strzegomka",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160190": {
+        "name": "Bystrzyca",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160200": {
+        "name": "Orla",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160220": {
+        "name": "S\u0105siecznica",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160230": {
+        "name": "\u015al\u0119za",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151160260": {
+        "name": "Czernica",
+        "province": "lubuskie"
+    },
+    "151160300": {
+        "name": "Barycz",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151170010": {
+        "name": "Widawa",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151170030": {
+        "name": "Odra",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151170040": {
+        "name": "Barycz",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151170050": {
+        "name": "Widawa",
+        "province": "dolno\u015bl\u0105skie"
+    },
+    "151170060": {
+        "name": "Polska Woda",
+        "province": "wielkopolskie"
+    },
+    "151170070": {
+        "name": "Barycz",
+        "province": "wielkopolskie"
+    },
+    "151170080": {
+        "name": "Kuroch",
+        "province": "wielkopolskie"
+    },
+    "151170090": {
+        "name": "Widawa",
+        "province": "opolskie"
+    },
+    "151170110": {
+        "name": "Prosna",
+        "province": "wielkopolskie"
+    },
+    "151180010": {
+        "name": "O\u0142obok",
+        "province": "wielkopolskie"
+    },
+    "151180020": {
+        "name": "Prosna",
+        "province": "wielkopolskie"
+    },
+    "151180030": {
+        "name": "Nies\u00f3b",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151180040": {
+        "name": "Prosna",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151180050": {
+        "name": "Sw\u0119drnia",
+        "province": "wielkopolskie"
+    },
+    "151180060": {
+        "name": "\u0141u\u017cyca",
+        "province": "wielkopolskie"
+    },
+    "151180070": {
+        "name": "Prosna",
+        "province": "opolskie"
+    },
+    "151180080": {
+        "name": "Warta",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151180090": {
+        "name": "Ole\u015bnica",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151180100": {
+        "name": "Warta",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151180110": {
+        "name": "Warta",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151180120": {
+        "name": "Warta",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151180130": {
+        "name": "Warta",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151180140": {
+        "name": "Widawka",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151180150": {
+        "name": "Nieciecz",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151180160": {
+        "name": "Ner",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151180170": {
+        "name": "Widawka",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151180180": {
+        "name": "Grabia",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151180190": {
+        "name": "Prosna",
+        "province": "wielkopolskie"
+    },
+    "151180200": {
+        "name": "\u017beglina",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151180210": {
+        "name": "Myja",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151180220": {
+        "name": "Pichna",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151190010": {
+        "name": "Liswarta",
+        "province": "\u015bl\u0105skie"
+    },
+    "151190020": {
+        "name": "Widawka",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151190030": {
+        "name": "Grabia",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151190060": {
+        "name": "Warta",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151190070": {
+        "name": "Moszczenica",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151190080": {
+        "name": "Luci\u0105\u017ca",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151190090": {
+        "name": "Pilica",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151190100": {
+        "name": "Pilica",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151190110": {
+        "name": "Wolb\u00f3rka",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151190120": {
+        "name": "Czarna",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151190130": {
+        "name": "Ner",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151200020": {
+        "name": "Pilica",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151200040": {
+        "name": "Drzewiczka",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "151200080": {
+        "name": "Drzewiczka",
+        "province": "mazowieckie"
+    },
+    "151200090": {
+        "name": "Pilica",
+        "province": "mazowieckie"
+    },
+    "151200100": {
+        "name": "Kamienna",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "151200110": {
+        "name": "Radomka",
+        "province": "mazowieckie"
+    },
+    "151200120": {
+        "name": "Pilica",
+        "province": "mazowieckie"
+    },
+    "151210010": {
+        "name": "Kamienna",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "151210020": {
+        "name": "Kamienna",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "151210040": {
+        "name": "Kamienna",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "151210050": {
+        "name": "Wis\u0142a",
+        "province": "mazowieckie"
+    },
+    "151210060": {
+        "name": "Radomka",
+        "province": "mazowieckie"
+    },
+    "151210070": {
+        "name": "Wilga",
+        "province": "mazowieckie"
+    },
+    "151210080": {
+        "name": "I\u0142\u017canka",
+        "province": "mazowieckie"
+    },
+    "151210090": {
+        "name": "Kamienna",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "151210100": {
+        "name": "Wilga",
+        "province": "mazowieckie"
+    },
+    "151210110": {
+        "name": "Okrzejka",
+        "province": "mazowieckie"
+    },
+    "151210120": {
+        "name": "Wis\u0142a",
+        "province": "lubelskie"
+    },
+    "151210130": {
+        "name": "Wy\u017cnica",
+        "province": "lubelskie"
+    },
+    "151210190": {
+        "name": "Wis\u0142a",
+        "province": "lubelskie"
+    },
+    "151210220": {
+        "name": "Wis\u0142a",
+        "province": "mazowieckie"
+    },
+    "151220010": {
+        "name": "Wieprz",
+        "province": "lubelskie"
+    },
+    "151220040": {
+        "name": "Kur\u00f3wka",
+        "province": "lubelskie"
+    },
+    "151220050": {
+        "name": "Minina",
+        "province": "lubelskie"
+    },
+    "151220070": {
+        "name": "Bystrzyca",
+        "province": "lubelskie"
+    },
+    "151220080": {
+        "name": "Ty\u015bmienica",
+        "province": "lubelskie"
+    },
+    "151220090": {
+        "name": "Wieprz",
+        "province": "lubelskie"
+    },
+    "151220100": {
+        "name": "Bystrzyca",
+        "province": "lubelskie"
+    },
+    "151220110": {
+        "name": "Ty\u015bmienica",
+        "province": "lubelskie"
+    },
+    "151220120": {
+        "name": "Piwonia",
+        "province": "lubelskie"
+    },
+    "151220130": {
+        "name": "Gie\u0142czewka",
+        "province": "lubelskie"
+    },
+    "151220150": {
+        "name": "Bystrzyca",
+        "province": "lubelskie"
+    },
+    "151230010": {
+        "name": "Wieprz",
+        "province": "lubelskie"
+    },
+    "151230020": {
+        "name": "Mu\u0142awa",
+        "province": "lubelskie"
+    },
+    "151230030": {
+        "name": "W\u0142odawka",
+        "province": "lubelskie"
+    },
+    "151230040": {
+        "name": "Bug",
+        "province": "lubelskie"
+    },
+    "151230050": {
+        "name": "Uherka",
+        "province": "lubelskie"
+    },
+    "151230060": {
+        "name": "Bug",
+        "province": "lubelskie"
+    },
+    "152140010": {
+        "name": "Odra",
+        "province": "zachodniopomorskie"
+    },
+    "152140020": {
+        "name": "Odra",
+        "province": "zachodniopomorskie"
+    },
+    "152140030": {
+        "name": "Jezioro Morzycko",
+        "province": "zachodniopomorskie"
+    },
+    "152140050": {
+        "name": "Odra",
+        "province": "lubuskie"
+    },
+    "152140060": {
+        "name": "Odra",
+        "province": "lubuskie"
+    },
+    "152140070": {
+        "name": "Warta",
+        "province": "lubuskie"
+    },
+    "152140080": {
+        "name": "Ilanka",
+        "province": "lubuskie"
+    },
+    "152140090": {
+        "name": "Odra",
+        "province": "lubuskie"
+    },
+    "152140100": {
+        "name": "My\u015bla",
+        "province": "zachodniopomorskie"
+    },
+    "152140110": {
+        "name": "Pliszka",
+        "province": "lubuskie"
+    },
+    "152140120": {
+        "name": "My\u015bla",
+        "province": "zachodniopomorskie"
+    },
+    "152140130": {
+        "name": "Odra",
+        "province": "lubuskie"
+    },
+    "152150010": {
+        "name": "Warta",
+        "province": "lubuskie"
+    },
+    "152150020": {
+        "name": "B\u00f3br",
+        "province": "lubuskie"
+    },
+    "152150040": {
+        "name": "Warta",
+        "province": "lubuskie"
+    },
+    "152150050": {
+        "name": "Odra",
+        "province": "lubuskie"
+    },
+    "152150060": {
+        "name": "Jezioro Nies\u0142ysz",
+        "province": "lubuskie"
+    },
+    "152150080": {
+        "name": "Warta",
+        "province": "lubuskie"
+    },
+    "152150090": {
+        "name": "Note\u0107",
+        "province": "lubuskie"
+    },
+    "152150100": {
+        "name": "Obra",
+        "province": "lubuskie"
+    },
+    "152150110": {
+        "name": "Warta",
+        "province": "lubuskie"
+    },
+    "152150130": {
+        "name": "Odra",
+        "province": "lubuskie"
+    },
+    "152150140": {
+        "name": "Note\u0107",
+        "province": "lubuskie"
+    },
+    "152150150": {
+        "name": "Jezioro \u017babie",
+        "province": "lubuskie"
+    },
+    "152150180": {
+        "name": "Mierz\u0119cka Struga",
+        "province": "lubuskie"
+    },
+    "152150190": {
+        "name": "Note\u0107",
+        "province": "lubuskie"
+    },
+    "152150200": {
+        "name": "Warta",
+        "province": "wielkopolskie"
+    },
+    "152150220": {
+        "name": "Obra",
+        "province": "wielkopolskie"
+    },
+    "152150230": {
+        "name": "Mia\u0142a",
+        "province": "wielkopolskie"
+    },
+    "152150240": {
+        "name": "Drawa",
+        "province": "wielkopolskie"
+    },
+    "152160010": {
+        "name": "Note\u0107",
+        "province": "wielkopolskie"
+    },
+    "152160050": {
+        "name": "Warta",
+        "province": "wielkopolskie"
+    },
+    "152160060": {
+        "name": "Mogilnica",
+        "province": "wielkopolskie"
+    },
+    "152160070": {
+        "name": "Note\u0107",
+        "province": "wielkopolskie"
+    },
+    "152160080": {
+        "name": "Sama",
+        "province": "wielkopolskie"
+    },
+    "152160090": {
+        "name": "Kana\u0142 Mosi\u0144ski",
+        "province": "wielkopolskie"
+    },
+    "152160100": {
+        "name": "Warta",
+        "province": "wielkopolskie"
+    },
+    "152160110": {
+        "name": "We\u0142na",
+        "province": "wielkopolskie"
+    },
+    "152160130": {
+        "name": "Kana\u0142 Mosi\u0144ski",
+        "province": "wielkopolskie"
+    },
+    "152160140": {
+        "name": "Warta",
+        "province": "wielkopolskie"
+    },
+    "152160150": {
+        "name": "Kopel",
+        "province": "wielkopolskie"
+    },
+    "152170010": {
+        "name": "Warta",
+        "province": "wielkopolskie"
+    },
+    "152170030": {
+        "name": "G\u0142\u00f3wna",
+        "province": "wielkopolskie"
+    },
+    "152170040": {
+        "name": "We\u0142na",
+        "province": "wielkopolskie"
+    },
+    "152170060": {
+        "name": "Warta",
+        "province": "wielkopolskie"
+    },
+    "152170080": {
+        "name": "Warta",
+        "province": "wielkopolskie"
+    },
+    "152170120": {
+        "name": "Wrze\u015bnica",
+        "province": "wielkopolskie"
+    },
+    "152170130": {
+        "name": "Warta",
+        "province": "wielkopolskie"
+    },
+    "152170140": {
+        "name": "Jezioro Powidzkie",
+        "province": "wielkopolskie"
+    },
+    "152170150": {
+        "name": "Czarna Struga",
+        "province": "wielkopolskie"
+    },
+    "152179994": {
+        "name": "Lutynia",
+        "province": "wielkopolskie"
+    },
+    "152180010": {
+        "name": "Note\u0107 Zachodnia",
+        "province": "kujawsko-pomorskie"
+    },
+    "152180020": {
+        "name": "Panna",
+        "province": "kujawsko-pomorskie"
+    },
+    "152180030": {
+        "name": "Note\u0107",
+        "province": "kujawsko-pomorskie"
+    },
+    "152180050": {
+        "name": "Warta",
+        "province": "wielkopolskie"
+    },
+    "152180060": {
+        "name": "Powa",
+        "province": "wielkopolskie"
+    },
+    "152180090": {
+        "name": "Note\u0107",
+        "province": "wielkopolskie"
+    },
+    "152180100": {
+        "name": "Note\u0107",
+        "province": "wielkopolskie"
+    },
+    "152180110": {
+        "name": "Kie\u0142baska Du\u017ca",
+        "province": "wielkopolskie"
+    },
+    "152180120": {
+        "name": "Warta",
+        "province": "wielkopolskie"
+    },
+    "152180130": {
+        "name": "T\u0105\u017cyna",
+        "province": "kujawsko-pomorskie"
+    },
+    "152180140": {
+        "name": "Rgilewka",
+        "province": "wielkopolskie"
+    },
+    "152180150": {
+        "name": "Ner",
+        "province": "wielkopolskie"
+    },
+    "152180160": {
+        "name": "Kana\u0142 \u015alesi\u0144ski",
+        "province": "wielkopolskie"
+    },
+    "152180180": {
+        "name": "Pichna",
+        "province": "wielkopolskie"
+    },
+    "152190030": {
+        "name": "Wis\u0142a",
+        "province": "kujawsko-pomorskie"
+    },
+    "152190050": {
+        "name": "Bzura",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "152190100": {
+        "name": "Mroga",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "152190110": {
+        "name": "Sierpienica",
+        "province": "mazowieckie"
+    },
+    "152190120": {
+        "name": "Wis\u0142a",
+        "province": "mazowieckie"
+    },
+    "152190160": {
+        "name": "Skrwa",
+        "province": "mazowieckie"
+    },
+    "152199992": {
+        "name": "Bzura",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "152199997": {
+        "name": "Ochnia",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "152200010": {
+        "name": "Rawka",
+        "province": "\u0142\u00f3dzkie"
+    },
+    "152200020": {
+        "name": "Wkra",
+        "province": "mazowieckie"
+    },
+    "152200030": {
+        "name": "Wis\u0142a",
+        "province": "mazowieckie"
+    },
+    "152200050": {
+        "name": "Bzura",
+        "province": "mazowieckie"
+    },
+    "152200070": {
+        "name": "\u0141asica",
+        "province": "mazowieckie"
+    },
+    "152200080": {
+        "name": "P\u0142onka",
+        "province": "mazowieckie"
+    },
+    "152200090": {
+        "name": "Utrata",
+        "province": "mazowieckie"
+    },
+    "152200100": {
+        "name": "\u0141ydynia",
+        "province": "mazowieckie"
+    },
+    "152200110": {
+        "name": "Wis\u0142a",
+        "province": "mazowieckie"
+    },
+    "152200120": {
+        "name": "Wkra",
+        "province": "mazowieckie"
+    },
+    "152200130": {
+        "name": "Narew",
+        "province": "mazowieckie"
+    },
+    "152200150": {
+        "name": "Wis\u0142a",
+        "province": "mazowieckie"
+    },
+    "152209994": {
+        "name": "Sona",
+        "province": "mazowieckie"
+    },
+    "152209996": {
+        "name": "Wkra",
+        "province": "mazowieckie"
+    },
+    "152209997": {
+        "name": "Pisia G\u0105golina",
+        "province": "mazowieckie"
+    },
+    "152210020": {
+        "name": "Jeziorka",
+        "province": "mazowieckie"
+    },
+    "152210030": {
+        "name": "Orzyc",
+        "province": "mazowieckie"
+    },
+    "152210040": {
+        "name": "Wis\u0142a",
+        "province": "mazowieckie"
+    },
+    "152210060": {
+        "name": "Narew",
+        "province": "mazowieckie"
+    },
+    "152210070": {
+        "name": "\u015awider",
+        "province": "mazowieckie"
+    },
+    "152210090": {
+        "name": "Bug",
+        "province": "mazowieckie"
+    },
+    "152210100": {
+        "name": "Orz",
+        "province": "mazowieckie"
+    },
+    "152210110": {
+        "name": "Osownica",
+        "province": "mazowieckie"
+    },
+    "152210120": {
+        "name": "Liwiec",
+        "province": "mazowieckie"
+    },
+    "152210130": {
+        "name": "Brok",
+        "province": "mazowieckie"
+    },
+    "152210140": {
+        "name": "Kostrzy\u0144",
+        "province": "mazowieckie"
+    },
+    "152210150": {
+        "name": "Bug",
+        "province": "mazowieckie"
+    },
+    "152210170": {
+        "name": "Wis\u0142a",
+        "province": "mazowieckie"
+    },
+    "152210180": {
+        "name": "Narew",
+        "province": "mazowieckie"
+    },
+    "152219993": {
+        "name": "Narew",
+        "province": "mazowieckie"
+    },
+    "152219996": {
+        "name": "D\u0142uga",
+        "province": "mazowieckie"
+    },
+    "152220010": {
+        "name": "Liwiec",
+        "province": "mazowieckie"
+    },
+    "152220050": {
+        "name": "Bug",
+        "province": "podlaskie"
+    },
+    "152220060": {
+        "name": "Toczna",
+        "province": "mazowieckie"
+    },
+    "152220070": {
+        "name": "Nurzec",
+        "province": "podlaskie"
+    },
+    "152220080": {
+        "name": "Narew",
+        "province": "podlaskie"
+    },
+    "152220100": {
+        "name": "Nurzec",
+        "province": "podlaskie"
+    },
+    "152229999": {
+        "name": "Bug",
+        "province": "mazowieckie"
+    },
+    "152230010": {
+        "name": "Nurzec",
+        "province": "podlaskie"
+    },
+    "152230020": {
+        "name": "Krzna",
+        "province": "lubelskie"
+    },
+    "152230030": {
+        "name": "Orlanka",
+        "province": "podlaskie"
+    },
+    "152230040": {
+        "name": "Narew",
+        "province": "podlaskie"
+    },
+    "152230050": {
+        "name": "Zielawa",
+        "province": "lubelskie"
+    },
+    "152230060": {
+        "name": "Rudnia",
+        "province": "podlaskie"
+    },
+    "152230070": {
+        "name": "Krzna",
+        "province": "lubelskie"
+    },
+    "152230080": {
+        "name": "Bug",
+        "province": "lubelskie"
+    },
+    "152230090": {
+        "name": "Narew",
+        "province": "podlaskie"
+    },
+    "152230100": {
+        "name": "Narewka",
+        "province": "podlaskie"
+    },
+    "152230110": {
+        "name": "Narew",
+        "province": "podlaskie"
+    },
+    "152230120": {
+        "name": "Narew",
+        "province": "podlaskie"
+    },
+    "152230190": {
+        "name": "Narewka",
+        "province": "podlaskie"
+    },
+    "152230200": {
+        "name": "Bug",
+        "province": "mazowieckie"
+    },
+    "153140010": {
+        "name": "Ba\u0142tyk",
+        "province": "zachodniopomorskie"
+    },
+    "153140020": {
+        "name": "Odra",
+        "province": "zachodniopomorskie"
+    },
+    "153140030": {
+        "name": "Odra",
+        "province": "zachodniopomorskie"
+    },
+    "153140040": {
+        "name": "Zalew Szczeci\u0144ski",
+        "province": "zachodniopomorskie"
+    },
+    "153140050": {
+        "name": "Odra",
+        "province": "zachodniopomorskie"
+    },
+    "153140060": {
+        "name": "Cie\u015bnina Dziwna",
+        "province": "zachodniopomorskie"
+    },
+    "153140070": {
+        "name": "Ba\u0142tyk",
+        "province": "zachodniopomorskie"
+    },
+    "153140080": {
+        "name": "Gowienica",
+        "province": "zachodniopomorskie"
+    },
+    "153140090": {
+        "name": "Ina",
+        "province": "zachodniopomorskie"
+    },
+    "153140100": {
+        "name": "P\u0142onia",
+        "province": "zachodniopomorskie"
+    },
+    "153140110": {
+        "name": "P\u0142onia",
+        "province": "zachodniopomorskie"
+    },
+    "153140190": {
+        "name": "Regalica",
+        "province": "zachodniopomorskie"
+    },
+    "153140200": {
+        "name": "Jezioro Miedwie",
+        "province": "zachodniopomorskie"
+    },
+    "153150010": {
+        "name": "Ina",
+        "province": "zachodniopomorskie"
+    },
+    "153150020": {
+        "name": "Ma\u0142a Ina",
+        "province": "zachodniopomorskie"
+    },
+    "153150030": {
+        "name": "S\u0105p\u00f3lna",
+        "province": "zachodniopomorskie"
+    },
+    "153150040": {
+        "name": "Kr\u0105piel",
+        "province": "zachodniopomorskie"
+    },
+    "153150050": {
+        "name": "Rega",
+        "province": "zachodniopomorskie"
+    },
+    "153150060": {
+        "name": "Jezioro I\u0144sko",
+        "province": "zachodniopomorskie"
+    },
+    "153150080": {
+        "name": "Rega",
+        "province": "zachodniopomorskie"
+    },
+    "153150090": {
+        "name": "Rega",
+        "province": "zachodniopomorskie"
+    },
+    "153150100": {
+        "name": "Drawa",
+        "province": "zachodniopomorskie"
+    },
+    "153150120": {
+        "name": "Drawa",
+        "province": "zachodniopomorskie"
+    },
+    "153150140": {
+        "name": "Jezioro Lubie",
+        "province": "zachodniopomorskie"
+    },
+    "153150160": {
+        "name": "Jezioro Ostrowite",
+        "province": "zachodniopomorskie"
+    },
+    "153150190": {
+        "name": "Mo\u0142stowa",
+        "province": "zachodniopomorskie"
+    },
+    "153160020": {
+        "name": "Pars\u0119ta",
+        "province": "zachodniopomorskie"
+    },
+    "153160030": {
+        "name": "Drawa",
+        "province": "zachodniopomorskie"
+    },
+    "153160040": {
+        "name": "Jezioro Drawsko",
+        "province": "zachodniopomorskie"
+    },
+    "153160050": {
+        "name": "Jezioro Komorze",
+        "province": "zachodniopomorskie"
+    },
+    "153160060": {
+        "name": "Jezioro Byty\u0144 Wielki",
+        "province": "zachodniopomorskie"
+    },
+    "153160070": {
+        "name": "Pi\u0142awa",
+        "province": "zachodniopomorskie"
+    },
+    "153160080": {
+        "name": "Pars\u0119ta",
+        "province": "zachodniopomorskie"
+    },
+    "153160110": {
+        "name": "Dobrzyca",
+        "province": "zachodniopomorskie"
+    },
+    "153160160": {
+        "name": "Note\u0107",
+        "province": "wielkopolskie"
+    },
+    "153160170": {
+        "name": "Note\u0107",
+        "province": "wielkopolskie"
+    },
+    "153160180": {
+        "name": "Gwda",
+        "province": "wielkopolskie"
+    },
+    "153160190": {
+        "name": "Pi\u0142awa",
+        "province": "wielkopolskie"
+    },
+    "153160200": {
+        "name": "Gwda",
+        "province": "zachodniopomorskie"
+    },
+    "153160210": {
+        "name": "Gwda",
+        "province": "wielkopolskie"
+    },
+    "153160250": {
+        "name": "Czarna",
+        "province": "wielkopolskie"
+    },
+    "153160260": {
+        "name": "Czernica",
+        "province": "pomorskie"
+    },
+    "153170010": {
+        "name": "Note\u0107",
+        "province": "wielkopolskie"
+    },
+    "153170020": {
+        "name": "Jezioro S\u0142awianowskie",
+        "province": "wielkopolskie"
+    },
+    "153170040": {
+        "name": "\u0141ob\u017conka",
+        "province": "wielkopolskie"
+    },
+    "153170050": {
+        "name": "Brda",
+        "province": "pomorskie"
+    },
+    "153170060": {
+        "name": "Brda",
+        "province": "pomorskie"
+    },
+    "153170070": {
+        "name": "Zbrzyca",
+        "province": "pomorskie"
+    },
+    "153170080": {
+        "name": "Jezioro Charzykowskie",
+        "province": "pomorskie"
+    },
+    "153170090": {
+        "name": "Jezioro S\u0119pole\u0144skie",
+        "province": "kujawsko-pomorskie"
+    },
+    "153170100": {
+        "name": "Note\u0107",
+        "province": "kujawsko-pomorskie"
+    },
+    "153170110": {
+        "name": "S\u0119polna",
+        "province": "kujawsko-pomorskie"
+    },
+    "153170120": {
+        "name": "Brda",
+        "province": "kujawsko-pomorskie"
+    },
+    "153170130": {
+        "name": "Jezioro Wdzydze",
+        "province": "pomorskie"
+    },
+    "153170140": {
+        "name": "Brda",
+        "province": "kujawsko-pomorskie"
+    },
+    "153179996": {
+        "name": "Chocina",
+        "province": "pomorskie"
+    },
+    "153180010": {
+        "name": "Wda",
+        "province": "pomorskie"
+    },
+    "153180020": {
+        "name": "Wis\u0142a",
+        "province": "kujawsko-pomorskie"
+    },
+    "153180030": {
+        "name": "Wierzyca",
+        "province": "pomorskie"
+    },
+    "153180040": {
+        "name": "Prusina",
+        "province": "kujawsko-pomorskie"
+    },
+    "153180050": {
+        "name": "Wda",
+        "province": "pomorskie"
+    },
+    "153180060": {
+        "name": "Wda",
+        "province": "kujawsko-pomorskie"
+    },
+    "153180080": {
+        "name": "Wis\u0142a",
+        "province": "kujawsko-pomorskie"
+    },
+    "153180090": {
+        "name": "Wis\u0142a",
+        "province": "kujawsko-pomorskie"
+    },
+    "153180100": {
+        "name": "Wis\u0142a",
+        "province": "kujawsko-pomorskie"
+    },
+    "153180110": {
+        "name": "Wierzyca",
+        "province": "pomorskie"
+    },
+    "153180120": {
+        "name": "Ba\u0142tyk",
+        "province": "pomorskie"
+    },
+    "153180130": {
+        "name": "Liwa",
+        "province": "pomorskie"
+    },
+    "153180140": {
+        "name": "Drw\u0119ca",
+        "province": "kujawsko-pomorskie"
+    },
+    "153180150": {
+        "name": "Osa",
+        "province": "kujawsko-pomorskie"
+    },
+    "153190010": {
+        "name": "Lutryna",
+        "province": "kujawsko-pomorskie"
+    },
+    "153190020": {
+        "name": "Osa",
+        "province": "kujawsko-pomorskie"
+    },
+    "153190030": {
+        "name": "Jezioro Dzierzgo\u0144",
+        "province": "pomorskie"
+    },
+    "153190040": {
+        "name": "Elbl\u0105g",
+        "province": "pomorskie"
+    },
+    "153190050": {
+        "name": "Drw\u0119ca",
+        "province": "kujawsko-pomorskie"
+    },
+    "153190070": {
+        "name": "Jezioro Bachotek",
+        "province": "kujawsko-pomorskie"
+    },
+    "153190080": {
+        "name": "Jezioro Jeziorak",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153190090": {
+        "name": "Drw\u0119ca",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153190100": {
+        "name": "I\u0142awka",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153190120": {
+        "name": "Drw\u0119ca",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153190130": {
+        "name": "Wel",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153190140": {
+        "name": "Drw\u0119ca",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153190150": {
+        "name": "Wel",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153190170": {
+        "name": "Jezioro Drw\u0119ckie",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153190180": {
+        "name": "Skarlanka",
+        "province": "kujawsko-pomorskie"
+    },
+    "153190190": {
+        "name": "Skarlanka",
+        "province": "kujawsko-pomorskie"
+    },
+    "153200010": {
+        "name": "Drw\u0119ca",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153200020": {
+        "name": "M\u0142awka",
+        "province": "mazowieckie"
+    },
+    "153200030": {
+        "name": "Pas\u0142\u0119ka",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153200040": {
+        "name": "Pas\u0142\u0119ka",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153200050": {
+        "name": "Szkot\u00f3wka",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153200070": {
+        "name": "\u0141yna",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153200090": {
+        "name": "Jezioro Wad\u0105g",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153200140": {
+        "name": "Jezioro Dadaj",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153200160": {
+        "name": "Sawica",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153210010": {
+        "name": "Omulew",
+        "province": "mazowieckie"
+    },
+    "153210020": {
+        "name": "Orzyc",
+        "province": "mazowieckie"
+    },
+    "153210040": {
+        "name": "Rozoga",
+        "province": "mazowieckie"
+    },
+    "153210050": {
+        "name": "Krutynia",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153210070": {
+        "name": "Omulew",
+        "province": "mazowieckie"
+    },
+    "153210090": {
+        "name": "Narew",
+        "province": "mazowieckie"
+    },
+    "153210100": {
+        "name": "Jezioro Nidzkie",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153210120": {
+        "name": "Rozoga",
+        "province": "mazowieckie"
+    },
+    "153210130": {
+        "name": "Jezioro \u015aniardwy",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153210140": {
+        "name": "Szkwa",
+        "province": "mazowieckie"
+    },
+    "153210170": {
+        "name": "Pisa",
+        "province": "podlaskie"
+    },
+    "153210180": {
+        "name": "Ru\u017c",
+        "province": "podlaskie"
+    },
+    "153210190": {
+        "name": "Pisa",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153210200": {
+        "name": "Jezioro Ro\u015b",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153210210": {
+        "name": "Narew",
+        "province": "podlaskie"
+    },
+    "153210220": {
+        "name": "Pisa",
+        "province": "podlaskie"
+    },
+    "153220010": {
+        "name": "Narew",
+        "province": "podlaskie"
+    },
+    "153220050": {
+        "name": "Jezioro E\u0142ckie",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153220060": {
+        "name": "E\u0142k",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153220070": {
+        "name": "Narew",
+        "province": "podlaskie"
+    },
+    "153220080": {
+        "name": "E\u0142k",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153220090": {
+        "name": "Wissa",
+        "province": "podlaskie"
+    },
+    "153220100": {
+        "name": "Biebrza",
+        "province": "podlaskie"
+    },
+    "153220110": {
+        "name": "Lega",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153220120": {
+        "name": "Jezioro Selm\u0119t Wielki",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153220130": {
+        "name": "Narew",
+        "province": "podlaskie"
+    },
+    "153220140": {
+        "name": "E\u0142k",
+        "province": "podlaskie"
+    },
+    "153220150": {
+        "name": "Lega",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "153220160": {
+        "name": "E\u0142k",
+        "province": "podlaskie"
+    },
+    "153220170": {
+        "name": "Biebrza",
+        "province": "podlaskie"
+    },
+    "153220180": {
+        "name": "\u015alina",
+        "province": "podlaskie"
+    },
+    "153220190": {
+        "name": "Jezioro Rajgrodzkie",
+        "province": "podlaskie"
+    },
+    "153220200": {
+        "name": "Lega",
+        "province": "podlaskie"
+    },
+    "153220220": {
+        "name": "Lega",
+        "province": "podlaskie"
+    },
+    "153220230": {
+        "name": "Nere\u015bl",
+        "province": "podlaskie"
+    },
+    "153220240": {
+        "name": "Netta",
+        "province": "podlaskie"
+    },
+    "153220250": {
+        "name": "Biebrza",
+        "province": "podlaskie"
+    },
+    "153220260": {
+        "name": "Biebrza",
+        "province": "podlaskie"
+    },
+    "153220270": {
+        "name": "Narew",
+        "province": "podlaskie"
+    },
+    "153220280": {
+        "name": "Netta",
+        "province": "podlaskie"
+    },
+    "153220290": {
+        "name": "Blizna",
+        "province": "podlaskie"
+    },
+    "153220310": {
+        "name": "Kana\u0142 Kuwasy",
+        "province": "podlaskie"
+    },
+    "153230010": {
+        "name": "Supra\u015bl",
+        "province": "podlaskie"
+    },
+    "153230020": {
+        "name": "Brzoz\u00f3wka",
+        "province": "podlaskie"
+    },
+    "153230040": {
+        "name": "Jezioro Bia\u0142e Augustowskie",
+        "province": "podlaskie"
+    },
+    "153230050": {
+        "name": "Jezioro Studzieniczne",
+        "province": "podlaskie"
+    },
+    "153230060": {
+        "name": "Bia\u0142a",
+        "province": "podlaskie"
+    },
+    "153230070": {
+        "name": "Biebrza",
+        "province": "podlaskie"
+    },
+    "153230080": {
+        "name": "Czarna",
+        "province": "podlaskie"
+    },
+    "153230110": {
+        "name": "Supra\u015bl",
+        "province": "podlaskie"
+    },
+    "153230120": {
+        "name": "Czarna Ha\u0144cza",
+        "province": "podlaskie"
+    },
+    "153230130": {
+        "name": "Sidra",
+        "province": "podlaskie"
+    },
+    "153230140": {
+        "name": "Soko\u0142da",
+        "province": "podlaskie"
+    },
+    "153230160": {
+        "name": "Supra\u015bl",
+        "province": "podlaskie"
+    },
+    "153230170": {
+        "name": "Supra\u015bl",
+        "province": "podlaskie"
+    },
+    "154150010": {
+        "name": "Rega",
+        "province": "zachodniopomorskie"
+    },
+    "154150030": {
+        "name": "Ba\u0142tyk",
+        "province": "zachodniopomorskie"
+    },
+    "154150040": {
+        "name": "Pars\u0119ta",
+        "province": "zachodniopomorskie"
+    },
+    "154150050": {
+        "name": "Pars\u0119ta",
+        "province": "zachodniopomorskie"
+    },
+    "154150060": {
+        "name": "Pars\u0119ta",
+        "province": "zachodniopomorskie"
+    },
+    "154150070": {
+        "name": "Pars\u0119ta",
+        "province": "zachodniopomorskie"
+    },
+    "154150080": {
+        "name": "Rega",
+        "province": "zachodniopomorskie"
+    },
+    "154160010": {
+        "name": "Jezioro Jamno",
+        "province": "zachodniopomorskie"
+    },
+    "154160020": {
+        "name": "Radew",
+        "province": "zachodniopomorskie"
+    },
+    "154160030": {
+        "name": "Dzier\u017c\u0119cinka",
+        "province": "zachodniopomorskie"
+    },
+    "154160060": {
+        "name": "Grabowa",
+        "province": "zachodniopomorskie"
+    },
+    "154160070": {
+        "name": "Wieprza",
+        "province": "zachodniopomorskie"
+    },
+    "154160080": {
+        "name": "Radew",
+        "province": "zachodniopomorskie"
+    },
+    "154160090": {
+        "name": "Grabowa",
+        "province": "zachodniopomorskie"
+    },
+    "154160100": {
+        "name": "Moszczeniczka",
+        "province": "zachodniopomorskie"
+    },
+    "154160110": {
+        "name": "Ba\u0142tyk",
+        "province": "pomorskie"
+    },
+    "154160120": {
+        "name": "Wieprza",
+        "province": "pomorskie"
+    },
+    "154160130": {
+        "name": "Studnica",
+        "province": "pomorskie"
+    },
+    "154160140": {
+        "name": "S\u0142upia",
+        "province": "pomorskie"
+    },
+    "154160150": {
+        "name": "Ba\u0142tyk",
+        "province": "zachodniopomorskie"
+    },
+    "154160160": {
+        "name": "Wieprza",
+        "province": "zachodniopomorskie"
+    },
+    "154169997": {
+        "name": "Wieprza",
+        "province": "zachodniopomorskie"
+    },
+    "154170010": {
+        "name": "S\u0142upia",
+        "province": "pomorskie"
+    },
+    "154170020": {
+        "name": "Gla\u017ana",
+        "province": "pomorskie"
+    },
+    "154170030": {
+        "name": "Skotawa",
+        "province": "pomorskie"
+    },
+    "154170040": {
+        "name": "Wieprza",
+        "province": "pomorskie"
+    },
+    "154170060": {
+        "name": "\u0141upawa",
+        "province": "pomorskie"
+    },
+    "154170070": {
+        "name": "S\u0142upia",
+        "province": "pomorskie"
+    },
+    "154170080": {
+        "name": "\u0141upawa",
+        "province": "pomorskie"
+    },
+    "154170090": {
+        "name": "Jezioro \u0141ebsko",
+        "province": "pomorskie"
+    },
+    "154170100": {
+        "name": "Ba\u0142tyk",
+        "province": "pomorskie"
+    },
+    "154170110": {
+        "name": "\u0141eba",
+        "province": "pomorskie"
+    },
+    "154170120": {
+        "name": "S\u0142upia",
+        "province": "pomorskie"
+    },
+    "154170130": {
+        "name": "Pogorzelica",
+        "province": "pomorskie"
+    },
+    "154170140": {
+        "name": "Jezioro Jasie\u0144 Po\u0142udnie",
+        "province": "pomorskie"
+    },
+    "154170150": {
+        "name": "\u0141upawa",
+        "province": "pomorskie"
+    },
+    "154170160": {
+        "name": "\u0141eba",
+        "province": "pomorskie"
+    },
+    "154170180": {
+        "name": "Wda",
+        "province": "pomorskie"
+    },
+    "154170190": {
+        "name": "Jezioro Radu\u0144skie G\u00f3rne",
+        "province": "pomorskie"
+    },
+    "154170230": {
+        "name": "\u0141upawa",
+        "province": "pomorskie"
+    },
+    "154170240": {
+        "name": "Borucinka",
+        "province": "pomorskie"
+    },
+    "154170320": {
+        "name": "Dar\u017cy\u0144ska Struga",
+        "province": "pomorskie"
+    },
+    "154170330": {
+        "name": "Ba\u0142tyk",
+        "province": "pomorskie"
+    },
+    "154170340": {
+        "name": "S\u0142upia",
+        "province": "pomorskie"
+    },
+    "154179991": {
+        "name": "Radunia",
+        "province": "pomorskie"
+    },
+    "154179998": {
+        "name": "\u0141upawa",
+        "province": "pomorskie"
+    },
+    "154180010": {
+        "name": "Wierzyca",
+        "province": "pomorskie"
+    },
+    "154180020": {
+        "name": "\u0141eba",
+        "province": "pomorskie"
+    },
+    "154180030": {
+        "name": "Reda",
+        "province": "pomorskie"
+    },
+    "154180040": {
+        "name": "Jezioro Ostrzyckie",
+        "province": "pomorskie"
+    },
+    "154180050": {
+        "name": "Pia\u015bnica",
+        "province": "pomorskie"
+    },
+    "154180060": {
+        "name": "Radunia",
+        "province": "pomorskie"
+    },
+    "154180070": {
+        "name": "Bolszewka",
+        "province": "pomorskie"
+    },
+    "154180080": {
+        "name": "Reda",
+        "province": "pomorskie"
+    },
+    "154180090": {
+        "name": "Ba\u0142tyk",
+        "province": "pomorskie"
+    },
+    "154180100": {
+        "name": "Ba\u0142tyk",
+        "province": "pomorskie"
+    },
+    "154180110": {
+        "name": "Wierzyca",
+        "province": "pomorskie"
+    },
+    "154180120": {
+        "name": "Ba\u0142tyk",
+        "province": "pomorskie"
+    },
+    "154180140": {
+        "name": "Ba\u0142tyk",
+        "province": "pomorskie"
+    },
+    "154180150": {
+        "name": "Wis\u0142a",
+        "province": "pomorskie"
+    },
+    "154180160": {
+        "name": "Martwa Wis\u0142a",
+        "province": "pomorskie"
+    },
+    "154180170": {
+        "name": "Mot\u0142awa",
+        "province": "pomorskie"
+    },
+    "154180180": {
+        "name": "Bielawa",
+        "province": "pomorskie"
+    },
+    "154180190": {
+        "name": "Wis\u0142a",
+        "province": "pomorskie"
+    },
+    "154180200": {
+        "name": "Wis\u0142a",
+        "province": "pomorskie"
+    },
+    "154180210": {
+        "name": "Wis\u0142a",
+        "province": "pomorskie"
+    },
+    "154180220": {
+        "name": "Wis\u0142a",
+        "province": "pomorskie"
+    },
+    "154180230": {
+        "name": "Radunia",
+        "province": "pomorskie"
+    },
+    "154180260": {
+        "name": "Kana\u0142 Radu\u0144ski",
+        "province": "pomorskie"
+    },
+    "154180270": {
+        "name": "Radunia",
+        "province": "pomorskie"
+    },
+    "154180280": {
+        "name": "Ba\u0142tyk",
+        "province": "pomorskie"
+    },
+    "154180290": {
+        "name": "Reda",
+        "province": "pomorskie"
+    },
+    "154180300": {
+        "name": "Wietcisa",
+        "province": "pomorskie"
+    },
+    "154190010": {
+        "name": "Tuja",
+        "province": "pomorskie"
+    },
+    "154190020": {
+        "name": "Szkarpawa",
+        "province": "pomorskie"
+    },
+    "154190030": {
+        "name": "Zalew Wi\u015blany",
+        "province": "pomorskie"
+    },
+    "154190040": {
+        "name": "Nogat",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154190050": {
+        "name": "Zalew Wi\u015blany",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154190060": {
+        "name": "Elbl\u0105g",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154190070": {
+        "name": "Zalew Wi\u015blany",
+        "province": "pomorskie"
+    },
+    "154190080": {
+        "name": "Jezioro Druzno",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154190090": {
+        "name": "Zalew Wi\u015blany",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154190100": {
+        "name": "W\u0105ska",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154190110": {
+        "name": "Bauda",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154190130": {
+        "name": "Zalew Wi\u015blany",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154190140": {
+        "name": "Pas\u0142\u0119ka",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154190150": {
+        "name": "Pas\u0142\u0119ka",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154190160": {
+        "name": "Pas\u0142\u0119ka",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154190170": {
+        "name": "Pas\u0142\u0119ka",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154190180": {
+        "name": "Ba\u0142tyk",
+        "province": "pomorskie"
+    },
+    "154200010": {
+        "name": "Wa\u0142sza",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154200020": {
+        "name": "Drw\u0119ca Warmi\u0144ska",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154200030": {
+        "name": "\u0141yna",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154200040": {
+        "name": "Elma",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154209999": {
+        "name": "Pas\u0142\u0119ka",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154210010": {
+        "name": "\u0141yna",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154210020": {
+        "name": "Guber",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154210030": {
+        "name": "Sajna",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154210060": {
+        "name": "Jezioro Mamry",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154210070": {
+        "name": "W\u0119gorapa",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154210080": {
+        "name": "W\u0119gorapa",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154210090": {
+        "name": "Pisa",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154210100": {
+        "name": "W\u0119gorapa",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154210110": {
+        "name": "Dejna",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154220010": {
+        "name": "Go\u0142dapa",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154220020": {
+        "name": "Jezioro Litygajno",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154220030": {
+        "name": "E\u0142k",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154220050": {
+        "name": "Go\u0142dapa",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154220070": {
+        "name": "Jezioro Rospuda Filipowska",
+        "province": "podlaskie"
+    },
+    "154220080": {
+        "name": "Jezioro Ha\u0144cza",
+        "province": "podlaskie"
+    },
+    "154220090": {
+        "name": "Czarna Ha\u0144cza",
+        "province": "podlaskie"
+    },
+    "154220100": {
+        "name": "Szeszupa",
+        "province": "podlaskie"
+    },
+    "154220110": {
+        "name": "Go\u0142dapa",
+        "province": "warmi\u0144sko-mazurskie"
+    },
+    "154230010": {
+        "name": "Szeszupa",
+        "province": "podlaskie"
+    },
+    "154230020": {
+        "name": "Jezioro Wigry",
+        "province": "podlaskie"
+    },
+    "154230030": {
+        "name": "Czarna Ha\u0144cza",
+        "province": "podlaskie"
+    },
+    "154230040": {
+        "name": "Marycha",
+        "province": "podlaskie"
+    },
+    "250161110": {
+        "name": "\u015acinawka",
+        "province": "dolno\u015bl\u0105skie"
+    }
+}

@@ -21,7 +21,9 @@ classifiers = [
 ]
 requires-python = ">=3.12"
 dependencies = [
+  "aiofiles",
   "aiohttp>=3.9.4",
+  "orjson",
   "yarl",
 ]
 
@@ -38,6 +40,7 @@ test = [
   "pytest==8.4.1",
   "ruff==0.12.3",
   "syrupy==4.9.1",
+  "types-aiofiles",
 ]
 dev = [
   "pre-commit==4.2.0",
@@ -48,6 +51,9 @@ Homepage = "https://github.com/bieniu/imgw-pib"
 
 [tool.setuptools.packages.find]
 include = ["imgw_pib*"]
+
+[tool.setuptools.package-data]
+"imgw_pib" = ["data/rivers.json"]
 
 [tool.pytest.ini_options]
 asyncio_default_fixture_loop_scope = "session"
@@ -105,14 +111,13 @@ source = ["imgw_pib"]
 legacy_tox_ini = """
 
 [tox]
-envlist = py312, py313, py314, lint, typing, coverage
+envlist = py312, py313, lint, typing, coverage
 skip_missing_interpreters = True
 
 [gh-actions]
 python =
   3.12: py312, lint, typing, coverage
   3.13: py313
-  3.14: py314
 
 [testenv]
 commands =

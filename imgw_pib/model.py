@@ -21,14 +21,14 @@ class SensorData:
 
 
 @dataclass(kw_only=True, slots=True)
-class WeatherAlert:
-    """Data class for weather alrt."""
+class Alert:
+    """Data class for alert."""
 
-    event: str
-    valid_from: datetime
-    valid_to: datetime
-    probability: int
-    level: str
+    value: str
+    valid_from: datetime | None = None
+    valid_to: datetime | None = None
+    probability: int | None = None
+    level: str | None = None
 
 
 @dataclass(kw_only=True, slots=True)
@@ -47,12 +47,12 @@ class WeatherData(ImgwPibData):
 
     measurement_date: datetime | None
 
-    alert: WeatherAlert | None = None
+    alert: Alert
 
 
 @dataclass(kw_only=True, slots=True)
 class HydrologicalData(ImgwPibData):
-    """Hudrological Data class for IMGW-PIB."""
+    """Hydrological Data class for IMGW-PIB."""
 
     water_level: SensorData
     water_level_measurement_date: datetime | None
@@ -72,6 +72,8 @@ class HydrologicalData(ImgwPibData):
     latitude: float | None = None
     longitude: float | None = None
 
+    alert: Alert
+
     def __post_init__(self: Self) -> None:
         """Call after initialization."""
         if self.water_level.value is not None:
@@ -89,6 +91,11 @@ class ApiNames(StrEnum):
     """Names type for API."""
 
     ALERT_LEVEL = "stopien"
+    ALERT_LEVEL_HYDROLOGICAL = "stopień"
+    AREA = "obszar"
+    DATE_FROM = "data_od"
+    DATE_TO = "data_do"
+    EVENT = "zdarzenie"
     EVENT_NAME = "nazwa_zdarzenia"
     HUMIDITY = "wilgotnosc_wzgledna"
     LATITUDE = "lat"
@@ -109,6 +116,7 @@ class ApiNames(StrEnum):
     TERRITORY = "teryt"
     VALID_FROM = "obowiazuje_od"
     VALID_TO = "obowiazuje_do"
+    PROVINCE = "wojewodztwo"
     WATER_FLOW = "przelyw"
     WATER_FLOW_MEASUREMENT_DATE = "przeplyw_data"
     WATER_LEVEL = "stan_wody"
