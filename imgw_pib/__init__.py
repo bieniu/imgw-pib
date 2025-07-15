@@ -476,7 +476,7 @@ class ImgwPib:
 
     def _extract_hydrological_alert(
         self, hydrological_alerts: list[dict[str, Any]], river: str, province: str
-    ) -> HydrologicalAlert | None:
+    ) -> HydrologicalAlert:
         """Extract hydrological alert for a given river."""
         now = datetime.now(tz=UTC)
 
@@ -503,4 +503,4 @@ class ImgwPib:
                     level=ALERT_LEVEL_MAP[alert[ApiNames.ALERT_LEVEL_HYDRO]],
                 )
 
-        return None
+        return HydrologicalAlert(value="no_alert")

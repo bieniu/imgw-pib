@@ -55,10 +55,10 @@ class HydrologicalAlert:
     """Data class for hydrological alert."""
 
     value: str
-    valid_from: datetime
-    valid_to: datetime
-    probability: int
-    level: str
+    valid_from: datetime | None = None
+    valid_to: datetime | None = None
+    probability: int | None = None
+    level: str | None = None
 
 
 @dataclass(kw_only=True, slots=True)
@@ -83,7 +83,7 @@ class HydrologicalData(ImgwPibData):
     latitude: float | None = None
     longitude: float | None = None
 
-    alert: HydrologicalAlert | None = None
+    alert: HydrologicalAlert
 
     def __post_init__(self: Self) -> None:
         """Call after initialization."""
