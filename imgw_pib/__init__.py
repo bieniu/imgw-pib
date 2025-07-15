@@ -21,7 +21,7 @@ from .const import (
     HEADERS,
     HYDROLOGICAL_ALERTS_MAP,
     ID_TO_TERYT_MAP,
-    RIVER_NAMES,
+    RIVERS,
     TIMEOUT,
     WEATHER_ALERTS_MAP,
 )
@@ -198,7 +198,7 @@ class ImgwPib:
                 for station in stations_data
                 if (station_id := station[ApiNames.STATION_CODE])
                 not in self._hydrological_station_list
-                and (river_name := RIVER_NAMES.get(station_id))
+                and (river_name := RIVERS.get(station_id, {}).get("name"))
             }
         )
 
@@ -254,7 +254,7 @@ class ImgwPib:
                     item
                     for item in all_stations_data
                     if item.get(ApiNames.STATION_CODE) == self.hydrological_station_id
-                    and item.get(ApiNames.STATION_CODE) in RIVER_NAMES
+                    and item.get(ApiNames.STATION_CODE) in RIVERS
                 ),
                 None,
             )
@@ -434,10 +434,13 @@ class ImgwPib:
             else None,
         )
 
-        river = data.get(ApiNames.RIVER) or RIVER_NAMES[data[ApiNames.STATION_CODE]]
+        river = data.get(ApiNames.RIVER) or RIVERS[data[ApiNames.STATION_CODE]]["name"]
+        voivodeship = data.get(ApiNames.VOIVODESHIP, "") or RIVERS[
+            data[ApiNames.STATION_CODE]
+        ].get("voivodeship", "")
 
         hydrological_alert = self._extract_hydrological_alert(
-            alerts, river, data.get(ApiNames.VOIVODESHIP, "")
+            alerts, river, voivodeship
         )
 
         _LOGGER.debug("Hydrological alert: %s", hydrological_alert)

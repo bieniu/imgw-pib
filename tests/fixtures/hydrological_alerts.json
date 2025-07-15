@@ -1,6 +1,20 @@
 [
     {
         "opublikowano": "2025-04-09 12:03:47",
+        "stopie\u0144": "1",
+        "data_od": "2024-04-09 12:04:14",
+        "data_do": "9999-12-31 23:59:59",
+        "prawdopodobienstwo": "80",
+        "numer": "321",
+        "biuro": "Biuro Prognoz Hydrologicznych w \u0141odzi",
+        "zdarzenie": "Susza hydrologiczna",
+        "przebieg": "W zwi\u0105zku z wyst\u0119puj\u0105cymi niskimi przep\u0142ywami wody, w kolejnych dniach, na obszarze zlewni Pisy spodziewane jest dalsze utrzymywanie si\u0119 przep\u0142yw\u00f3w wody poni\u017cej SNQ.",
+        "komentarz": "Ostrze\u017cenie wydawane jest w sytuacji, gdy aktualne lub prognozowane warto\u015bci przep\u0142ywu na stacjach wodowskazowych uznanych za reprezentatywne uk\u0142adaj\u0105 si\u0119 poni\u017cej SNQ przez minimum 10 dni w obr\u0119bie jednego obszaru hydrologicznego (kt\u00f3ry obejmuje grup\u0119 zlewni monitorowanych przez PSHM).",
+        "wojewodztwo": "\u0142\u00f3dzkie",
+        "obszar": "Zalew Bzury"
+    },
+    {
+        "opublikowano": "2025-04-09 12:03:47",
         "stopie\u0144": "-1",
         "data_od": "2024-04-09 12:04:14",
         "data_do": "9999-12-31 23:59:59",
