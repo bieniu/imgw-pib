@@ -91,7 +91,7 @@ class ApiNames(StrEnum):
     """Names type for API."""
 
     ALERT_LEVEL = "stopien"
-    ALERT_LEVEL_HYDRO = "stopień"
+    ALERT_LEVEL_HYDROLOGICAL = "stopień"
     AREA = "obszar"
     DATE_FROM = "data_od"
     DATE_TO = "data_do"

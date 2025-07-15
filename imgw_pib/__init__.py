@@ -498,7 +498,7 @@ class ImgwPib:
                     valid_from=from_date,
                     valid_to=to_date,
                     probability=alert[ApiNames.PROBABILITY],
-                    level=ALERT_LEVEL_MAP[alert[ApiNames.ALERT_LEVEL_HYDRO]],
+                    level=ALERT_LEVEL_MAP[alert[ApiNames.ALERT_LEVEL_HYDROLOGICAL]],
                 )
 
         return Alert(value=NO_ALERT)
