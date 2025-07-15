@@ -971,6 +971,7 @@ WEATHER_ALERTS_MAP = {
     "silny wiatr": "strong_wind",
 }
 HYDROLOGICAL_ALERTS_MAP = {
+    "brak": "none",
     "susza hydrologiczna": "hydrological_drought",
     "gwałtowne wzrosty stanów wody": "rapid_water_level_rise",
 }
