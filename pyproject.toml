@@ -51,6 +51,9 @@ Homepage = "https://github.com/bieniu/imgw-pib"
 [tool.setuptools.packages.find]
 include = ["imgw_pib*"]
 
+[tool.setuptools.package-data]
+"imgw_pib" = ["data/rivers.json"]
+
 [tool.pytest.ini_options]
 asyncio_default_fixture_loop_scope = "session"
 
