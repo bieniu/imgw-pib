@@ -13,29 +13,29 @@ from syrupy.location import PyTestLocation
 @pytest.fixture
 def weather_stations() -> list[dict[str, Any]]:
     """Return weather stations data from the fixture file."""
-    with Path.open("tests/fixtures/weather_stations.json", encoding="utf-8") as file:
+    with Path("tests/fixtures/weather_stations.json").open(encoding="utf-8") as file:
         return cast(list[dict[str, Any]], json.load(file))
 
 
 @pytest.fixture
 def weather_station() -> dict[str, Any]:
     """Return weather station data from the fixture file."""
-    with Path.open("tests/fixtures/weather_station.json", encoding="utf-8") as file:
+    with Path("tests/fixtures/weather_station.json").open(encoding="utf-8") as file:
         return cast(dict[str, Any], json.load(file))
 
 
 @pytest.fixture
 def weather_alerts() -> list[dict[str, Any]]:
     """Return weather alert data from the fixture file."""
-    with Path.open("tests/fixtures/weather_alerts.json", encoding="utf-8") as file:
+    with Path("tests/fixtures/weather_alerts.json").open(encoding="utf-8") as file:
         return cast(list[dict[str, Any]], json.load(file))
 
 
 @pytest.fixture
 def hydrological_stations() -> list[dict[str, Any]]:
     """Return hydrological stations data from the fixture file."""
-    with Path.open(
-        "tests/fixtures/hydrological_stations.json", encoding="utf-8"
+    with Path("tests/fixtures/hydrological_stations.json").open(
+        encoding="utf-8"
     ) as file:
         return cast(list[dict[str, Any]], json.load(file))
 
@@ -43,8 +43,8 @@ def hydrological_stations() -> list[dict[str, Any]]:
 @pytest.fixture
 def hydrological_stations_2() -> list[dict[str, Any]]:
     """Return hydrological stations data from the fixture file."""
-    with Path.open(
-        "tests/fixtures/hydrological_stations_2.json", encoding="utf-8"
+    with Path("tests/fixtures/hydrological_stations_2.json").open(
+        encoding="utf-8"
     ) as file:
         return cast(list[dict[str, Any]], json.load(file))
 
@@ -52,8 +52,8 @@ def hydrological_stations_2() -> list[dict[str, Any]]:
 @pytest.fixture
 def hydrological_details() -> dict[str, Any]:
     """Return hydrological details from the fixture file."""
-    with Path.open(
-        "tests/fixtures/hydrological_details.json", encoding="utf-8"
+    with Path("tests/fixtures/hydrological_details.json").open(
+        encoding="utf-8"
     ) as file:
         return cast(dict[str, Any], json.load(file))
 
@@ -61,7 +61,7 @@ def hydrological_details() -> dict[str, Any]:
 @pytest.fixture
 def hydrological_alerts() -> list[dict[str, Any]]:
     """Return hydrological alert data from the fixture file."""
-    with Path.open("tests/fixtures/hydrological_alerts.json", encoding="utf-8") as file:
+    with Path("tests/fixtures/hydrological_alerts.json").open(encoding="utf-8") as file:
         return cast(list[dict[str, Any]], json.load(file))
 
 
