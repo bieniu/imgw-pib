@@ -468,7 +468,7 @@ class ImgwPib:
         now = datetime.now(tz=UTC)
 
         for alert in reversed(hydrological_alerts):
-            if river not in alert[ApiNames.AREA].lower():
+            if river[:-1] not in alert[ApiNames.AREA].lower():
                 continue
 
             if voivodeship != alert[ApiNames.VOIVODESHIP].lower():
