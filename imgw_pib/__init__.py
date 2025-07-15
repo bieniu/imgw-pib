@@ -5,6 +5,8 @@ from datetime import UTC, datetime
 from http import HTTPStatus
 from typing import TYPE_CHECKING, Any, Self
 
+import aiofiles
+import orjson
 from aiohttp import ClientSession
 from yarl import URL
 
@@ -21,7 +23,7 @@ from .const import (
     HEADERS,
     HYDROLOGICAL_ALERTS_MAP,
     ID_TO_TERYT_MAP,
-    RIVERS,
+    RIVERS_FILE,
     TIMEOUT,
     WEATHER_ALERTS_MAP,
 )
@@ -63,6 +65,8 @@ class ImgwPib:
         self._hydrological_details = hydrological_details
         self._use_hydrological_endpoint_2 = False
 
+        self._rivers: dict[str, dict[str, str]] = {}
+
     @classmethod
     async def create(
         cls: type[Self],
@@ -101,10 +105,15 @@ class ImgwPib:
                 msg = f"Invalid weather station ID: {self.weather_station_id}"
                 raise ApiError(msg)
 
+        async with aiofiles.open(RIVERS_FILE, mode="rb") as file:
+            content = await file.read()
+        self._rivers = orjson.loads(content)
+
         if self.hydrological_station_id is not None:
             _LOGGER.debug(
                 "Using hydrological station ID: %s", self.hydrological_station_id
             )
+
             await self.update_hydrological_stations()
 
             if self.hydrological_station_id not in self.hydrological_stations:
@@ -198,7 +207,7 @@ class ImgwPib:
                 for station in stations_data
                 if (station_id := station[ApiNames.STATION_CODE])
                 not in self._hydrological_station_list
-                and (river_name := RIVERS.get(station_id, {}).get("name"))
+                and (river_name := self._rivers.get(station_id, {}).get("name"))
             }
         )
 
@@ -254,7 +263,7 @@ class ImgwPib:
                     item
                     for item in all_stations_data
                     if item.get(ApiNames.STATION_CODE) == self.hydrological_station_id
-                    and item.get(ApiNames.STATION_CODE) in RIVERS
+                    and item.get(ApiNames.STATION_CODE) in self._rivers
                 ),
                 None,
             )
@@ -434,8 +443,11 @@ class ImgwPib:
             else None,
         )
 
-        river = data.get(ApiNames.RIVER) or RIVERS[data[ApiNames.STATION_CODE]]["name"]
-        voivodeship = data.get(ApiNames.VOIVODESHIP, "") or RIVERS[
+        river = (
+            data.get(ApiNames.RIVER)
+            or self._rivers[data[ApiNames.STATION_CODE]]["name"]
+        )
+        voivodeship = data.get(ApiNames.VOIVODESHIP, "") or self._rivers[
             data[ApiNames.STATION_CODE]
         ].get("voivodeship", "")
 
