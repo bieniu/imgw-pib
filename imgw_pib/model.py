@@ -47,7 +47,7 @@ class WeatherData(ImgwPibData):
 
     measurement_date: datetime | None
 
-    alert: Alert
+    weather_alert: Alert
 
 
 @dataclass(kw_only=True, slots=True)
@@ -72,7 +72,7 @@ class HydrologicalData(ImgwPibData):
     latitude: float | None = None
     longitude: float | None = None
 
-    alert: Alert
+    hydrological_alert: Alert
 
     def __post_init__(self: Self) -> None:
         """Call after initialization."""

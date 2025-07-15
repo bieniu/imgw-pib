@@ -354,7 +354,7 @@ class ImgwPib:
             station=data[ApiNames.STATION],
             station_id=data[ApiNames.STATION_ID],
             measurement_date=measurement_date,
-            alert=alert,
+            weather_alert=alert,
         )
 
     def _parse_hydrological_data(
@@ -469,7 +469,7 @@ class ImgwPib:
             water_level=water_level_sensor,
             water_temperature_measurement_date=water_temperature_measurement_date,
             water_temperature=water_temperature_sensor,
-            alert=hydrological_alert,
+            hydrological_alert=hydrological_alert,
         )
 
     def _extract_hydrological_alert(
