@@ -1,4 +1,4 @@
-"""IMDB-PIB constants."""
+"""IMGW-PIB constants."""
 
 from datetime import timedelta
 from pathlib import Path

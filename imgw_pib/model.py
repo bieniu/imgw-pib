@@ -63,7 +63,7 @@ class HydrologicalAlert:
 
 @dataclass(kw_only=True, slots=True)
 class HydrologicalData(ImgwPibData):
-    """Hudrological Data class for IMGW-PIB."""
+    """Hydrological Data class for IMGW-PIB."""
 
     water_level: SensorData
     water_level_measurement_date: datetime | None
