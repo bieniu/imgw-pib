@@ -15,6 +15,7 @@ from imgw_pib.const import (
     API_HYDROLOGICAL_DETAILS_ENDPOINT,
     API_HYDROLOGICAL_ENDPOINT,
     API_HYDROLOGICAL_ENDPOINT_2,
+    API_HYDROLOGICAL_WARNINGS_ENDPOINT,
     API_WEATHER_ENDPOINT,
     API_WEATHER_WARNINGS_ENDPOINT,
 )
@@ -116,6 +117,7 @@ async def test_hydrological_station(
     hydrological_stations: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
     hydrological_stations_2: list[dict[str, Any]],
+    hydrological_alerts: list[dict[str, Any]],
 ) -> None:
     """Test hydrological station."""
     session = aiohttp.ClientSession()
@@ -127,6 +129,9 @@ async def test_hydrological_station(
         session_mock.get(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=hydrological_details,
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
         )
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
@@ -142,6 +147,7 @@ async def test_hydrological_station_2(
     snapshot: SnapshotAssertion,
     hydrological_stations: list[dict[str, Any]],
     hydrological_stations_2: list[dict[str, Any]],
+    hydrological_alerts: list[dict[str, Any]],
 ) -> None:
     """Test hydrological station from hydro endpoint 2."""
     session = aiohttp.ClientSession()
@@ -150,6 +156,9 @@ async def test_hydrological_station_2(
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
+        session_mock.get(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+        )
 
         imgwpib = await ImgwPib.create(
             session, hydrological_station_id="152199992", hydrological_details=False
@@ -236,6 +245,7 @@ async def test_invalid_water_level_value(
     hydrological_stations: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
     hydrological_stations_2: list[dict[str, Any]],
+    hydrological_alerts: list[dict[str, Any]],
 ) -> None:
     """Test invalid water level value."""
     session = aiohttp.ClientSession()
@@ -249,6 +259,9 @@ async def test_invalid_water_level_value(
         session_mock.get(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=hydrological_details,
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
         )
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
@@ -267,6 +280,7 @@ async def test_invalid_date(
     hydrological_stations: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
     hydrological_stations_2: list[dict[str, Any]],
+    hydrological_alerts: list[dict[str, Any]],
     date_time: str | None,
 ) -> None:
     """Test invalid water level value."""
@@ -281,6 +295,9 @@ async def test_invalid_date(
         session_mock.get(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=hydrological_details,
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
         )
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
@@ -302,6 +319,7 @@ async def test_flood_warning(
     hydrological_stations: list[dict[str, Any]],
     hydrological_stations_2: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
+    hydrological_alerts: list[dict[str, Any]],
     water_level: float,
     flood_warning_level: float,
     expected: bool,
@@ -319,6 +337,9 @@ async def test_flood_warning(
         session_mock.get(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=hydrological_details,
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
         )
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
@@ -338,6 +359,7 @@ async def test_flood_alarm(
     hydrological_stations: list[dict[str, Any]],
     hydrological_stations_2: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
+    hydrological_alerts: list[dict[str, Any]],
     water_level: float,
     flood_alarm_level: float,
     expected: bool,
@@ -356,6 +378,9 @@ async def test_flood_alarm(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=hydrological_details,
         )
+        session_mock.get(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+        )
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
         result = await imgwpib.get_hydrological_data()
@@ -370,6 +395,7 @@ async def test_water_temperature_not_current(
     hydrological_stations: list[dict[str, Any]],
     hydrological_stations_2: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
+    hydrological_alerts: list[dict[str, Any]],
 ) -> None:
     """Test water_temperature is not current."""
     session = aiohttp.ClientSession()
@@ -387,6 +413,9 @@ async def test_water_temperature_not_current(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=hydrological_details,
         )
+        session_mock.get(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+        )
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
         result = await imgwpib.get_hydrological_data()
@@ -402,6 +431,7 @@ async def test_hydrological_data_invalid_content(
     hydrological_stations: list[dict[str, Any]],
     hydrological_stations_2: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
+    hydrological_alerts: list[dict[str, Any]],
 ) -> None:
     """Test when response has invalid content type."""
     session = aiohttp.ClientSession()
@@ -413,6 +443,9 @@ async def test_hydrological_data_invalid_content(
         session_mock.get(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=hydrological_details,
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
         )
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
@@ -459,6 +492,7 @@ async def test_hydrological_details_is_null(
     snapshot: SnapshotAssertion,
     hydrological_stations: list[dict[str, Any]],
     hydrological_stations_2: list[dict[str, Any]],
+    hydrological_alerts: list[dict[str, Any]],
 ) -> None:
     """Test when hydrological details is null."""
     session = aiohttp.ClientSession()
@@ -470,6 +504,9 @@ async def test_hydrological_details_is_null(
         session_mock.get(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             payload=None,
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
         )
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
@@ -485,6 +522,7 @@ async def test_hydrological_details_returns_403(
     snapshot: SnapshotAssertion,
     hydrological_stations: list[dict[str, Any]],
     hydrological_stations_2: list[dict[str, Any]],
+    hydrological_alerts: list[dict[str, Any]],
 ) -> None:
     """Test when hydrological details returns 403."""
     session = aiohttp.ClientSession()
@@ -496,6 +534,9 @@ async def test_hydrological_details_returns_403(
         session_mock.get(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
             status=HTTPStatus.FORBIDDEN.value,
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
         )
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
@@ -511,6 +552,7 @@ async def test_hydrological_details_is_false(
     snapshot: SnapshotAssertion,
     hydrological_stations: list[dict[str, Any]],
     hydrological_stations_2: list[dict[str, Any]],
+    hydrological_alerts: list[dict[str, Any]],
 ) -> None:
     """Test when hydrological_details is False."""
     session = aiohttp.ClientSession()
@@ -519,6 +561,9 @@ async def test_hydrological_details_is_false(
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+        )
 
         imgwpib = await ImgwPib.create(
             session, hydrological_station_id="154190050", hydrological_details=False

@@ -59,6 +59,13 @@ def hydrological_details() -> dict[str, Any]:
 
 
 @pytest.fixture
+def hydrological_alerts() -> list[dict[str, Any]]:
+    """Return hydrological alert data from the fixture file."""
+    with Path.open("tests/fixtures/hydrological_alerts.json", encoding="utf-8") as file:
+        return cast(list[dict[str, Any]], json.load(file))
+
+
+@pytest.fixture
 def snapshot(snapshot: SnapshotAssertion) -> SnapshotAssertion:
     """Return snapshot assertion fixture."""
     return snapshot.use_extension(SnapshotExtension)
