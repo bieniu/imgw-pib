@@ -347,6 +347,8 @@ class ImgwPib:
             f"{data[ApiNames.MEASUREMENT_DATE]} {data[ApiNames.MEASUREMENT_TIME]}",
             "%Y-%m-%d %H",
         )
+        latitude = data.get(ApiNames.LATITUDE)
+        longitude = data.get(ApiNames.LONGITUDE)
 
         return WeatherData(
             temperature=temperature_sensor,
@@ -357,6 +359,8 @@ class ImgwPib:
             precipitation=precipitation_sensor,
             station=data[ApiNames.STATION],
             station_id=data[ApiNames.STATION_ID],
+            latitude=float(latitude) if latitude is not None else None,
+            longitude=float(longitude) if longitude is not None else None,
             measurement_date=measurement_date,
             weather_alert=alert,
         )
