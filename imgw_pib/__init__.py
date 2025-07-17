@@ -198,7 +198,8 @@ class ImgwPib:
 
         try:
             stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT_2)
-        except ApiError:
+        except ApiError as exc:
+            _LOGGER.info("Hydrological endpoint 2 not available: %s", repr(exc))
             stations_data = []
 
         hydrological_station_list_2 = {}
