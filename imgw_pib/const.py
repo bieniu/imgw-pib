@@ -8,16 +8,17 @@ from yarl import URL
 
 BASE_DIR = Path(__file__).resolve().parent
 RIVERS_FILE = BASE_DIR / "data" / "rivers.json"
+WEATHER_STATION_COORDS_FILE = BASE_DIR / "data" / "weather_stations_coordinates.json"
 
 API_BASE_ENDPOINT = URL("https://danepubliczne.imgw.pl/api/data")
 API_HYDROLOGICAL_ENDPOINT = API_BASE_ENDPOINT / "hydro"
 API_HYDROLOGICAL_ENDPOINT_2 = API_BASE_ENDPOINT / "hydro2"
-API_WEATHER_ENDPOINT = API_BASE_ENDPOINT / "synop"
-API_WEATHER_WARNINGS_ENDPOINT = API_BASE_ENDPOINT / "warningsmeteo"
 API_HYDROLOGICAL_DETAILS_ENDPOINT = URL(
     "https://hydro-back.imgw.pl/station/hydro/status"
 )
 API_HYDROLOGICAL_WARNINGS_ENDPOINT = API_BASE_ENDPOINT / "warningshydro"
+API_WEATHER_ENDPOINT = API_BASE_ENDPOINT / "synop"
+API_WEATHER_WARNINGS_ENDPOINT = API_BASE_ENDPOINT / "warningsmeteo"
 
 HEADERS = {"Content-Type": "application/json"}
 TIMEOUT = ClientTimeout(total=20)
