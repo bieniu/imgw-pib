@@ -22,7 +22,6 @@ from .const import (
     HEADERS,
     HYDROLOGICAL_ALERTS_MAP,
     NO_ALERT,
-    RIVERS_FILE,
     TIMEOUT,
     WEATHER_ALERTS_MAP,
     WEATHER_STATIONS_INFO_FILE,
@@ -63,7 +62,6 @@ class ImgwPib:
 
         self._hydrological_details = hydrological_details
 
-        self._rivers: dict[str, dict[str, str]] = {}
         self._weather_stations_info: dict[str, dict[str, Any]] = {}
 
     @classmethod
@@ -108,9 +106,6 @@ class ImgwPib:
                 content = await file.read()
             self._weather_stations_info = orjson.loads(content)
 
-        async with aiofiles.open(RIVERS_FILE, mode="rb") as file:
-            content = await file.read()
-        self._rivers = orjson.loads(content)
 
         if self.hydrological_station_id is not None:
             _LOGGER.debug(
@@ -341,9 +336,9 @@ class ImgwPib:
             wind_direction=wind_direction_sensor,
             precipitation=precipitation_sensor,
             station=data[ApiNames.STATION],
-            station_id=data[ApiNames.STATION_ID],
             latitude=station.get(ApiNames.LATITUDE),
             longitude=station.get(ApiNames.LONGITUDE),
+            station_id=self.weather_station_id,
             measurement_date=measurement_date,
             weather_alert=alert,
         )
@@ -431,15 +426,16 @@ class ImgwPib:
             else None,
         )
 
-        if TYPE_CHECKING:
-            assert self.hydrological_station_id
-
         river = data[ApiNames.RIVER]
-        province = self._rivers.get(self.hydrological_station_id, {}).get("province")
 
-        hydrological_alert = self._extract_hydrological_alert(alerts, river, province)
+        hydrological_alert = self._extract_hydrological_alert(
+            alerts, river, data[ApiNames.PROVINCE]
+        )
 
         _LOGGER.debug("Hydrological alert: %s", hydrological_alert)
+
+        if TYPE_CHECKING:
+            assert self.hydrological_station_id
 
         return HydrologicalData(
             flood_alarm_level=flood_alarm_level_sensor,
@@ -462,12 +458,9 @@ class ImgwPib:
         self,
         hydrological_alerts: list[dict[str, Any]],
         river: str,
-        province: str | None,
+        province: str,
     ) -> Alert:
         """Extract hydrological alert for a given river."""
-        if not province:
-            return Alert(value=NO_ALERT)
-
         now = datetime.now(tz=UTC)
         river_key = river.split(" ")[-1][:-1].lower()
         province_key = province.lower()
