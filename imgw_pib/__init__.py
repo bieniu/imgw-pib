@@ -27,6 +27,7 @@ from .const import (
     RIVERS_FILE,
     TIMEOUT,
     WEATHER_ALERTS_MAP,
+    WEATHER_STATION_COORDS_FILE,
 )
 from .exceptions import ApiError
 from .model import (
@@ -66,6 +67,7 @@ class ImgwPib:
         self._use_hydrological_endpoint_2 = False
 
         self._rivers: dict[str, dict[str, str]] = {}
+        self._weather_station_coords: dict[str, dict[str, float]] = {}
 
     @classmethod
     async def create(
@@ -104,6 +106,10 @@ class ImgwPib:
             if self.weather_station_id not in self.weather_stations:
                 msg = f"Invalid weather station ID: {self.weather_station_id}"
                 raise ApiError(msg)
+
+            async with aiofiles.open(WEATHER_STATION_COORDS_FILE, mode="rb") as file:
+                content = await file.read()
+            self._weather_station_coords = orjson.loads(content)
 
         async with aiofiles.open(RIVERS_FILE, mode="rb") as file:
             content = await file.read()
@@ -304,8 +310,7 @@ class ImgwPib:
 
         return await response.json()
 
-    @staticmethod
-    def _parse_weather_data(data: dict[str, Any], alert: Alert) -> WeatherData:
+    def _parse_weather_data(self, data: dict[str, Any], alert: Alert) -> WeatherData:
         """Parse weather data."""
         temperature = data[ApiNames.TEMPERATURE]
         temperature_sensor = SensorData(
@@ -347,8 +352,13 @@ class ImgwPib:
             f"{data[ApiNames.MEASUREMENT_DATE]} {data[ApiNames.MEASUREMENT_TIME]}",
             "%Y-%m-%d %H",
         )
-        latitude = data.get(ApiNames.LATITUDE)
-        longitude = data.get(ApiNames.LONGITUDE)
+
+        if TYPE_CHECKING:
+            assert self.weather_station_id
+
+        coordinates = self._weather_station_coords.get(self.weather_station_id, {})
+        latitude = coordinates.get(ApiNames.LATITUDE)
+        longitude = coordinates.get(ApiNames.LONGITUDE)
 
         return WeatherData(
             temperature=temperature_sensor,
