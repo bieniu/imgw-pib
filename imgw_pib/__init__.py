@@ -14,7 +14,6 @@ from .const import (
     ALERT_LEVEL_MAP,
     API_HYDROLOGICAL_DETAILS_ENDPOINT,
     API_HYDROLOGICAL_ENDPOINT,
-    API_HYDROLOGICAL_ENDPOINT_2,
     API_HYDROLOGICAL_WARNINGS_ENDPOINT,
     API_WEATHER_ENDPOINT,
     API_WEATHER_WARNINGS_ENDPOINT,
@@ -63,7 +62,6 @@ class ImgwPib:
         self.hydrological_station_id = hydrological_station_id
 
         self._hydrological_details = hydrological_details
-        self._use_hydrological_endpoint_2 = False
 
         self._rivers: dict[str, dict[str, str]] = {}
         self._weather_stations_info: dict[str, dict[str, Any]] = {}
@@ -210,30 +208,6 @@ class ImgwPib:
             for station in stations_data
         }
 
-        try:
-            stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT_2)
-        except ApiError as exc:
-            _LOGGER.info("Hydrological endpoint 2 not available: %s", repr(exc))
-            stations_data = []
-
-        hydrological_station_list_2 = {}
-        hydrological_station_list_2.update(
-            {
-                station_id: gen_station_name(
-                    station[ApiNames.STATION_NAME].title(), river_name
-                )
-                for station in stations_data
-                if (station_id := station[ApiNames.STATION_CODE])
-                not in self._hydrological_station_list
-                and (river_name := self._rivers.get(station_id, {}).get("name"))
-            }
-        )
-
-        if self.hydrological_station_id in hydrological_station_list_2:
-            self._use_hydrological_endpoint_2 = True
-
-        self._hydrological_station_list.update(hydrological_station_list_2)
-
     async def _update_hydrological_details(self: Self) -> None:
         """Update hydrological details."""
         if TYPE_CHECKING:
@@ -262,29 +236,16 @@ class ImgwPib:
             msg = "Hydrological station ID is not set"
             raise ApiError(msg)
 
-        if self._use_hydrological_endpoint_2 is False:
-            all_stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT)
+        all_stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT)
 
-            hydrological_data = next(
-                (
-                    item
-                    for item in all_stations_data
-                    if item.get(ApiNames.STATION_ID) == self.hydrological_station_id
-                ),
-                None,
-            )
-        else:
-            all_stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT_2)
-
-            hydrological_data = next(
-                (
-                    item
-                    for item in all_stations_data
-                    if item.get(ApiNames.STATION_CODE) == self.hydrological_station_id
-                    and item.get(ApiNames.STATION_CODE) in self._rivers
-                ),
-                None,
-            )
+        hydrological_data = next(
+            (
+                item
+                for item in all_stations_data
+                if item.get(ApiNames.STATION_ID) == self.hydrological_station_id
+            ),
+            None,
+        )
 
         if hydrological_data is None:
             msg = f"No hydrological data for station ID: {self.hydrological_station_id}"
@@ -394,15 +355,14 @@ class ImgwPib:
         now = datetime.now(tz=UTC)
 
         water_level_measurement_date = get_datetime(
-            data.get(ApiNames.WATER_LEVEL_MEASUREMENT_DATE)
-            or data.get(ApiNames.STATE_DATE),
+            data[ApiNames.WATER_LEVEL_MEASUREMENT_DATE],
             DATE_FORMAT,
         )
         if (
             water_level_measurement_date is not None
             and now - water_level_measurement_date < DATA_VALIDITY_PERIOD
         ):
-            water_level = data.get(ApiNames.WATER_LEVEL) or data.get(ApiNames.STATE)
+            water_level = data[ApiNames.WATER_LEVEL]
         else:
             water_level_measurement_date = None
             water_level = None
@@ -432,7 +392,7 @@ class ImgwPib:
         )
 
         water_temperature_measurement_date = get_datetime(
-            data.get(ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE),
+            data[ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE],
             DATE_FORMAT,
         )
         if (
@@ -451,14 +411,14 @@ class ImgwPib:
         )
 
         water_flow_measurement_date = get_datetime(
-            data.get(ApiNames.WATER_FLOW_MEASUREMENT_DATE),
+            data[ApiNames.WATER_FLOW_MEASUREMENT_DATE],
             DATE_FORMAT,
         )
         if (
             water_flow_measurement_date is not None
             and now - water_flow_measurement_date < DATA_VALIDITY_PERIOD
         ):
-            water_flow = data.get(ApiNames.WATER_FLOW)
+            water_flow = data[ApiNames.WATER_FLOW]
         else:
             water_flow_measurement_date = None
             water_flow = None
@@ -471,13 +431,11 @@ class ImgwPib:
             else None,
         )
 
-        river = (
-            data.get(ApiNames.RIVER)
-            or self._rivers[data[ApiNames.STATION_CODE]]["name"]
-        )
-        province = data.get(ApiNames.PROVINCE, "") or self._rivers[
-            data[ApiNames.STATION_CODE]
-        ].get("province", "")
+        if TYPE_CHECKING:
+            assert self.hydrological_station_id
+
+        river = data[ApiNames.RIVER]
+        province = self._rivers.get(self.hydrological_station_id, {}).get("province")
 
         hydrological_alert = self._extract_hydrological_alert(alerts, river, province)
 
@@ -489,10 +447,8 @@ class ImgwPib:
             latitude=float(data[ApiNames.LATITUDE]),
             longitude=float(data[ApiNames.LONGITUDE]),
             river=river,
-            station_id=data.get(ApiNames.STATION_ID) or data[ApiNames.STATION_CODE],
-            station=(
-                data.get(ApiNames.STATION) or data[ApiNames.STATION_NAME].title()
-            ).strip(),
+            station_id=self.hydrological_station_id,
+            station=data[ApiNames.STATION].strip(),
             water_flow=water_flow_sensor,
             water_flow_measurement_date=water_flow_measurement_date,
             water_level_measurement_date=water_level_measurement_date,
@@ -503,9 +459,15 @@ class ImgwPib:
         )
 
     def _extract_hydrological_alert(
-        self, hydrological_alerts: list[dict[str, Any]], river: str, province: str
+        self,
+        hydrological_alerts: list[dict[str, Any]],
+        river: str,
+        province: str | None,
     ) -> Alert:
         """Extract hydrological alert for a given river."""
+        if not province:
+            return Alert(value=NO_ALERT)
+
         now = datetime.now(tz=UTC)
         river_key = river.split(" ")[-1][:-1].lower()
         province_key = province.lower()
