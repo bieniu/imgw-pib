@@ -1,13 +1,9 @@
 """IMGW-PIB constants."""
 
 from datetime import timedelta
-from pathlib import Path
 
 from aiohttp import ClientTimeout
 from yarl import URL
-
-BASE_DIR = Path(__file__).resolve().parent
-RIVERS_FILE = BASE_DIR / "data" / "rivers.json"
 
 API_BASE_ENDPOINT = URL("https://danepubliczne.imgw.pl/api/data")
 API_HYDROLOGICAL_ENDPOINT = API_BASE_ENDPOINT / "hydro"

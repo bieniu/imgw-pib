@@ -5,8 +5,6 @@ from datetime import UTC, datetime
 from http import HTTPStatus
 from typing import TYPE_CHECKING, Any, Self
 
-import aiofiles
-import orjson
 from aiohttp import ClientSession
 from yarl import URL
 
@@ -23,7 +21,6 @@ from .const import (
     HYDROLOGICAL_ALERTS_MAP,
     ID_TO_TERYT_MAP,
     NO_ALERT,
-    RIVERS_FILE,
     TIMEOUT,
     WEATHER_ALERTS_MAP,
 )
@@ -63,8 +60,6 @@ class ImgwPib:
 
         self._hydrological_details = hydrological_details
 
-        self._rivers: dict[str, dict[str, str]] = {}
-
     @classmethod
     async def create(
         cls: type[Self],
@@ -102,10 +97,6 @@ class ImgwPib:
             if self.weather_station_id not in self.weather_stations:
                 msg = f"Invalid weather station ID: {self.weather_station_id}"
                 raise ApiError(msg)
-
-        async with aiofiles.open(RIVERS_FILE, mode="rb") as file:
-            content = await file.read()
-        self._rivers = orjson.loads(content)
 
         if self.hydrological_station_id is not None:
             _LOGGER.debug(
@@ -265,8 +256,7 @@ class ImgwPib:
 
         return await response.json()
 
-    @staticmethod
-    def _parse_weather_data(data: dict[str, Any], alert: Alert) -> WeatherData:
+    def _parse_weather_data(self, data: dict[str, Any], alert: Alert) -> WeatherData:
         """Parse weather data."""
         temperature = data[ApiNames.TEMPERATURE]
         temperature_sensor = SensorData(
@@ -309,6 +299,9 @@ class ImgwPib:
             "%Y-%m-%d %H",
         )
 
+        if TYPE_CHECKING:
+            assert self.weather_station_id
+
         return WeatherData(
             temperature=temperature_sensor,
             humidity=humidity_sensor,
@@ -317,7 +310,7 @@ class ImgwPib:
             wind_direction=wind_direction_sensor,
             precipitation=precipitation_sensor,
             station=data[ApiNames.STATION],
-            station_id=data[ApiNames.STATION_ID],
+            station_id=self.weather_station_id,
             measurement_date=measurement_date,
             weather_alert=alert,
         )
@@ -405,15 +398,16 @@ class ImgwPib:
             else None,
         )
 
-        if TYPE_CHECKING:
-            assert self.hydrological_station_id
-
         river = data[ApiNames.RIVER]
-        province = self._rivers.get(self.hydrological_station_id, {}).get("province")
 
-        hydrological_alert = self._extract_hydrological_alert(alerts, river, province)
+        hydrological_alert = self._extract_hydrological_alert(
+            alerts, river, data[ApiNames.PROVINCE]
+        )
 
         _LOGGER.debug("Hydrological alert: %s", hydrological_alert)
+
+        if TYPE_CHECKING:
+            assert self.hydrological_station_id
 
         return HydrologicalData(
             flood_alarm_level=flood_alarm_level_sensor,
@@ -436,12 +430,9 @@ class ImgwPib:
         self,
         hydrological_alerts: list[dict[str, Any]],
         river: str,
-        province: str | None,
+        province: str,
     ) -> Alert:
         """Extract hydrological alert for a given river."""
-        if not province:
-            return Alert(value=NO_ALERT)
-
         now = datetime.now(tz=UTC)
 
         for alert in reversed(hydrological_alerts):
