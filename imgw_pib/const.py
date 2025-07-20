@@ -91,6 +91,7 @@ WEATHER_ALERTS_MAP = {
     "intensywne opady deszczu": "heavy_rainfall",
     "silny deszcz z burzami": "heavy_rain_with_storms",
     "silny wiatr": "strong_wind",
+    "upał": "heat",
 }
 HYDROLOGICAL_ALERTS_MAP = {
     "brak": "no_alert",
