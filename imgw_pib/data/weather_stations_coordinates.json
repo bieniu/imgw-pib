@@ -1,22 +1,353 @@
 {
     "12295": {
         "lat": 53.129879,
-        "lon": 23.169956
+        "lon": 23.169956,
+        "name": "Bia\u0142ystok",
+        "teryt": "2061"
     },
     "12600": {
         "lat": 49.821877,
-        "lon": 19.047007
+        "lon": 19.047007,
+        "name": "Bielsko-Bia\u0142a",
+        "teryt": "2461"
     },
     "12235": {
         "lat": 53.695099,
-        "lon": 17.560205
+        "lon": 17.560205,
+        "name": "Chojnice",
+        "teryt": "2202"
     },
     "12550": {
         "lat": 50.809711,
-        "lon": 19.122316
+        "lon": 19.122316,
+        "name": "Cz\u0119stochowa",
+        "teryt": "2464"
     },
     "12160": {
         "lat": 54.170792,
-        "lon": 19.404793
+        "lon": 19.404793,
+        "name": "Elbl\u0105g",
+        "teryt": "2861"
+    },
+    "12155": {
+        "lat": 54.349365,
+        "lon": 18.656324,
+        "name": "Gda\u0144sk",
+        "teryt": "2261"
+    },
+    "12300": {
+        "name": "Gorz\u00f3w"
+    },
+    "12135": {
+        "lat": 54.607689,
+        "lon": 18.801825,
+        "name": "Hel",
+        "teryt": "2211"
+    },
+    "12500": {
+        "lat": 50.901768,
+        "lon": 15.733878,
+        "name": "Jelenia G\u00f3ra",
+        "teryt": "0261"
+    },
+    "12435": {
+        "lat": 51.762714,
+        "lon": 18.09094,
+        "name": "Kalisz",
+        "teryt": "3061"
+    },
+    "12650": {
+        "lat": 49.2318,
+        "lon": 19.9816,
+        "name": "Kasprowy Wierch",
+        "teryt": "1217"
+    },
+    "12560": {
+        "lat": 50.256905,
+        "lon": 19.023249,
+        "name": "Katowice",
+        "teryt": "2469"
+    },
+    "12185": {
+        "lat": 54.0788,
+        "lon": 21.370291,
+        "name": "K\u0119trzyn",
+        "teryt": "2808"
+    },
+    "12570": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Kielce",
+        "teryt": "2661"
+    },
+    "12520": {
+        "lat": 0,
+        "lon": 0,
+        "name": "K\u0142odzko",
+        "teryt": "0208"
+    },
+    "12345": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Ko\u0142o",
+        "teryt": "3009"
+    },
+    "12100": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Ko\u0142obrzeg",
+        "teryt": "3208"
+    },
+    "12105": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Koszalin",
+        "teryt": "3261"
+    },
+    "12488": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Kozienice",
+        "teryt": "1407"
+    },
+    "12566": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Krak\u00f3w",
+        "teryt": "1261"
+    },
+    "12670": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Krosno",
+        "teryt": "1861"
+    },
+    "12415": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Legnica",
+        "teryt": "0262"
+    },
+    "12690": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Lesko",
+        "teryt": "1821"
+    },
+    "12418": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Leszno",
+        "teryt": "3063"
+    },
+    "12125": {
+        "lat": 0,
+        "lon": 0,
+        "name": "L\u0119bork",
+        "teryt": "2208"
+    },
+    "12495": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Lublin",
+        "teryt": "0663"
+    },
+    "12120": {
+        "lat": 0,
+        "lon": 0,
+        "name": "\u0141eba",
+        "teryt": "2208"
+    },
+    "12465": {
+        "lat": 0,
+        "lon": 0,
+        "name": "\u0141\u00f3d\u017a",
+        "teryt": "1061"
+    },
+    "12280": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Miko\u0142ajki",
+        "teryt": "2810"
+    },
+    "12270": {
+        "lat": 0,
+        "lon": 0,
+        "name": "M\u0142awa",
+        "teryt": "1413"
+    },
+    "12660": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Nowy S\u0105cz",
+        "teryt": "1262"
+    },
+    "12530": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Opole",
+        "teryt": "1661"
+    },
+    "12285": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Ostro\u0142\u0119ka",
+        "teryt": "1461"
+    },
+    "12230": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Pi\u0142a",
+        "teryt": "3019"
+    },
+    "12360": {
+        "lat": 0,
+        "lon": 0,
+        "name": "P\u0142ock",
+        "teryt": "1462"
+    },
+    "12330": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Pozna\u0144",
+        "teryt": "3064"
+    },
+    "12695": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Przemy\u015bl",
+        "teryt": "1862"
+    },
+    "12540": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Racib\u00f3rz",
+        "teryt": "2411"
+    },
+    "12210": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Resko",
+        "teryt": "3218"
+    },
+    "12580": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Rzesz\u00f3w",
+        "teryt": "1863"
+    },
+    "12585": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Sandomierz",
+        "teryt": "2609"
+    },
+    "12385": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Siedlce",
+        "teryt": "1464"
+    },
+    "12310": {
+        "lat": 0,
+        "lon": 0,
+        "name": "S\u0142ubice",
+        "teryt": "0805"
+    },
+    "12469": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Sulej\u00f3w",
+        "teryt": "1010"
+    },
+    "12195": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Suwa\u0142ki",
+        "teryt": "2063"
+    },
+    "12205": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Szczecin",
+        "teryt": "3262"
+    },
+    "12215": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Szczecinek",
+        "teryt": "3215"
+    },
+    "12200": {
+        "lat": 0,
+        "lon": 0,
+        "name": "\u015awinouj\u015bcie",
+        "teryt": "3263"
+    },
+    "12575": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Tarn\u00f3w",
+        "teryt": "1263"
+    },
+    "12399": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Terespol",
+        "teryt": "0601"
+    },
+    "12250": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Toru\u0144",
+        "teryt": "0463"
+    },
+    "12115": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Ustka",
+        "teryt": "2212"
+    },
+    "12375": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Warszawa",
+        "teryt": "1465"
+    },
+    "12455": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Wielu\u0144",
+        "teryt": "1017"
+    },
+    "12497": {
+        "lat": 0,
+        "lon": 0,
+        "name": "W\u0142odawa",
+        "teryt": "0619"
+    },
+    "12424": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Wroc\u0142aw",
+        "teryt": "0264"
+    },
+    "12625": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Zakopane",
+        "teryt": "1217"
+    },
+    "12595": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Zamo\u015b\u0107",
+        "teryt": "0664"
+    },
+    "12400": {
+        "lat": 0,
+        "lon": 0,
+        "name": "Zielona G\u00f3ra",
+        "teryt": "0862"
     }
 }
