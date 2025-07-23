@@ -22,11 +22,11 @@ from .const import (
     DATE_FORMAT,
     HEADERS,
     HYDROLOGICAL_ALERTS_MAP,
-    ID_TO_TERYT_MAP,
     NO_ALERT,
     RIVERS_FILE,
     TIMEOUT,
     WEATHER_ALERTS_MAP,
+    WEATHER_STATIONS_INFO_FILE,
 )
 from .exceptions import ApiError
 from .model import (
@@ -66,6 +66,7 @@ class ImgwPib:
         self._use_hydrological_endpoint_2 = False
 
         self._rivers: dict[str, dict[str, str]] = {}
+        self._weather_stations_info: dict[str, dict[str, Any]] = {}
 
     @classmethod
     async def create(
@@ -104,6 +105,10 @@ class ImgwPib:
             if self.weather_station_id not in self.weather_stations:
                 msg = f"Invalid weather station ID: {self.weather_station_id}"
                 raise ApiError(msg)
+
+            async with aiofiles.open(WEATHER_STATIONS_INFO_FILE, mode="rb") as file:
+                content = await file.read()
+            self._weather_stations_info = orjson.loads(content)
 
         async with aiofiles.open(RIVERS_FILE, mode="rb") as file:
             content = await file.read()
@@ -146,19 +151,24 @@ class ImgwPib:
         _LOGGER.debug("Weather data: %s", weather_data)
 
         weather_alerts = []
-        if teryt := ID_TO_TERYT_MAP.get(self.weather_station_id):
+        if teryt := self._weather_stations_info.get(self.weather_station_id, {}).get(
+            "teryt"
+        ):
             weather_alerts = await self._http_request(API_WEATHER_WARNINGS_ENDPOINT)
 
-        weather_alert = self._extract_weather_alert(weather_alerts, teryt or "unknown")
+        weather_alert = self._extract_weather_alert(weather_alerts, teryt)
 
         _LOGGER.debug("Weather alert: %s", weather_alert)
 
         return self._parse_weather_data(weather_data, weather_alert)
 
     def _extract_weather_alert(
-        self, weather_alerts: list[dict[str, Any]], teryt: str
+        self, weather_alerts: list[dict[str, Any]], teryt: str | None
     ) -> Alert:
         """Extract weather alert for a given TERYT."""
+        if teryt is None:
+            return Alert(value=NO_ALERT)
+
         now = datetime.now(tz=UTC)
 
         for alert in reversed(weather_alerts):
@@ -304,8 +314,7 @@ class ImgwPib:
 
         return await response.json()
 
-    @staticmethod
-    def _parse_weather_data(data: dict[str, Any], alert: Alert) -> WeatherData:
+    def _parse_weather_data(self, data: dict[str, Any], alert: Alert) -> WeatherData:
         """Parse weather data."""
         temperature = data[ApiNames.TEMPERATURE]
         temperature_sensor = SensorData(
@@ -348,6 +357,11 @@ class ImgwPib:
             "%Y-%m-%d %H",
         )
 
+        if TYPE_CHECKING:
+            assert self.weather_station_id
+
+        station = self._weather_stations_info.get(self.weather_station_id, {})
+
         return WeatherData(
             temperature=temperature_sensor,
             humidity=humidity_sensor,
@@ -357,6 +371,8 @@ class ImgwPib:
             precipitation=precipitation_sensor,
             station=data[ApiNames.STATION],
             station_id=data[ApiNames.STATION_ID],
+            latitude=station.get(ApiNames.LATITUDE),
+            longitude=station.get(ApiNames.LONGITUDE),
             measurement_date=measurement_date,
             weather_alert=alert,
         )
