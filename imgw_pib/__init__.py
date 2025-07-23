@@ -360,9 +360,7 @@ class ImgwPib:
         if TYPE_CHECKING:
             assert self.weather_station_id
 
-        coordinates = self._weather_stations_info.get(self.weather_station_id, {})
-        latitude = coordinates.get(ApiNames.LATITUDE)
-        longitude = coordinates.get(ApiNames.LONGITUDE)
+        station = self._weather_stations_info.get(self.weather_station_id, {})
 
         return WeatherData(
             temperature=temperature_sensor,
@@ -373,8 +371,8 @@ class ImgwPib:
             precipitation=precipitation_sensor,
             station=data[ApiNames.STATION],
             station_id=data[ApiNames.STATION_ID],
-            latitude=latitude,
-            longitude=longitude,
+            latitude=station.get(ApiNames.LATITUDE),
+            longitude=station.get(ApiNames.LONGITUDE),
             measurement_date=measurement_date,
             weather_alert=alert,
         )
