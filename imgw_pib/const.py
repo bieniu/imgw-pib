@@ -39,7 +39,7 @@ HYDROLOGICAL_ALERTS_MAP = {
     "brak": "no_alert",
     "susza hydrologiczna": "hydrological_drought",
     "gwałtowne wzrosty stanów wody": "rapid_water_level_rise",
-    "wezbranie z przekroczeniem stanów ostrzegawczych": "exceeding warning levels",
+    "wezbranie z przekroczeniem stanów ostrzegawczych": "exceeding_the_warning_level",
 }
 ALERT_LEVEL_MAP = {
     "-1": "none",
