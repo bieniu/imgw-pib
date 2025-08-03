@@ -497,12 +497,18 @@ class ImgwPib:
     ) -> Alert:
         """Extract hydrological alert for a given river."""
         now = datetime.now(tz=UTC)
+        river_key = river.split(" ")[-1][:-1].lower()
+        province_key = province.lower()
 
         for alert in reversed(hydrological_alerts):
-            if river[:-1].lower() not in alert[ApiNames.AREA].lower():
+            areas = alert[ApiNames.AREAS]
+            provinces = {item[ApiNames.PROVINCE].lower() for item in areas}
+            descriptions = {item[ApiNames.DESCRIPTION].lower() for item in areas}
+
+            if river_key not in "|".join(descriptions):
                 continue
 
-            if province.lower() != alert[ApiNames.PROVINCE].lower():
+            if province_key not in provinces:
                 continue
 
             from_date = get_datetime(alert[ApiNames.DATE_FROM], DATE_FORMAT)
