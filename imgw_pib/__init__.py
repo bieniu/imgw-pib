@@ -151,8 +151,10 @@ class ImgwPib:
         _LOGGER.debug("Weather data: %s", weather_data)
 
         weather_alerts = []
-        if teryt := self._weather_stations_info.get(self.weather_station_id, {}).get(
-            "teryt"
+        if (
+            teryt := self._weather_stations_info.get(self.weather_station_id, {}).get(
+                "teryt"
+            )
         ) and (
             result := await self._http_request(API_WEATHER_WARNINGS_ENDPOINT, False)
         ):
