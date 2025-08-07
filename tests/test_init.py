@@ -72,6 +72,29 @@ async def test_weather_station(
 
 
 @pytest.mark.asyncio
+async def test_no_weather_alerts(
+    weather_stations: list[dict[str, Any]],
+    weather_station: dict[str, Any],
+) -> None:
+    """Test weather station with no alerts."""
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
+        session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
+        session_mock.get(f"{API_WEATHER_ENDPOINT}/id/12600", payload=weather_station)
+        session_mock.get(
+            API_WEATHER_WARNINGS_ENDPOINT, status=HTTPStatus.NOT_FOUND.value
+        )
+
+        imgwpib = await ImgwPib.create(session, weather_station_id="12600")
+        weather_data = await imgwpib.get_weather_data()
+
+    await session.close()
+
+    assert weather_data.weather_alert.value == "no_alert"
+
+
+@pytest.mark.asyncio
 async def test_wrong_weather_station_id(weather_stations: list[dict[str, Any]]) -> None:
     """Test wrong weather station ID."""
     session = aiohttp.ClientSession()
@@ -140,6 +163,35 @@ async def test_hydrological_station(
     await session.close()
 
     assert hydrological_data == snapshot
+
+
+@pytest.mark.asyncio
+async def test_no_hydrological_alerts(
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_details: dict[str, Any],
+    hydrological_stations_2: list[dict[str, Any]],
+) -> None:
+    """Test hydrological station with no alerts."""
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+            payload=hydrological_details,
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, status=HTTPStatus.NOT_FOUND.value
+        )
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+        hydrological_data = await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert hydrological_data.hydrological_alert.value == "no_alert"
 
 
 @pytest.mark.asyncio
