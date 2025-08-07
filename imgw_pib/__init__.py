@@ -153,8 +153,10 @@ class ImgwPib:
         weather_alerts = []
         if teryt := self._weather_stations_info.get(self.weather_station_id, {}).get(
             "teryt"
+        ) and (
+            result := await self._http_request(API_WEATHER_WARNINGS_ENDPOINT, False)
         ):
-            weather_alerts = await self._http_request(API_WEATHER_WARNINGS_ENDPOINT)
+            weather_alerts = result
 
         weather_alert = self._extract_weather_alert(weather_alerts, teryt)
 
@@ -288,13 +290,16 @@ class ImgwPib:
 
         _LOGGER.debug("Hydrological data: %s", hydrological_data)
 
-        hydrological_alerts = await self._http_request(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT
-        )
+        hydrological_alerts = []
+
+        if result := await self._http_request(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, False
+        ):
+            hydrological_alerts = result
 
         return self._parse_hydrological_data(hydrological_data, hydrological_alerts)
 
-    async def _http_request(self: Self, url: URL) -> Any:  # noqa: ANN401
+    async def _http_request(self: Self, url: URL, required: bool = True) -> Any:  # noqa: ANN401
         """Make an HTTP request."""
         _LOGGER.debug("Requesting %s", url)
 
@@ -306,7 +311,10 @@ class ImgwPib:
 
         if response.status != HTTPStatus.OK.value:
             msg = f"Invalid response: {response.status}"
-            raise ApiError(msg)
+            if required:
+                raise ApiError(msg)
+
+            return None
 
         if "application/json" not in response.content_type:
             msg = f"Invalid content type: {response.content_type}"
