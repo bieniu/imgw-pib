@@ -43,7 +43,7 @@ test = [
   "types-aiofiles",
 ]
 dev = [
-  "pre-commit==4.2.0",
+  "pre-commit==4.3.0",
 ]
 
 [project.urls]
