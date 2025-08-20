@@ -164,14 +164,12 @@ async def test_hydrological_station(
 async def test_no_hydrological_alerts(
     hydrological_stations: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
-    hydrological_stations_2: list[dict[str, Any]],
 ) -> None:
     """Test hydrological station with no alerts."""
     session = aiohttp.ClientSession()
 
     with aioresponses() as session_mock, freeze_time(TEST_TIME):
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT_2, payload=hydrological_stations_2)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
             API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
