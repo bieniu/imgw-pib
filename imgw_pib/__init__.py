@@ -106,7 +106,6 @@ class ImgwPib:
                 content = await file.read()
             self._weather_stations_info = orjson.loads(content)
 
-
         if self.hydrological_station_id is not None:
             _LOGGER.debug(
                 "Using hydrological station ID: %s", self.hydrological_station_id
