@@ -28,6 +28,7 @@ NO_ALERT = "no_alert"
 WEATHER_ALERTS_MAP = {
     "brak": "no_alert",
     "burze": "storms",
+    "gęsta mgła": "dense_fog",
     "intensywne opady deszczu": "heavy_rainfall",
     "silny deszcz z burzami": "heavy_rain_with_storms",
     "silny wiatr": "strong_wind",
