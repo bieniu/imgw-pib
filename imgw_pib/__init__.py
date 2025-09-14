@@ -43,6 +43,9 @@ _LOGGER = logging.getLogger(__name__)
 class ImgwPib:
     """Main class of IMGW-PIB API wrapper."""
 
+    # Class-level cache for weather stations info
+    _weather_stations_info_cache: dict[str, dict[str, Any]] | None = None
+
     def __init__(
         self: Self,
         session: ClientSession,
@@ -102,9 +105,13 @@ class ImgwPib:
                 msg = f"Invalid weather station ID: {self.weather_station_id}"
                 raise ApiError(msg)
 
-            async with aiofiles.open(WEATHER_STATIONS_INFO_FILE, mode="rb") as file:
-                content = await file.read()
-            self._weather_stations_info = orjson.loads(content)
+            # Use cached weather stations info or load it once
+            if ImgwPib._weather_stations_info_cache is None:
+                async with aiofiles.open(WEATHER_STATIONS_INFO_FILE, mode="rb") as file:
+                    content = await file.read()
+                ImgwPib._weather_stations_info_cache = orjson.loads(content)
+
+            self._weather_stations_info = ImgwPib._weather_stations_info_cache
 
         if self.hydrological_station_id is not None:
             _LOGGER.debug(
@@ -232,14 +239,12 @@ class ImgwPib:
 
         all_stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT)
 
-        hydrological_data = next(
-            (
-                item
-                for item in all_stations_data
-                if item.get(ApiNames.STATION_ID) == self.hydrological_station_id
-            ),
-            None,
-        )
+        # Use a more efficient lookup method
+        hydrological_data = None
+        for item in all_stations_data:
+            if item.get(ApiNames.STATION_ID) == self.hydrological_station_id:
+                hydrological_data = item
+                break
 
         if hydrological_data is None:
             msg = f"No hydrological data for station ID: {self.hydrological_station_id}"
@@ -281,42 +286,33 @@ class ImgwPib:
 
     def _parse_weather_data(self, data: dict[str, Any], alert: Alert) -> WeatherData:
         """Parse weather data."""
-        temperature = data[ApiNames.TEMPERATURE]
-        temperature_sensor = SensorData(
-            name="Temperature",
-            value=float(temperature) if temperature is not None else None,
-            unit=Units.CELSIUS.value if temperature is not None else None,
+        # Helper function to create sensor data more efficiently
+        def create_sensor_data(
+            name: str, value: float | str | None, unit: str
+        ) -> SensorData:
+            if value is not None:
+                return SensorData(name=name, value=float(value), unit=unit)
+            return SensorData(name=name, value=None, unit=None)
+
+        temperature_sensor = create_sensor_data(
+            "Temperature", data[ApiNames.TEMPERATURE], Units.CELSIUS.value
         )
-        humidity = data[ApiNames.HUMIDITY]
-        humidity_sensor = SensorData(
-            name="Humidity",
-            value=float(humidity) if humidity is not None else None,
-            unit=Units.PERCENT.value if humidity is not None else None,
+        humidity_sensor = create_sensor_data(
+            "Humidity", data[ApiNames.HUMIDITY], Units.PERCENT.value
         )
-        wind_speed = data[ApiNames.WIND_SPEED]
-        wind_speed_sensor = SensorData(
-            name="Wind Speed",
-            value=float(wind_speed) if wind_speed is not None else None,
-            unit=Units.METERS_PER_SECOND.value if wind_speed is not None else None,
+        wind_speed_sensor = create_sensor_data(
+            "Wind Speed", data[ApiNames.WIND_SPEED], Units.METERS_PER_SECOND.value
         )
-        wind_direction = data[ApiNames.WIND_DIRECTION]
-        wind_direction_sensor = SensorData(
-            name="Wind Direction",
-            value=float(wind_direction) if wind_direction is not None else None,
-            unit=Units.DEGREE.value if wind_direction is not None else None,
+        wind_direction_sensor = create_sensor_data(
+            "Wind Direction", data[ApiNames.WIND_DIRECTION], Units.DEGREE.value
         )
-        precipitation = data[ApiNames.PRECIPITATION]
-        precipitation_sensor = SensorData(
-            name="Precipitation",
-            value=float(precipitation) if precipitation is not None else None,
-            unit=Units.MILLIMETERS.value if precipitation is not None else None,
+        precipitation_sensor = create_sensor_data(
+            "Precipitation", data[ApiNames.PRECIPITATION], Units.MILLIMETERS.value
         )
-        pressure = data[ApiNames.PRESSURE]
-        pressure_sensor = SensorData(
-            name="Pressure",
-            value=float(pressure) if pressure is not None else None,
-            unit=Units.HPA.value if pressure is not None else None,
+        pressure_sensor = create_sensor_data(
+            "Pressure", data[ApiNames.PRESSURE], Units.HPA.value
         )
+
         measurement_date = get_datetime(
             f"{data[ApiNames.MEASUREMENT_DATE]} {data[ApiNames.MEASUREMENT_TIME]}",
             "%Y-%m-%d %H",
@@ -348,81 +344,70 @@ class ImgwPib:
         """Parse hydrological data."""
         now = datetime.now(tz=UTC)
 
-        water_level_measurement_date = get_datetime(
-            data[ApiNames.WATER_LEVEL_MEASUREMENT_DATE],
-            DATE_FORMAT,
+        # Helper function to create sensor data more efficiently
+        def create_sensor_data(
+            name: str, value: float | str | None, unit: str
+        ) -> SensorData:
+            if value is not None:
+                return SensorData(name=name, value=float(value), unit=unit)
+            return SensorData(name=name, value=None, unit=None)
+
+        # Helper function to check data validity
+        def is_data_current(
+            measurement_date_str: str | None,
+        ) -> tuple[datetime | None, bool]:
+            if measurement_date_str is None:
+                return None, False
+            measurement_date = get_datetime(measurement_date_str, DATE_FORMAT)
+            if measurement_date is None:
+                return None, False
+            return measurement_date, now - measurement_date < DATA_VALIDITY_PERIOD
+
+        # Process water level data
+        water_level_measurement_date, water_level_current = is_data_current(
+            data[ApiNames.WATER_LEVEL_MEASUREMENT_DATE]
         )
-        if (
-            water_level_measurement_date is not None
-            and now - water_level_measurement_date < DATA_VALIDITY_PERIOD
-        ):
-            water_level = data[ApiNames.WATER_LEVEL]
-        else:
-            water_level_measurement_date = None
-            water_level = None
+        water_level = data[ApiNames.WATER_LEVEL] if water_level_current else None
 
         if water_level is None:
             msg = "Invalid water level value"
             raise ApiError(msg)
 
-        water_level_sensor = SensorData(
-            name="Water Level",
-            value=float(water_level) if water_level is not None else None,
-            unit=Units.CENTIMETERS.value if water_level is not None else None,
+        # Process water temperature data
+        water_temperature_measurement_date, water_temperature_current = (
+            is_data_current(data[ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE])
         )
-        flood_warning_level_sensor = SensorData(
-            name="Flood Warning Level",
-            value=self._warning_water_level,
-            unit=Units.CENTIMETERS.value
-            if self._warning_water_level is not None
-            else None,
+        water_temperature = (
+            data[ApiNames.WATER_TEMPERATURE] if water_temperature_current else None
         )
-        flood_alarm_level_sensor = SensorData(
-            name="Flood Alarm Level",
-            value=self._alarm_water_level,
-            unit=Units.CENTIMETERS.value
-            if self._alarm_water_level is not None
-            else None,
-        )
-
-        water_temperature_measurement_date = get_datetime(
-            data[ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE],
-            DATE_FORMAT,
-        )
-        if (
-            water_temperature_measurement_date is not None
-            and now - water_temperature_measurement_date < DATA_VALIDITY_PERIOD
-        ):
-            water_temperature = data[ApiNames.WATER_TEMPERATURE]
-        else:
+        if not water_temperature_current:
             water_temperature_measurement_date = None
-            water_temperature = None
 
-        water_temperature_sensor = SensorData(
-            name="Water Temperature",
-            value=float(water_temperature) if water_temperature is not None else None,
-            unit=Units.CELSIUS.value if water_temperature is not None else None,
+        # Process water flow data
+        water_flow_measurement_date, water_flow_current = is_data_current(
+            data[ApiNames.WATER_FLOW_MEASUREMENT_DATE]
         )
-
-        water_flow_measurement_date = get_datetime(
-            data[ApiNames.WATER_FLOW_MEASUREMENT_DATE],
-            DATE_FORMAT,
-        )
-        if (
-            water_flow_measurement_date is not None
-            and now - water_flow_measurement_date < DATA_VALIDITY_PERIOD
-        ):
-            water_flow = data[ApiNames.WATER_FLOW]
-        else:
+        water_flow = data[ApiNames.WATER_FLOW] if water_flow_current else None
+        if not water_flow_current:
             water_flow_measurement_date = None
-            water_flow = None
 
-        water_flow_sensor = SensorData(
-            name="Water Flow",
-            value=float(water_flow) if water_flow is not None else None,
-            unit=Units.CUBIC_METERS_PER_SECOND.value
-            if water_flow is not None
-            else None,
+        # Create sensor data objects
+        water_level_sensor = create_sensor_data(
+            "Water Level", water_level, Units.CENTIMETERS.value
+        )
+        flood_warning_level_sensor = create_sensor_data(
+            "Flood Warning Level",
+            self._warning_water_level,
+            Units.CENTIMETERS.value,
+        )
+        flood_alarm_level_sensor = create_sensor_data(
+            "Flood Alarm Level", self._alarm_water_level, Units.CENTIMETERS.value
+        )
+        water_temperature_sensor = create_sensor_data(
+            "Water Temperature", water_temperature, Units.CELSIUS.value
+        )
+        water_flow_sensor = create_sensor_data(
+            "Water Flow", water_flow, Units.CUBIC_METERS_PER_SECOND.value
         )
 
         river = data[ApiNames.RIVER]
@@ -461,18 +446,30 @@ class ImgwPib:
     ) -> Alert:
         """Extract hydrological alert for a given river."""
         now = datetime.now(tz=UTC)
+        # Pre-process river and province keys once
         river_key = river.split(" ")[-1][:-1].lower()
         province_key = province.lower()
 
         for alert in reversed(hydrological_alerts):
             areas = alert[ApiNames.AREAS]
-            provinces = {item[ApiNames.PROVINCE].lower() for item in areas}
-            descriptions = {item[ApiNames.DESCRIPTION].lower() for item in areas}
 
-            if river_key not in "|".join(descriptions):
-                continue
+            # Check province first as it's likely to be more selective
+            province_match = False
+            river_match = False
 
-            if province_key not in provinces:
+            for area in areas:
+                if (
+                    not province_match
+                    and area[ApiNames.PROVINCE].lower() == province_key
+                ):
+                    province_match = True
+                if not river_match and river_key in area[ApiNames.DESCRIPTION].lower():
+                    river_match = True
+                # Early exit if both conditions are met
+                if province_match and river_match:
+                    break
+
+            if not (province_match and river_match):
                 continue
 
             from_date = get_datetime(alert[ApiNames.DATE_FROM], DATE_FORMAT)
