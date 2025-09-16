@@ -31,11 +31,10 @@ from .model import (
     Alert,
     ApiNames,
     HydrologicalData,
-    SensorData,
     Units,
     WeatherData,
 )
-from .utils import gen_station_name, get_datetime
+from .utils import create_sensor_data, gen_station_name, get_datetime
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -278,15 +277,6 @@ class ImgwPib:
 
     def _parse_weather_data(self, data: dict[str, Any], alert: Alert) -> WeatherData:
         """Parse weather data."""
-
-        def create_sensor_data(
-            name: str, value: float | str | None, unit: str
-        ) -> SensorData:
-            """Create sensor data helper."""
-            if value is not None:
-                return SensorData(name=name, value=float(value), unit=unit)
-            return SensorData(name=name, value=None, unit=None)
-
         temperature_sensor = create_sensor_data(
             "Temperature", data[ApiNames.TEMPERATURE], Units.CELSIUS.value
         )
@@ -353,24 +343,16 @@ class ImgwPib:
             msg = "Invalid water level value"
             raise ApiError(msg)
 
-        water_level_sensor = SensorData(
-            name="Water Level",
-            value=float(water_level) if water_level is not None else None,
-            unit=Units.CENTIMETERS.value if water_level is not None else None,
+        water_level_sensor = create_sensor_data(
+            "Water Level", water_level, Units.CENTIMETERS.value
         )
-        flood_warning_level_sensor = SensorData(
-            name="Flood Warning Level",
-            value=self._warning_water_level,
-            unit=Units.CENTIMETERS.value
-            if self._warning_water_level is not None
-            else None,
+        flood_warning_level_sensor = create_sensor_data(
+            "Flood Warning Level",
+            self._warning_water_level,
+            Units.CENTIMETERS.value,
         )
-        flood_alarm_level_sensor = SensorData(
-            name="Flood Alarm Level",
-            value=self._alarm_water_level,
-            unit=Units.CENTIMETERS.value
-            if self._alarm_water_level is not None
-            else None,
+        flood_alarm_level_sensor = create_sensor_data(
+            "Flood Alarm Level", self._alarm_water_level, Units.CENTIMETERS.value
         )
 
         water_temperature_measurement_date = get_datetime(
@@ -386,10 +368,8 @@ class ImgwPib:
             water_temperature_measurement_date = None
             water_temperature = None
 
-        water_temperature_sensor = SensorData(
-            name="Water Temperature",
-            value=float(water_temperature) if water_temperature is not None else None,
-            unit=Units.CELSIUS.value if water_temperature is not None else None,
+        water_temperature_sensor = create_sensor_data(
+            "Water Temperature", water_temperature, Units.CELSIUS.value
         )
 
         water_flow_measurement_date = get_datetime(
@@ -405,12 +385,8 @@ class ImgwPib:
             water_flow_measurement_date = None
             water_flow = None
 
-        water_flow_sensor = SensorData(
-            name="Water Flow",
-            value=float(water_flow) if water_flow is not None else None,
-            unit=Units.CUBIC_METERS_PER_SECOND.value
-            if water_flow is not None
-            else None,
+        water_flow_sensor = create_sensor_data(
+            "Water Flow", water_flow, Units.CUBIC_METERS_PER_SECOND.value
         )
 
         river = data[ApiNames.RIVER]

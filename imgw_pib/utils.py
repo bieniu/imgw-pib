@@ -5,6 +5,8 @@ import re
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
+from .model import SensorData
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -31,3 +33,11 @@ def get_datetime(date_time: str | None, date_format: str) -> datetime | None:
     except (TypeError, ValueError) as exc:
         _LOGGER.debug("Invalid date-time string '%s', %s", date_time, exc)
         return None
+
+
+def create_sensor_data(name: str, value: float | str | None, unit: str) -> SensorData:
+    """Create sensor data helper."""
+    if value is not None:
+        return SensorData(name=name, value=float(value), unit=unit)
+
+    return SensorData(name=name, value=None, unit=None)
