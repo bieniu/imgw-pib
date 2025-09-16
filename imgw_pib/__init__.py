@@ -417,13 +417,22 @@ class ImgwPib:
 
         for alert in reversed(hydrological_alerts):
             areas = alert[ApiNames.AREAS]
-            provinces = {item[ApiNames.PROVINCE].lower() for item in areas}
-            descriptions = {item[ApiNames.DESCRIPTION].lower() for item in areas}
+            province_match = False
+            river_match = False
 
-            if river_key not in "|".join(descriptions):
-                continue
+            for area in areas:
+                if (
+                    not province_match
+                    and area[ApiNames.PROVINCE].lower() == province_key
+                ):
+                    province_match = True
+                if not river_match and river_key in area[ApiNames.DESCRIPTION].lower():
+                    river_match = True
+                # Early exit if both conditions are met
+                if province_match and river_match:
+                    break
 
-            if province_key not in provinces:
+            if not (province_match and river_match):
                 continue
 
             from_date = get_datetime(alert[ApiNames.DATE_FROM], DATE_FORMAT)
