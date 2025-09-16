@@ -34,7 +34,7 @@ from .model import (
     Units,
     WeatherData,
 )
-from .utils import create_sensor_data, gen_station_name, get_datetime
+from .utils import create_sensor_data, gen_station_name, get_datetime, is_data_current
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -330,14 +330,10 @@ class ImgwPib:
             data[ApiNames.WATER_LEVEL_MEASUREMENT_DATE],
             DATE_FORMAT,
         )
-        if (
-            water_level_measurement_date is not None
-            and now - water_level_measurement_date < DATA_VALIDITY_PERIOD
-        ):
-            water_level = data[ApiNames.WATER_LEVEL]
-        else:
-            water_level_measurement_date = None
-            water_level = None
+        water_level_measurement_date, water_level_current = is_data_current(
+            data[ApiNames.WATER_LEVEL_MEASUREMENT_DATE], now
+        )
+        water_level = data[ApiNames.WATER_LEVEL] if water_level_current else None
 
         if water_level is None:
             msg = "Invalid water level value"
@@ -355,35 +351,26 @@ class ImgwPib:
             "Flood Alarm Level", self._alarm_water_level, Units.CENTIMETERS.value
         )
 
-        water_temperature_measurement_date = get_datetime(
-            data[ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE],
-            DATE_FORMAT,
+        water_temperature_measurement_date, water_temperature_current = is_data_current(
+            data[ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE], now
         )
-        if (
-            water_temperature_measurement_date is not None
-            and now - water_temperature_measurement_date < DATA_VALIDITY_PERIOD
-        ):
-            water_temperature = data[ApiNames.WATER_TEMPERATURE]
-        else:
+        water_temperature = (
+            data[ApiNames.WATER_TEMPERATURE] if water_temperature_current else None
+        )
+        if not water_temperature_current:
             water_temperature_measurement_date = None
-            water_temperature = None
 
         water_temperature_sensor = create_sensor_data(
             "Water Temperature", water_temperature, Units.CELSIUS.value
         )
 
-        water_flow_measurement_date = get_datetime(
-            data[ApiNames.WATER_FLOW_MEASUREMENT_DATE],
-            DATE_FORMAT,
+        water_flow_measurement_date, water_flow_current = is_data_current(
+            data[ApiNames.WATER_FLOW_MEASUREMENT_DATE], now
         )
-        if (
-            water_flow_measurement_date is not None
-            and now - water_flow_measurement_date < DATA_VALIDITY_PERIOD
-        ):
-            water_flow = data[ApiNames.WATER_FLOW]
-        else:
+
+        water_flow = data[ApiNames.WATER_FLOW] if water_flow_current else None
+        if not water_flow_current:
             water_flow_measurement_date = None
-            water_flow = None
 
         water_flow_sensor = create_sensor_data(
             "Water Flow", water_flow, Units.CUBIC_METERS_PER_SECOND.value
