@@ -8,6 +8,7 @@ from zoneinfo import ZoneInfo
 from .const import DATA_VALIDITY_PERIOD, DATE_FORMAT
 from .model import SensorData
 
+_WARSAW_TZ = ZoneInfo("Europe/Warsaw")
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -28,9 +29,7 @@ def get_datetime(date_time: str | None, date_format: str) -> datetime | None:
         return None
 
     try:
-        return datetime.strptime(date_time, date_format).replace(
-            tzinfo=ZoneInfo("Europe/Warsaw")
-        )
+        return datetime.strptime(date_time, date_format).replace(tzinfo=_WARSAW_TZ)
     except (TypeError, ValueError) as exc:
         _LOGGER.debug("Invalid date-time string '%s', %s", date_time, exc)
         return None
