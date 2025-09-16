@@ -232,14 +232,11 @@ class ImgwPib:
 
         all_stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT)
 
-        hydrological_data = next(
-            (
-                item
-                for item in all_stations_data
-                if item.get(ApiNames.STATION_ID) == self.hydrological_station_id
-            ),
-            None,
-        )
+        hydrological_data = None
+        for item in all_stations_data:
+            if item.get(ApiNames.STATION_ID) == self.hydrological_station_id:
+                hydrological_data = item
+                break
 
         if hydrological_data is None:
             msg = f"No hydrological data for station ID: {self.hydrological_station_id}"
@@ -281,41 +278,32 @@ class ImgwPib:
 
     def _parse_weather_data(self, data: dict[str, Any], alert: Alert) -> WeatherData:
         """Parse weather data."""
-        temperature = data[ApiNames.TEMPERATURE]
-        temperature_sensor = SensorData(
-            name="Temperature",
-            value=float(temperature) if temperature is not None else None,
-            unit=Units.CELSIUS.value if temperature is not None else None,
+
+        def create_sensor_data(
+            name: str, value: float | str | None, unit: str
+        ) -> SensorData:
+            """Create sensor data helper."""
+            if value is not None:
+                return SensorData(name=name, value=float(value), unit=unit)
+            return SensorData(name=name, value=None, unit=None)
+
+        temperature_sensor = create_sensor_data(
+            "Temperature", data[ApiNames.TEMPERATURE], Units.CELSIUS.value
         )
-        humidity = data[ApiNames.HUMIDITY]
-        humidity_sensor = SensorData(
-            name="Humidity",
-            value=float(humidity) if humidity is not None else None,
-            unit=Units.PERCENT.value if humidity is not None else None,
+        humidity_sensor = create_sensor_data(
+            "Humidity", data[ApiNames.HUMIDITY], Units.PERCENT.value
         )
-        wind_speed = data[ApiNames.WIND_SPEED]
-        wind_speed_sensor = SensorData(
-            name="Wind Speed",
-            value=float(wind_speed) if wind_speed is not None else None,
-            unit=Units.METERS_PER_SECOND.value if wind_speed is not None else None,
+        wind_speed_sensor = create_sensor_data(
+            "Wind Speed", data[ApiNames.WIND_SPEED], Units.METERS_PER_SECOND.value
         )
-        wind_direction = data[ApiNames.WIND_DIRECTION]
-        wind_direction_sensor = SensorData(
-            name="Wind Direction",
-            value=float(wind_direction) if wind_direction is not None else None,
-            unit=Units.DEGREE.value if wind_direction is not None else None,
+        wind_direction_sensor = create_sensor_data(
+            "Wind Direction", data[ApiNames.WIND_DIRECTION], Units.DEGREE.value
         )
-        precipitation = data[ApiNames.PRECIPITATION]
-        precipitation_sensor = SensorData(
-            name="Precipitation",
-            value=float(precipitation) if precipitation is not None else None,
-            unit=Units.MILLIMETERS.value if precipitation is not None else None,
+        precipitation_sensor = create_sensor_data(
+            "Precipitation", data[ApiNames.PRECIPITATION], Units.MILLIMETERS.value
         )
-        pressure = data[ApiNames.PRESSURE]
-        pressure_sensor = SensorData(
-            name="Pressure",
-            value=float(pressure) if pressure is not None else None,
-            unit=Units.HPA.value if pressure is not None else None,
+        pressure_sensor = create_sensor_data(
+            "Pressure", data[ApiNames.PRESSURE], Units.HPA.value
         )
         measurement_date = get_datetime(
             f"{data[ApiNames.MEASUREMENT_DATE]} {data[ApiNames.MEASUREMENT_TIME]}",
