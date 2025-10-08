@@ -7,8 +7,6 @@ from typing import TYPE_CHECKING, Any, Self
 
 import aiofiles
 import orjson
-from aiohttp import ClientSession
-from yarl import URL
 
 from .const import (
     ALERT_LEVEL_MAP,
@@ -29,6 +27,11 @@ from .const import (
 from .exceptions import ApiError
 from .model import Alert, ApiNames, HydrologicalData, SensorData, Units, WeatherData
 from .utils import create_sensor_data, gen_station_name, get_datetime, is_data_current
+
+if TYPE_CHECKING:
+    from aiohttp import ClientSession
+    from yarl import URL
+
 
 __all__ = ["SensorData"]
 
