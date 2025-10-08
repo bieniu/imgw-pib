@@ -3,7 +3,10 @@
 from dataclasses import dataclass
 from datetime import datetime
 from enum import StrEnum
-from typing import Self
+from typing import TYPE_CHECKING, Self
+
+if TYPE_CHECKING:
+    from datetime import datetime
 
 
 @dataclass

@@ -14,12 +14,12 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: 3 :: Only",
     "Typing :: Typed",
 ]
-requires-python = ">=3.12"
+requires-python = ">=3.13"
 dependencies = [
   "aiofiles",
   "aiohttp>=3.9.4",
@@ -38,7 +38,7 @@ test = [
   "pytest-error-for-skips==2.0.2",
   "pytest-timeout==2.4.0",
   "pytest==8.4.2",
-  "ruff==0.13.3",
+  "ruff==0.14.0",
   "syrupy==5.0.0",
   "types-aiofiles",
 ]
@@ -59,7 +59,7 @@ include = ["imgw_pib*"]
 asyncio_default_fixture_loop_scope = "session"
 
 [tool.mypy]
-python_version = "3.13"
+python_version = "3.14"
 show_error_codes = true
 warn_incomplete_stub = true
 warn_redundant_casts = true
@@ -77,7 +77,7 @@ warn_unused_ignores = true
 warn_unreachable = true
 
 [tool.ruff]
-target-version = "py313"
+target-version = "py314"
 
 lint.select = ["ALL"]
 
@@ -99,6 +99,8 @@ lint.ignore = [
     "FBT001",    # Boolean-typed positional argument in function definition
     "PLR0913",   # Too many arguments in function definition
     "S101",      # Use of `assert` detected
+    "TC002",     # Move third-party import into a type-checking block
+    "TC003",     # Move standard library import into a type-checking block
 ]
 
 
@@ -112,13 +114,13 @@ source = ["imgw_pib"]
 legacy_tox_ini = """
 
 [tox]
-envlist = py312, py313, lint, typing, coverage
+envlist = py313, py314, lint, typing, coverage
 skip_missing_interpreters = True
 
 [gh-actions]
 python =
-  3.12: py312, lint, typing, coverage
-  3.13: py313
+  3.13: py313, lint, typing, coverage
+  3.14: py314
 
 [testenv]
 commands =
@@ -127,8 +129,8 @@ deps =
   .[test]
 
 [testenv:lint]
-basepython = python3
-depends = py312
+basepython = python3.13
+depends = py313
 ignore_errors = True
 skip_install = True
 usedevelop = False
@@ -137,8 +139,8 @@ commands =
   ruff format --check .
 
 [testenv:typing]
-basepython = python3
-depends = py312
+basepython = python3.13
+depends = py313
 ignore_errors = True
 skip_install = True
 usedevelop = False
@@ -146,8 +148,8 @@ commands =
   mypy imgw_pib
 
 [testenv:coverage]
-basepython = python3
-depends = py312
+basepython = python3.13
+depends = py313
 skip_install = True
 usedevelop = False
 commands =
