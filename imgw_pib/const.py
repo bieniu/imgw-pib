@@ -30,9 +30,12 @@ WEATHER_ALERTS_MAP = {
     "burze": "storms",
     "gęsta mgła": "dense_fog",
     "intensywne opady deszczu": "heavy_rainfall",
+    "opady marznące": "freezing_rain",
+    "roztopy": "thaw",
     "silny deszcz z burzami": "heavy_rain_with_storms",
     "silny wiatr": "strong_wind",
     "upał": "heat",
+    "zawieje/zamiecie śnieżne": "snow_blizzard",
 }
 HYDROLOGICAL_ALERTS_MAP = {
     "brak": "no_alert",
