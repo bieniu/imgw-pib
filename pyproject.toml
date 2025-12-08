@@ -88,19 +88,18 @@ lint.ignore = [
     "FBT001",   # Boolean-typed positional argument in function definition
     "FBT002",   # Boolean default positional argument in function definition
     "FBT003",   # Boolean positional value in function call
+    "TC002",    # Move third-party import into a type-checking block
+    "TC003",    # Move standard library import into a type-checking block
     "TC006",    # Add quotes to type expression in `typing.cast()`
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "example.py" = [
-    "T201",      # `print` found
+    "T201",     # `print` found
 ]
 "tests/*" = [
-    "FBT001",    # Boolean-typed positional argument in function definition
-    "PLR0913",   # Too many arguments in function definition
-    "S101",      # Use of `assert` detected
-    "TC002",     # Move third-party import into a type-checking block
-    "TC003",     # Move standard library import into a type-checking block
+    "PLR0913",  # Too many arguments in function definition
+    "S101",     # Use of `assert` detected
 ]
 
 
