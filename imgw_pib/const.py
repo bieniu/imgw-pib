@@ -35,6 +35,7 @@ WEATHER_ALERTS_MAP = {
     "opady marznące": "freezing_rain",
     "roztopy": "thaw",
     "silny deszcz z burzami": "heavy_rain_with_storms",
+    "silny mróz": "heavy_frost",
     "silny wiatr": "strong_wind",
     "upał": "heat",
     "zawieje/zamiecie śnieżne": "snow_blizzard",
