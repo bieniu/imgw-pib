@@ -1,3 +1,5 @@
+[![CI](https://img.shields.io/github/actions/workflow/status/bieniu/imgw-pib/ci.yml?branch=master&label=CI&logo=github&style=popout)](https://github.com/bieniu/imgw-pib/actions/workflows/ci.yml?query=branch%3Amaster)
+[![codecov](https://codecov.io/gh/bieniu/imgw-pib/graph/badge.svg?token=PYRGZ2EH4R)](https://codecov.io/gh/bieniu/imgw-pib)
 [![GitHub Release][releases-shield]][releases]
 [![PyPI][pypi-releases-shield]][pypi-releases]
 [![PyPI - Downloads][pypi-downloads]][pypi-statistics]
