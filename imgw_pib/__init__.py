@@ -30,7 +30,7 @@ from .exceptions import ApiError
 from .model import Alert, ApiNames, HydrologicalData, SensorData, Units, WeatherData
 from .utils import create_sensor_data, gen_station_name, get_datetime, is_data_current
 
-__all__ = ["SensorData"]
+__all__ = ["ImgwPib", "SensorData"]
 
 _LOGGER = logging.getLogger(__name__)
 

@@ -3,11 +3,11 @@
 from typing import Self
 
 
-class ImdbPibError(Exception):
-    """Base class for imdb-pib errors."""
+class ImgwPibError(Exception):
+    """Base class for imgw-pib errors."""
 
 
-class ApiError(ImdbPibError):
+class ApiError(ImgwPibError):
     """Raised to indicate API error."""
 
     def __init__(self: Self, status: str) -> None:
