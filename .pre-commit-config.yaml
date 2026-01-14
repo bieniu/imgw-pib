@@ -37,9 +37,3 @@ repos:
           - --no-sort-keys
           - --indent=4
           - --autofix
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: "v1.19.1"
-    hooks:
-      - id: mypy
-        additional_dependencies: [types-aiofiles]
-        files: ^(imgw_pib)/.+\.py$
