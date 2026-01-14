@@ -40,7 +40,7 @@ jobs:
         run: ruff format --check .
 
       - name: Check types
-        run: mypy imgw_pib
+        run: ty check imgw_pib
 
       - name: Run tests
         run: pytest --timeout=30 --cov --cov-branch --cov-report=xml --error-for-skips
