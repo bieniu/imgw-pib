@@ -74,6 +74,15 @@ The library raises `ApiError` when the IMGW-PIB API returns an error, `ClientErr
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
+## How to create a dev environment
+
+```bash
+git clone https://github.com/bieniu/imgw-pib.git
+cd imgw-pib
+./scripts/setup-local-env.sh
+```
+
+
 [releases]: https://github.com/bieniu/imgw-pib/releases
 [releases-shield]: https://img.shields.io/github/release/bieniu/imgw-pib.svg?style=popout
 [pypi-releases]: https://pypi.org/project/imgw-pib/
