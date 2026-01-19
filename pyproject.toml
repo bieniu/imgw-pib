@@ -27,7 +27,7 @@ dependencies = [
   "yarl",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
   "aioresponses==0.7.8",
   "freezegun==1.5.5",
