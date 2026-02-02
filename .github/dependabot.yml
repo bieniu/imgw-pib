@@ -18,6 +18,11 @@ updates:
           - "ruff"
           - "syrupy"
           - "ty"
+    ignore:
+      - dependency-name: "aiofiles"
+      - dependency-name: "aiohttp"
+      - dependency-name: "orjson"
+      - dependency-name: "yarl"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
