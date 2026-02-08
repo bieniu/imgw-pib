@@ -408,7 +408,7 @@ class ImgwPib:
     ) -> Alert:
         """Extract hydrological alert for a given river."""
         now = datetime.now(tz=UTC)
-        river_key = river.split(" ")[-1][:-1].lower()
+        river_key = river.rsplit(" ", maxsplit=1)[-1][:-1].lower()
         province_key = province.lower()
 
         for alert in reversed(hydrological_alerts):
