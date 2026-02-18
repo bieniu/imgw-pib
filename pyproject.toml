@@ -80,6 +80,10 @@ lint.ignore = [
     "PLR0913",  # Too many arguments in function definition
     "S101",     # Use of `assert` detected
 ]
+"scripts/*" = [
+    "INP001",   # File is part of an implicit namespace package
+    "T201",     # `print` found
+]
 
 
 [tool.ruff.lint.mccabe]

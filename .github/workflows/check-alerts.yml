@@ -1,0 +1,66 @@
+name: Check for new alerts
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  check-alerts:
+    name: Check for new IMGW-PIB alerts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Check for new alerts
+        id: check
+        run: python scripts/check_alerts.py
+
+      - name: Create issue if new alerts found
+        if: steps.check.outputs.new_alerts == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = 'New unmapped IMGW-PIB alerts detected';
+            const body = `${{ steps.check.outputs.issue_body }}`;
+
+            // Check if an open issue with the same title already exists
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'new-alerts',
+            });
+
+            const existing = issues.find(i => i.title === title);
+            if (existing) {
+              console.log(`Issue already exists: #${existing.number}`);
+              // Update existing issue body
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body: body,
+              });
+              console.log(`Updated issue #${existing.number}`);
+              return;
+            }
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['new-alerts'],
+            });
+            console.log('Created new issue.');
