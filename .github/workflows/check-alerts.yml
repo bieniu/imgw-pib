@@ -17,10 +17,15 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
         with:
-          python-version: "3.13"
+          enable-cache: true
+          activate-environment: true
+          python-version: 3.13
+
+      - name: Install package
+        run: uv pip install .
 
       - name: Check for new alerts
         id: check
