@@ -34,10 +34,12 @@ jobs:
       - name: Create issue if new alerts found
         if: steps.check.outputs.new_alerts == 'true'
         uses: actions/github-script@v7
+        env:
+          ISSUE_BODY: ${{ steps.check.outputs.issue_body }}
         with:
           script: |
             const title = 'New unmapped IMGW-PIB alerts detected';
-            const body = `${{ steps.check.outputs.issue_body }}`;
+            const body = process.env.ISSUE_BODY;
 
             // Check if an open issue with the same title already exists
             const { data: issues } = await github.rest.issues.listForRepo({
