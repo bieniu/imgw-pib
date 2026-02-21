@@ -1,32 +1,27 @@
 version: 2
 enable-beta-ecosystems: true
 
-multi-ecosystem-groups:
-  dev:
-    schedule:
-      interval: "weekly"
-
 updates:
   - package-ecosystem: "uv"
     directory: "/"
-    patterns:
-      - "aioresponses"
-      - "freezegun"
-      - "prek"
-      - "pytest-asyncio"
-      - "pytest-cov"
-      - "pytest-error-for-skips"
-      - "pytest-timeout"
-      - "pytest"
-      - "ruff"
-      - "syrupy"
-      - "ty"
-    ignore:
-      - dependency-name: "aiofiles"
-      - dependency-name: "aiohttp"
-      - dependency-name: "orjson"
-      - dependency-name: "yarl"
-    multi-ecosystem-group: "dev"
+    schedule:
+      interval: "weekly"
+    groups:
+      dev:
+        patterns:
+          - "aioresponses"
+          - "freezegun"
+          - "prek"
+          - "pytest"
+          - "pytest-*"
+          - "ruff"
+          - "syrupy"
+          - "ty"
+        ignore:
+          - dependency-name: "aiofiles"
+          - dependency-name: "aiohttp"
+          - dependency-name: "orjson"
+          - dependency-name: "yarl"
 
   - package-ecosystem: "github-actions"
     directory: "/"
