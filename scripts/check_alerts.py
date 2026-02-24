@@ -24,7 +24,13 @@ def fetch_json(url: str) -> list | dict:
     resp = conn.getresponse()
     data = resp.read()
     conn.close()
-    return json.loads(data)
+
+    try:
+        result = json.loads(data)
+    except json.JSONDecodeError:
+        return {"status": False}
+
+    return result
 
 
 def get_hydro_alerts() -> set[str]:
