@@ -19,7 +19,6 @@ imgw_pib/
 
 ## Python and environment
 - Target Python: >=3.13
-- Preferred setup: `./scripts/setup-local-env.sh` (creates `./venv`, installs deps with `uv`, runs `prek install`)
 - Local venv: `./venv` (activate with `source venv/bin/activate`)
 
 ## Linting, formatting, typing
