@@ -22,6 +22,7 @@ from .const import (
     HEADERS,
     HYDROLOGICAL_ALERTS_MAP,
     NO_ALERT,
+    PHENOMENON_DATA_VALIDITY_PERIOD,
     TIMEOUT,
     WEATHER_ALERTS_MAP,
     WEATHER_STATIONS_INFO_FILE,
@@ -373,7 +374,9 @@ class ImgwPib:
         )
 
         ice_phenomenon_measurement_date, ice_phenomenon_current = is_data_current(
-            data[ApiNames.ICE_PHENOMENON_MEASUREMENT_DATE], now
+            data[ApiNames.ICE_PHENOMENON_MEASUREMENT_DATE],
+            now,
+            PHENOMENON_DATA_VALIDITY_PERIOD,
         )
 
         ice_phenomenon = (
