@@ -2,7 +2,7 @@
 
 import logging
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from .const import DATA_VALIDITY_PERIOD, DATE_FORMAT
@@ -44,7 +44,9 @@ def create_sensor_data(name: str, value: float | str | None, unit: str) -> Senso
 
 
 def is_data_current(
-    measurement_date_str: str | None, now: datetime
+    measurement_date_str: str | None,
+    now: datetime,
+    data_validity_period: timedelta = DATA_VALIDITY_PERIOD,
 ) -> tuple[datetime | None, bool]:
     """Check if data is current."""
     if measurement_date_str is None:
@@ -54,4 +56,4 @@ def is_data_current(
     if measurement_date is None:
         return None, False
 
-    return measurement_date, now - measurement_date < DATA_VALIDITY_PERIOD
+    return measurement_date, now - measurement_date < data_validity_period

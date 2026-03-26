@@ -22,6 +22,7 @@ from .const import (
     HEADERS,
     HYDROLOGICAL_ALERTS_MAP,
     NO_ALERT,
+    PHENOMENON_DATA_VALIDITY_PERIOD,
     TIMEOUT,
     WEATHER_ALERTS_MAP,
     WEATHER_STATIONS_INFO_FILE,
@@ -372,6 +373,22 @@ class ImgwPib:
             "Water Flow", water_flow, Units.CUBIC_METERS_PER_SECOND.value
         )
 
+        ice_phenomenon_measurement_date, ice_phenomenon_current = is_data_current(
+            data[ApiNames.ICE_PHENOMENON_MEASUREMENT_DATE],
+            now,
+            PHENOMENON_DATA_VALIDITY_PERIOD,
+        )
+
+        ice_phenomenon = (
+            int(data[ApiNames.ICE_PHENOMENON]) * 10 if ice_phenomenon_current else None
+        )
+        if not ice_phenomenon_current:
+            ice_phenomenon_measurement_date = None
+
+        ice_phenomenon_sensor = create_sensor_data(
+            "Ice Phenomenon", ice_phenomenon, Units.PERCENT.value
+        )
+
         river = data[ApiNames.RIVER]
 
         hydrological_alert = self._extract_hydrological_alert(
@@ -398,6 +415,8 @@ class ImgwPib:
             water_temperature_measurement_date=water_temperature_measurement_date,
             water_temperature=water_temperature_sensor,
             hydrological_alert=hydrological_alert,
+            ice_phenomenon=ice_phenomenon_sensor,
+            ice_phenomenon_measurement_date=ice_phenomenon_measurement_date,
         )
 
     def _extract_hydrological_alert(

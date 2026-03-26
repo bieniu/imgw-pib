@@ -10,7 +10,7 @@ from imgw_pib import ApiError, ImgwPib
 logging.basicConfig(level=logging.DEBUG)
 
 WEATHER_STATION_ID = "12200"
-HYDROLOGICAL_STATION_ID = "154190050"
+HYDROLOGICAL_STATION_ID = "152210040"
 
 
 async def main() -> None:
