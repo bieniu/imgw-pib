@@ -62,8 +62,8 @@ class HydrologicalData(ImgwPibData):
     water_temperature_measurement_date: datetime | None
     water_flow: SensorData
     water_flow_measurement_date: datetime | None
-    ice_phenomenon: SensorData
-    ice_phenomenon_measurement_date: datetime | None
+    ice_phenomena: SensorData
+    ice_phenomena_measurement_date: datetime | None
 
     flood_alarm: bool | None = None
     flood_alarm_level: SensorData
