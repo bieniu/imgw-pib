@@ -62,8 +62,8 @@ class HydrologicalData(ImgwPibData):
     water_temperature_measurement_date: datetime | None
     water_flow: SensorData
     water_flow_measurement_date: datetime | None
-    ice_phenomenon: SensorData
-    ice_phenomenon_measurement_date: datetime | None
+    ice_phenomena: SensorData
+    ice_phenomena_measurement_date: datetime | None
 
     flood_alarm: bool | None = None
     flood_alarm_level: SensorData
@@ -103,8 +103,8 @@ class ApiNames(StrEnum):
     EVENT = "zdarzenie"
     EVENT_NAME = "nazwa_zdarzenia"
     HUMIDITY = "wilgotnosc_wzgledna"
-    ICE_PHENOMENON = "zjawisko_lodowe"
-    ICE_PHENOMENON_MEASUREMENT_DATE = "zjawisko_lodowe_data_pomiaru"
+    ICE_PHENOMENA = "zjawisko_lodowe"
+    ICE_PHENOMENA_MEASUREMENT_DATE = "zjawisko_lodowe_data_pomiaru"
     LATITUDE = "lat"
     LONGITUDE = "lon"
     MEASUREMENT_DATE = "data_pomiaru"
