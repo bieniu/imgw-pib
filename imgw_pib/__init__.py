@@ -22,7 +22,7 @@ from .const import (
     HEADERS,
     HYDROLOGICAL_ALERTS_MAP,
     NO_ALERT,
-    PHENOMENON_DATA_VALIDITY_PERIOD,
+    PHENOMENA_DATA_VALIDITY_PERIOD,
     TIMEOUT,
     WEATHER_ALERTS_MAP,
     WEATHER_STATIONS_INFO_FILE,
@@ -374,13 +374,13 @@ class ImgwPib:
         )
 
         ice_phenomena_measurement_date, ice_phenomena_current = is_data_current(
-            data[ApiNames.ICE_PHENOMENON_MEASUREMENT_DATE],
+            data[ApiNames.ICE_PHENOMENA_MEASUREMENT_DATE],
             now,
-            PHENOMENON_DATA_VALIDITY_PERIOD,
+            PHENOMENA_DATA_VALIDITY_PERIOD,
         )
 
         ice_phenomena = (
-            int(data[ApiNames.ICE_PHENOMENON]) * 10 if ice_phenomena_current else None
+            int(data[ApiNames.ICE_PHENOMENA]) * 10 if ice_phenomena_current else None
         )
         if not ice_phenomena_current:
             ice_phenomena_measurement_date = None

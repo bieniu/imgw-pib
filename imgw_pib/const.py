@@ -22,7 +22,7 @@ HEADERS = {"Content-Type": "application/json"}
 TIMEOUT = ClientTimeout(total=20)
 
 DATA_VALIDITY_PERIOD = timedelta(hours=6)
-PHENOMENON_DATA_VALIDITY_PERIOD = timedelta(hours=24)
+PHENOMENA_DATA_VALIDITY_PERIOD = timedelta(hours=24)
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 NO_ALERT = "no_alert"
