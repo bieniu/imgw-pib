@@ -1,0 +1,20 @@
+[
+    {
+        "id_stacji": "153190020",
+        "lat": null,
+        "lon": null,
+        "przeplyw": "1.41",
+        "przeplyw_data": "2024-04-22 10:10:00",
+        "rzeka": "Osa",
+        "stacja": "Lisnowo",
+        "stan_wody": "96",
+        "stan_wody_data_pomiaru": "2024-04-22 10:10:00",
+        "temperatura_wody": null,
+        "temperatura_wody_data_pomiaru": null,
+        "wojewodztwo": null,
+        "zjawisko_lodowe": "0",
+        "zjawisko_lodowe_data_pomiaru": "2024-04-22 10:10:00",
+        "zjawisko_zarastania": "0",
+        "zjawisko_zarastania_data_pomiaru": "2024-04-22 10:10:00"
+    }
+]

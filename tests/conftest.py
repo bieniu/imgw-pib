@@ -57,6 +57,15 @@ def hydrological_alerts() -> list[dict[str, Any]]:
 
 
 @pytest.fixture
+def hydrological_station_no_location() -> list[dict[str, Any]]:
+    """Return hydrological station data with no lat/lon/province."""
+    with Path("tests/fixtures/hydrological_station_no_location.json").open(
+        encoding="utf-8"
+    ) as file:
+        return cast(list[dict[str, Any]], json.load(file))
+
+
+@pytest.fixture
 def snapshot(snapshot: SnapshotAssertion) -> SnapshotAssertion:
     """Return snapshot assertion fixture."""
     return snapshot.use_extension(SnapshotExtension)
