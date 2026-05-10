@@ -568,3 +568,36 @@ async def test_hydrological_details_is_false(
     await session.close()
 
     assert hydrological_data == snapshot
+
+
+@pytest.mark.asyncio
+async def test_hydrological_station_no_location(
+    snapshot: SnapshotAssertion,
+    hydrological_station_no_location: list[dict[str, Any]],
+    hydrological_details: dict[str, Any],
+    hydrological_alerts: list[dict[str, Any]],
+) -> None:
+    """Test hydrological station."""
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
+        session_mock.get(
+            API_HYDROLOGICAL_ENDPOINT, payload=hydrological_station_no_location
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_ENDPOINT, payload=hydrological_station_no_location
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="153190020"),
+            payload=hydrological_details,
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+        )
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="153190020")
+        hydrological_data = await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert hydrological_data == snapshot
