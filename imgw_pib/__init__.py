@@ -400,11 +400,14 @@ class ImgwPib:
         if TYPE_CHECKING:
             assert self.hydrological_station_id
 
+        lat = data[ApiNames.LATITUDE]
+        lon = data[ApiNames.LONGITUDE]
+
         return HydrologicalData(
             flood_alarm_level=flood_alarm_level_sensor,
             flood_warning_level=flood_warning_level_sensor,
-            latitude=float(data[ApiNames.LATITUDE]),
-            longitude=float(data[ApiNames.LONGITUDE]),
+            latitude=float(lat) if lat is not None else None,
+            longitude=float(lon) if lon is not None else None,
             river=river,
             station_id=self.hydrological_station_id,
             station=data[ApiNames.STATION].strip(),
