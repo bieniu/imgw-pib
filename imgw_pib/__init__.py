@@ -423,9 +423,12 @@ class ImgwPib:
         self,
         hydrological_alerts: list[dict[str, Any]],
         river: str,
-        province: str,
+        province: str | None,
     ) -> Alert:
         """Extract hydrological alert for a given river."""
+        if province is None:
+            return Alert(value=NO_ALERT)
+
         now = datetime.now(tz=UTC)
         river_key = river.rsplit(" ", maxsplit=1)[-1][:-1].lower()
         province_key = province.lower()
