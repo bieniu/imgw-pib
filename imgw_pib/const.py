@@ -56,3 +56,5 @@ ALERT_LEVEL_MAP = {
     "2": "orange",
     "3": "red",
 }
+
+VEGETATION_DIGIT_TO_PERCENT: dict[int, int] = {0: 0, 1: 33, 2: 67, 3: 100}

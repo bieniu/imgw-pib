@@ -5,7 +5,7 @@ import re
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from .const import DATA_VALIDITY_PERIOD, DATE_FORMAT
+from .const import DATA_VALIDITY_PERIOD, DATE_FORMAT, VEGETATION_DIGIT_TO_PERCENT
 from .model import SensorData
 
 _WARSAW_TZ = ZoneInfo("Europe/Warsaw")
@@ -57,3 +57,25 @@ def is_data_current(
         return None, False
 
     return measurement_date, now - measurement_date < data_validity_period
+
+
+def decode_vegetation_phenomena(
+    value: int | None,
+) -> tuple[float | None, float | None, float | None]:
+    """Decode vegetation phenomena code into submerged, floating, and emergent coverage.
+
+    The code is a 3-digit number where:
+    - hundreds digit encodes submerged (bottom) vegetation coverage
+    - tens digit encodes floating vegetation coverage
+    - units digit encodes emergent vegetation coverage
+
+    Digit values: 0 = none, 1 = 1/3 (~33%), 2 = 2/3 (~67%), 3 = full (100%).
+    """
+    if value is None:
+        return None, None, None
+
+    submerged = VEGETATION_DIGIT_TO_PERCENT.get(value // 100, 0)
+    floating = VEGETATION_DIGIT_TO_PERCENT.get((value % 100) // 10, 0)
+    emergent = VEGETATION_DIGIT_TO_PERCENT.get(value % 10, 0)
+
+    return submerged, floating, emergent
