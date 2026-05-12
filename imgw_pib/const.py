@@ -22,7 +22,7 @@ HEADERS = {"Content-Type": "application/json"}
 TIMEOUT = ClientTimeout(total=20)
 
 DATA_VALIDITY_PERIOD = timedelta(hours=6)
-PHENOMENA_DATA_VALIDITY_PERIOD = timedelta(hours=24)
+PHENOMENA_DATA_VALIDITY_PERIOD = timedelta(days=2)
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 NO_ALERT = "no_alert"
@@ -56,3 +56,5 @@ ALERT_LEVEL_MAP = {
     "2": "orange",
     "3": "red",
 }
+
+VEGETATION_DIGIT_TO_PERCENT: dict[int, int] = {0: 0, 1: 33, 2: 67, 3: 100}

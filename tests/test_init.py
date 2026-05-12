@@ -20,6 +20,7 @@ from imgw_pib.const import (
 )
 from imgw_pib.exceptions import ApiError
 from imgw_pib.model import ApiNames
+from imgw_pib.utils import decode_vegetation_phenomena
 
 TEST_TIME = datetime(2024, 4, 22, 11, 10, 32, tzinfo=UTC)
 
@@ -601,3 +602,117 @@ async def test_hydrological_station_no_location(
     await session.close()
 
     assert hydrological_data == snapshot
+
+
+@pytest.mark.parametrize(
+    ("raw_value", "expected_submerged", "expected_floating", "expected_emergent"),
+    [
+        ("0", 0, 0, 0),
+        ("1", 0, 0, 33),
+        ("2", 0, 0, 67),
+        ("3", 0, 0, 100),
+        ("10", 0, 33, 0),
+        ("23", 0, 67, 100),
+        ("100", 33, 0, 0),
+        ("101", 33, 0, 33),
+        ("111", 33, 33, 33),
+        ("122", 33, 67, 67),
+        ("200", 67, 0, 0),
+        ("201", 67, 0, 33),
+        ("211", 67, 33, 33),
+        ("221", 67, 67, 33),
+        ("321", 100, 67, 33),
+        ("333", 100, 100, 100),
+    ],
+)
+def test_decode_vegetation_phenomena(
+    raw_value: str,
+    expected_submerged: int,
+    expected_floating: int,
+    expected_emergent: int,
+) -> None:
+    """Test decode_vegetation_phenomena decodes all digit positions correctly."""
+    submerged, floating, emergent = decode_vegetation_phenomena(raw_value)
+    assert submerged == expected_submerged
+    assert floating == expected_floating
+    assert emergent == expected_emergent
+
+
+def test_decode_vegetation_phenomena_none() -> None:
+    """Test decode_vegetation_phenomena returns Nones for None input."""
+    assert decode_vegetation_phenomena(None) == (None, None, None)
+
+
+@pytest.mark.parametrize("invalid_value", ["4", "9", "104", "410", "999", "abc", ""])
+def test_decode_vegetation_phenomena_invalid(invalid_value: str) -> None:
+    """Test decode_vegetation_phenomena returns Nones for invalid values."""
+    assert decode_vegetation_phenomena(invalid_value) == (None, None, None)
+
+
+@pytest.mark.asyncio
+async def test_vegetation_phenomena_current(
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_details: dict[str, Any],
+    hydrological_alerts: list[dict[str, Any]],
+) -> None:
+    """Test vegetation phenomena when measurement is current."""
+    session = aiohttp.ClientSession()
+
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+            payload=hydrological_details,
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+        )
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+        result = await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert result.submerged_vegetation_cover.value == 33.0
+    assert result.floating_vegetation_cover.value == 67.0
+    assert result.emergent_vegetation_cover.value == 100.0
+    assert str(result.vegetation_phenomena_measurement_date) == (
+        "2024-04-21 09:07:00+02:00"
+    )
+
+
+@pytest.mark.asyncio
+async def test_vegetation_phenomena_not_current(
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_details: dict[str, Any],
+    hydrological_alerts: list[dict[str, Any]],
+) -> None:
+    """Test vegetation phenomena when measurement is outdated."""
+    session = aiohttp.ClientSession()
+
+    hydrological_stations[5][ApiNames.VEGETATION_PHENOMENA] = "333"
+    hydrological_stations[5][ApiNames.VEGETATION_PHENOMENA_MEASUREMENT_DATE] = (
+        "2020-01-01 00:00:00"
+    )
+
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+            payload=hydrological_details,
+        )
+        session_mock.get(
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+        )
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+        result = await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert result.submerged_vegetation_cover.value is None
+    assert result.floating_vegetation_cover.value is None
+    assert result.emergent_vegetation_cover.value is None
+    assert result.vegetation_phenomena_measurement_date is None

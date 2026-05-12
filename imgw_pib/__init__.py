@@ -29,7 +29,13 @@ from .const import (
 )
 from .exceptions import ApiError
 from .model import Alert, ApiNames, HydrologicalData, SensorData, Units, WeatherData
-from .utils import create_sensor_data, gen_station_name, get_datetime, is_data_current
+from .utils import (
+    create_sensor_data,
+    decode_vegetation_phenomena,
+    gen_station_name,
+    get_datetime,
+    is_data_current,
+)
 
 __all__ = ["ImgwPib", "SensorData"]
 
@@ -389,6 +395,36 @@ class ImgwPib:
             "Ice Phenomena", ice_phenomena, Units.PERCENT.value
         )
 
+        vegetation_phenomena_measurement_date, vegetation_phenomena_current = (
+            is_data_current(
+                data[ApiNames.VEGETATION_PHENOMENA_MEASUREMENT_DATE],
+                now,
+                PHENOMENA_DATA_VALIDITY_PERIOD,
+            )
+        )
+
+        vegetation_phenomena_raw = (
+            data[ApiNames.VEGETATION_PHENOMENA]
+            if vegetation_phenomena_current
+            else None
+        )
+        if not vegetation_phenomena_current:
+            vegetation_phenomena_measurement_date = None
+
+        submerged, floating, emergent = decode_vegetation_phenomena(
+            vegetation_phenomena_raw
+        )
+
+        submerged_vegetation_cover_sensor = create_sensor_data(
+            "Submerged Vegetation Cover", submerged, Units.PERCENT.value
+        )
+        floating_vegetation_cover_sensor = create_sensor_data(
+            "Floating Vegetation Cover", floating, Units.PERCENT.value
+        )
+        emergent_vegetation_cover_sensor = create_sensor_data(
+            "Emergent Vegetation Cover", emergent, Units.PERCENT.value
+        )
+
         river = data[ApiNames.RIVER]
 
         hydrological_alert = self._extract_hydrological_alert(
@@ -420,6 +456,10 @@ class ImgwPib:
             hydrological_alert=hydrological_alert,
             ice_phenomena=ice_phenomena_sensor,
             ice_phenomena_measurement_date=ice_phenomena_measurement_date,
+            submerged_vegetation_cover=submerged_vegetation_cover_sensor,
+            floating_vegetation_cover=floating_vegetation_cover_sensor,
+            emergent_vegetation_cover=emergent_vegetation_cover_sensor,
+            vegetation_phenomena_measurement_date=vegetation_phenomena_measurement_date,
         )
 
     def _extract_hydrological_alert(
