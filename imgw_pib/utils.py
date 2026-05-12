@@ -74,8 +74,17 @@ def decode_vegetation_phenomena(
     if value is None:
         return None, None, None
 
-    submerged = VEGETATION_DIGIT_TO_PERCENT.get(value // 100, 0)
-    floating = VEGETATION_DIGIT_TO_PERCENT.get((value % 100) // 10, 0)
-    emergent = VEGETATION_DIGIT_TO_PERCENT.get(value % 10, 0)
+    digits = (value // 100, (value % 100) // 10, value % 10)
+    if any(d not in VEGETATION_DIGIT_TO_PERCENT for d in digits):
+        _LOGGER.warning(
+            "Invalid vegetation phenomena code %s (digits: %s); each digit must be 0-3",
+            value,
+            digits,
+        )
+        return None, None, None
+
+    submerged = VEGETATION_DIGIT_TO_PERCENT[digits[0]]
+    floating = VEGETATION_DIGIT_TO_PERCENT[digits[1]]
+    emergent = VEGETATION_DIGIT_TO_PERCENT[digits[2]]
 
     return submerged, floating, emergent

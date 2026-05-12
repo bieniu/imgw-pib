@@ -642,6 +642,12 @@ def test_decode_vegetation_phenomena_none() -> None:
     assert decode_vegetation_phenomena(None) == (None, None, None)
 
 
+@pytest.mark.parametrize("invalid_value", [4, 9, 104, 410, 999])
+def test_decode_vegetation_phenomena_invalid(invalid_value: int) -> None:
+    """Test decode_vegetation_phenomena returns Nones for out-of-range digit values."""
+    assert decode_vegetation_phenomena(invalid_value) == (None, None, None)
+
+
 @pytest.mark.asyncio
 async def test_vegetation_phenomena_current(
     hydrological_stations: list[dict[str, Any]],
