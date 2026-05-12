@@ -607,25 +607,25 @@ async def test_hydrological_station_no_location(
 @pytest.mark.parametrize(
     ("raw_value", "expected_submerged", "expected_floating", "expected_emergent"),
     [
-        (0, 0, 0, 0),
-        (1, 0, 0, 33),
-        (2, 0, 0, 67),
-        (3, 0, 0, 100),
-        (10, 0, 33, 0),
-        (100, 33, 0, 0),
-        (101, 33, 0, 33),
-        (111, 33, 33, 33),
-        (122, 33, 67, 67),
-        (200, 67, 0, 0),
-        (201, 67, 0, 33),
-        (211, 67, 33, 33),
-        (221, 67, 67, 33),
-        (321, 100, 67, 33),
-        (333, 100, 100, 100),
+        ("0", 0, 0, 0),
+        ("1", 0, 0, 33),
+        ("2", 0, 0, 67),
+        ("3", 0, 0, 100),
+        ("10", 0, 33, 0),
+        ("100", 33, 0, 0),
+        ("101", 33, 0, 33),
+        ("111", 33, 33, 33),
+        ("122", 33, 67, 67),
+        ("200", 67, 0, 0),
+        ("201", 67, 0, 33),
+        ("211", 67, 33, 33),
+        ("221", 67, 67, 33),
+        ("321", 100, 67, 33),
+        ("333", 100, 100, 100),
     ],
 )
 def test_decode_vegetation_phenomena(
-    raw_value: int,
+    raw_value: str,
     expected_submerged: int,
     expected_floating: int,
     expected_emergent: int,
@@ -642,9 +642,9 @@ def test_decode_vegetation_phenomena_none() -> None:
     assert decode_vegetation_phenomena(None) == (None, None, None)
 
 
-@pytest.mark.parametrize("invalid_value", [4, 9, 104, 410, 999])
-def test_decode_vegetation_phenomena_invalid(invalid_value: int) -> None:
-    """Test decode_vegetation_phenomena returns Nones for out-of-range digit values."""
+@pytest.mark.parametrize("invalid_value", ["4", "9", "104", "410", "999", "abc", ""])
+def test_decode_vegetation_phenomena_invalid(invalid_value: str) -> None:
+    """Test decode_vegetation_phenomena returns Nones for invalid values."""
     assert decode_vegetation_phenomena(invalid_value) == (None, None, None)
 
 

@@ -60,7 +60,7 @@ def is_data_current(
 
 
 def decode_vegetation_phenomena(
-    value: int | None,
+    value: str | None,
 ) -> tuple[float | None, float | None, float | None]:
     """Decode vegetation phenomena code into submerged, floating, and emergent coverage.
 
@@ -71,10 +71,15 @@ def decode_vegetation_phenomena(
 
     Digit values: 0 = none, 1 = 1/3 (~33%), 2 = 2/3 (~67%), 3 = full (100%).
     """
-    if value is None:
+    if not isinstance(value, str) or not value.isdigit():
+        _LOGGER.info(
+            "Invalid vegetation phenomena code %s; expected a 3-digit string",
+            value,
+        )
         return None, None, None
 
-    digits = (value // 100, (value % 100) // 10, value % 10)
+    value_int = int(value)
+    digits = (value_int // 100, (value_int % 100) // 10, value_int % 10)
     if any(d not in VEGETATION_DIGIT_TO_PERCENT for d in digits):
         _LOGGER.info(
             "Invalid vegetation phenomena code %s (digits: %s); each digit must be 0-3",

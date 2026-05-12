@@ -404,7 +404,7 @@ class ImgwPib:
         )
 
         vegetation_phenomena_raw = (
-            int(data[ApiNames.VEGETATION_PHENOMENA])
+            data[ApiNames.VEGETATION_PHENOMENA]
             if vegetation_phenomena_current
             else None
         )
