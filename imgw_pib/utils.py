@@ -76,7 +76,7 @@ def decode_vegetation_phenomena(
 
     digits = (value // 100, (value % 100) // 10, value % 10)
     if any(d not in VEGETATION_DIGIT_TO_PERCENT for d in digits):
-        _LOGGER.warning(
+        _LOGGER.info(
             "Invalid vegetation phenomena code %s (digits: %s); each digit must be 0-3",
             value,
             digits,
