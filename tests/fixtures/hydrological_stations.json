@@ -104,8 +104,8 @@
         "przeplyw_data": null,
         "zjawisko_lodowe": "3",
         "zjawisko_lodowe_data_pomiaru": "2024-04-22 11:00:00",
-        "zjawisko_zarastania": "0",
-        "zjawisko_zarastania_data_pomiaru": "2020-06-02 09:07:00"
+        "zjawisko_zarastania": "123",
+        "zjawisko_zarastania_data_pomiaru": "2024-04-21 09:07:00"
     },
     {
         "id_stacji": "154180210",
