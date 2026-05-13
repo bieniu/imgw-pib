@@ -41,6 +41,8 @@ class WeatherData(ImgwPibData):
     wind_speed: SensorData
     wind_direction: SensorData
     precipitation: SensorData
+    apparent_temperature: SensorData
+    wind_gust: SensorData
 
     station: str
     station_id: str

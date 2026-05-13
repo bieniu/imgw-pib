@@ -324,6 +324,12 @@ class ImgwPib:
         pressure_sensor = create_sensor_data(
             "Pressure", data[ApiNames.PRESSURE], Units.HPA.value
         )
+        apparent_temperature_sensor = create_sensor_data(
+            "Apparent Temperature", None, Units.CELSIUS.value
+        )
+        wind_gust_sensor = create_sensor_data(
+            "Wind Gust", None, Units.METERS_PER_SECOND.value
+        )
         measurement_date = get_datetime(
             f"{data[ApiNames.MEASUREMENT_DATE]} {data[ApiNames.MEASUREMENT_TIME]}",
             "%Y-%m-%d %H",
@@ -341,6 +347,8 @@ class ImgwPib:
             wind_speed=wind_speed_sensor,
             wind_direction=wind_direction_sensor,
             precipitation=precipitation_sensor,
+            apparent_temperature=apparent_temperature_sensor,
+            wind_gust=wind_gust_sensor,
             station=data[ApiNames.STATION],
             latitude=station.get(ApiNames.LATITUDE),
             longitude=station.get(ApiNames.LONGITUDE),
@@ -373,6 +381,12 @@ class ImgwPib:
         pressure_sensor = create_sensor_data(
             "Pressure", current.get("pressure"), Units.HPA.value
         )
+        apparent_temperature_sensor = create_sensor_data(
+            "Apparent Temperature", current.get("feels_like"), Units.CELSIUS.value
+        )
+        wind_gust_sensor = create_sensor_data(
+            "Wind Gust", current.get("wind_gust"), Units.METERS_PER_SECOND.value
+        )
 
         measurement_date: datetime | None = None
         date_str = current.get("date")
@@ -396,6 +410,8 @@ class ImgwPib:
             wind_speed=wind_speed_sensor,
             wind_direction=wind_direction_sensor,
             precipitation=precipitation_sensor,
+            apparent_temperature=apparent_temperature_sensor,
+            wind_gust=wind_gust_sensor,
             station=self._weather_station_list.get(self.weather_station_id, ""),
             latitude=station_info.get(ApiNames.LATITUDE),
             longitude=station_info.get(ApiNames.LONGITUDE),
