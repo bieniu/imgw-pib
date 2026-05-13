@@ -5,11 +5,24 @@ import re
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from .const import DATA_VALIDITY_PERIOD, DATE_FORMAT, VEGETATION_DIGIT_TO_PERCENT
+from .const import (
+    DATA_VALIDITY_PERIOD,
+    DATE_FORMAT,
+    ICON_TO_CONDITION,
+    VEGETATION_DIGIT_TO_PERCENT,
+)
 from .model import SensorData
 
 _WARSAW_TZ = ZoneInfo("Europe/Warsaw")
 _LOGGER = logging.getLogger(__name__)
+
+_ICON_MIN_LEN = 6
+_PRECIP_CODE_MIN = 50
+_PRECIP_RAIN_MIN = 60
+_PRECIP_SLEET_MIN = 67
+_PRECIP_SNOW_MIN = 70
+_PRECIP_HEAVY_MIN = 80
+_CLOUD_PARTLY_THRESHOLD = 5
 
 
 def gen_station_name(station: str, river: str) -> str:
@@ -33,6 +46,54 @@ def get_datetime(date_time: str | None, date_format: str) -> datetime | None:
     except (TypeError, ValueError) as exc:
         _LOGGER.debug("Invalid date-time string '%s', %s", date_time, exc)
         return None
+
+
+def _precip_type(precip: int) -> str | None:
+    if precip >= _PRECIP_HEAVY_MIN:
+        return "rain_heavy"
+    if precip >= _PRECIP_SNOW_MIN:
+        return "snow"
+    if precip >= _PRECIP_SLEET_MIN:
+        return "sleet"
+    if precip >= _PRECIP_RAIN_MIN:
+        return "rain"
+    if precip >= _PRECIP_CODE_MIN:
+        return "drizzle"
+
+    return None
+
+
+def parse_weather_icon(icon: str) -> str | None:
+    """Parse weather icon code to weather condition string.
+
+    Format: n{cloud}z{precip}{d/n} e.g. n4z61d
+    """
+    if not icon or not isinstance(icon, str) or len(icon) < _ICON_MIN_LEN:
+        return None
+
+    try:
+        if icon[0] == "n" and icon[2] == "z":
+            cloud = int(icon[1])
+            precip = int(icon[3:5])
+            time_of_day = icon[-1] if icon[-1] in ("d", "n") else "d"
+        else:
+            return None
+    except (ValueError, IndexError):
+        return None
+
+    pt = _precip_type(precip)
+
+    if pt is not None:
+        return ICON_TO_CONDITION.get((pt, time_of_day), "rainy")
+
+    if cloud <= 1:
+        key = ("clear", time_of_day)
+    elif cloud <= _CLOUD_PARTLY_THRESHOLD:
+        key = ("partly", time_of_day)
+    else:
+        key = ("cloudy", time_of_day)
+
+    return ICON_TO_CONDITION.get(key, "cloudy")
 
 
 def create_sensor_data(name: str, value: float | str | None, unit: str) -> SensorData:

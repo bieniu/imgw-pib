@@ -16,6 +16,7 @@ from imgw_pib.const import (
     API_HYDROLOGICAL_ENDPOINT,
     API_HYDROLOGICAL_WARNINGS_ENDPOINT,
     API_WEATHER_ENDPOINT,
+    API_WEATHER_PROXY_ENDPOINT,
     API_WEATHER_WARNINGS_ENDPOINT,
 )
 from imgw_pib.exceptions import ApiError
@@ -55,13 +56,16 @@ async def test_weather_station(
     weather_station: dict[str, Any],
     weather_alerts: list[dict[str, Any]],
 ) -> None:
-    """Test weather station."""
+    """Test weather station (proxy unavailable, falls back to IMGW)."""
     session = aiohttp.ClientSession()
+
+    proxy_url = API_WEATHER_PROXY_ENDPOINT.with_query(lat=49.821877, lon=19.047007)
 
     with aioresponses() as session_mock, freeze_time(TEST_TIME):
         session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
-        session_mock.get(f"{API_WEATHER_ENDPOINT}/id/12600", payload=weather_station)
         session_mock.get(API_WEATHER_WARNINGS_ENDPOINT, payload=weather_alerts)
+        session_mock.get(proxy_url, status=HTTPStatus.NOT_FOUND.value)
+        session_mock.get(f"{API_WEATHER_ENDPOINT}/id/12600", payload=weather_station)
 
         imgwpib = await ImgwPib.create(session, weather_station_id="12600")
         weather_data = await imgwpib.get_weather_data()
@@ -79,12 +83,15 @@ async def test_no_weather_alerts(
     """Test weather station with no alerts."""
     session = aiohttp.ClientSession()
 
+    proxy_url = API_WEATHER_PROXY_ENDPOINT.with_query(lat=49.821877, lon=19.047007)
+
     with aioresponses() as session_mock, freeze_time(TEST_TIME):
         session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
-        session_mock.get(f"{API_WEATHER_ENDPOINT}/id/12600", payload=weather_station)
         session_mock.get(
             API_WEATHER_WARNINGS_ENDPOINT, status=HTTPStatus.NOT_FOUND.value
         )
+        session_mock.get(proxy_url, status=HTTPStatus.NOT_FOUND.value)
+        session_mock.get(f"{API_WEATHER_ENDPOINT}/id/12600", payload=weather_station)
 
         imgwpib = await ImgwPib.create(session, weather_station_id="12600")
         weather_data = await imgwpib.get_weather_data()
@@ -92,6 +99,32 @@ async def test_no_weather_alerts(
     await session.close()
 
     assert weather_data.weather_alert.value == "no_alert"
+
+
+@pytest.mark.asyncio
+async def test_weather_station_proxy(
+    snapshot: SnapshotAssertion,
+    weather_stations: list[dict[str, Any]],
+    weather_station_proxy: dict[str, Any],
+) -> None:
+    """Test weather station using the proxy endpoint as primary data source."""
+    session = aiohttp.ClientSession()
+
+    proxy_url = API_WEATHER_PROXY_ENDPOINT.with_query(lat=49.821877, lon=19.047007)
+
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
+        session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
+        session_mock.get(
+            API_WEATHER_WARNINGS_ENDPOINT, status=HTTPStatus.NOT_FOUND.value
+        )
+        session_mock.get(proxy_url, payload=weather_station_proxy)
+
+        imgwpib = await ImgwPib.create(session, weather_station_id="12600")
+        weather_data = await imgwpib.get_weather_data()
+
+    await session.close()
+
+    assert weather_data == snapshot
 
 
 @pytest.mark.asyncio

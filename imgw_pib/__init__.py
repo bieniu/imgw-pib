@@ -16,6 +16,7 @@ from .const import (
     API_HYDROLOGICAL_ENDPOINT,
     API_HYDROLOGICAL_WARNINGS_ENDPOINT,
     API_WEATHER_ENDPOINT,
+    API_WEATHER_PROXY_ENDPOINT,
     API_WEATHER_WARNINGS_ENDPOINT,
     DATA_VALIDITY_PERIOD,
     DATE_FORMAT,
@@ -35,6 +36,7 @@ from .utils import (
     gen_station_name,
     get_datetime,
     is_data_current,
+    parse_weather_icon,
 )
 
 __all__ = ["ImgwPib", "SensorData"]
@@ -139,17 +141,13 @@ class ImgwPib:
             msg = "Weather station ID is not set"
             raise ApiError(msg)
 
-        url = API_WEATHER_ENDPOINT / "id" / self.weather_station_id
-        weather_data = await self._http_request(url)
-
-        _LOGGER.debug("Weather data: %s", weather_data)
+        station_info = self._weather_stations_info.get(self.weather_station_id, {})
+        teryt = station_info.get("teryt")
+        lat = station_info.get(ApiNames.LATITUDE)
+        lon = station_info.get(ApiNames.LONGITUDE)
 
         weather_alerts = []
-        if (
-            teryt := self._weather_stations_info.get(self.weather_station_id, {}).get(
-                "teryt"
-            )
-        ) and (
+        if teryt and (
             result := await self._http_request(API_WEATHER_WARNINGS_ENDPOINT, False)
         ):
             weather_alerts = result
@@ -157,6 +155,26 @@ class ImgwPib:
         weather_alert = self._extract_weather_alert(weather_alerts, teryt)
 
         _LOGGER.debug("Weather alert: %s", weather_alert)
+
+        if lat is not None and lon is not None:
+            proxy_url = API_WEATHER_PROXY_ENDPOINT.with_query(lat=lat, lon=lon)
+            proxy_data = None
+            try:
+                proxy_data = await self._http_request(proxy_url, required=False)
+            except Exception:  # noqa: BLE001
+                _LOGGER.debug(
+                    "Proxy weather endpoint unavailable for station %s",
+                    self.weather_station_id,
+                )
+
+            if isinstance(proxy_data, dict) and "current" in proxy_data:
+                _LOGGER.debug("Using proxy weather data: %s", proxy_data)
+                return self._parse_proxy_weather_data(proxy_data, weather_alert)
+
+        url = API_WEATHER_ENDPOINT / "id" / self.weather_station_id
+        weather_data = await self._http_request(url)
+
+        _LOGGER.debug("Weather data: %s", weather_data)
 
         return self._parse_weather_data(weather_data, weather_alert)
 
@@ -255,7 +273,11 @@ class ImgwPib:
 
         return self._parse_hydrological_data(hydrological_data, hydrological_alerts)
 
-    async def _http_request(self: Self, url: URL, required: bool = True) -> Any:  # noqa: ANN401
+    async def _http_request(
+        self: Self,
+        url: URL,
+        required: bool = True,
+    ) -> Any:  # noqa: ANN401
         """Make an HTTP request."""
         _LOGGER.debug("Requesting %s", url)
 
@@ -298,6 +320,12 @@ class ImgwPib:
         pressure_sensor = create_sensor_data(
             "Pressure", data[ApiNames.PRESSURE], Units.HPA.value
         )
+        apparent_temperature_sensor = create_sensor_data(
+            "Apparent Temperature", None, Units.CELSIUS.value
+        )
+        wind_gust_sensor = create_sensor_data(
+            "Wind Gust", None, Units.METERS_PER_SECOND.value
+        )
         measurement_date = get_datetime(
             f"{data[ApiNames.MEASUREMENT_DATE]} {data[ApiNames.MEASUREMENT_TIME]}",
             "%Y-%m-%d %H",
@@ -315,10 +343,77 @@ class ImgwPib:
             wind_speed=wind_speed_sensor,
             wind_direction=wind_direction_sensor,
             precipitation=precipitation_sensor,
+            apparent_temperature=apparent_temperature_sensor,
+            wind_gust=wind_gust_sensor,
             station=data[ApiNames.STATION],
             latitude=station.get(ApiNames.LATITUDE),
             longitude=station.get(ApiNames.LONGITUDE),
             station_id=self.weather_station_id,
+            measurement_date=measurement_date,
+            weather_alert=alert,
+        )
+
+    def _parse_proxy_weather_data(
+        self, data: dict[str, Any], alert: Alert
+    ) -> WeatherData:
+        """Parse weather data from the proxy endpoint."""
+        current = data["current"]
+
+        temperature_sensor = create_sensor_data(
+            "Temperature", current.get("temp"), Units.CELSIUS.value
+        )
+        humidity_sensor = create_sensor_data(
+            "Humidity", current.get("humidity"), Units.PERCENT.value
+        )
+        wind_speed_sensor = create_sensor_data(
+            "Wind Speed", current.get("wind_speed"), Units.METERS_PER_SECOND.value
+        )
+        wind_direction_sensor = create_sensor_data(
+            "Wind Direction", current.get("wind_dir"), Units.DEGREE.value
+        )
+        precipitation_sensor = create_sensor_data(
+            "Precipitation", current.get("precip"), Units.MILLIMETERS.value
+        )
+        pressure_sensor = create_sensor_data(
+            "Pressure", current.get("pressure"), Units.HPA.value
+        )
+        apparent_temperature_sensor = create_sensor_data(
+            "Apparent Temperature", current.get("feels_like"), Units.CELSIUS.value
+        )
+        wind_gust_sensor = create_sensor_data(
+            "Wind Gust", current.get("wind_gust"), Units.METERS_PER_SECOND.value
+        )
+
+        measurement_date: datetime | None = None
+        date_str = current.get("date")
+        if date_str:
+            try:
+                measurement_date = datetime.fromisoformat(date_str)
+            except (ValueError, TypeError):
+                _LOGGER.debug("Invalid proxy date string '%s'", date_str)
+
+        condition = parse_weather_icon(current.get("icon"))
+
+        if TYPE_CHECKING:
+            assert self.weather_station_id
+
+        station_info = self._weather_stations_info.get(self.weather_station_id, {})
+
+        return WeatherData(
+            temperature=temperature_sensor,
+            humidity=humidity_sensor,
+            pressure=pressure_sensor,
+            wind_speed=wind_speed_sensor,
+            wind_direction=wind_direction_sensor,
+            precipitation=precipitation_sensor,
+            apparent_temperature=apparent_temperature_sensor,
+            wind_gust=wind_gust_sensor,
+            station=self._weather_station_list.get(self.weather_station_id, ""),
+            latitude=station_info.get(ApiNames.LATITUDE),
+            longitude=station_info.get(ApiNames.LONGITUDE),
+            station_id=self.weather_station_id,
+            proxy_used=True,
+            condition=condition,
             measurement_date=measurement_date,
             weather_alert=alert,
         )

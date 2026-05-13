@@ -32,6 +32,15 @@ def weather_alerts() -> list[dict[str, Any]]:
 
 
 @pytest.fixture
+def weather_station_proxy() -> dict[str, Any]:
+    """Return proxy weather station data from the fixture file."""
+    with Path("tests/fixtures/weather_station_proxy.json").open(
+        encoding="utf-8"
+    ) as file:
+        return cast(dict[str, Any], json.load(file))
+
+
+@pytest.fixture
 def hydrological_stations() -> list[dict[str, Any]]:
     """Return hydrological stations data from the fixture file."""
     with Path("tests/fixtures/hydrological_stations.json").open(

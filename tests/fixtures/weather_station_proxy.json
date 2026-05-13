@@ -1,0 +1,30 @@
+{
+    "_cached": false,
+    "current": {
+        "cloud": 100,
+        "date": "2026-05-13T08:20:00Z",
+        "feels_like": 4.6,
+        "humidity": 72,
+        "icon": "n8z00d",
+        "model": "MERGE (prec, rain, snow) + ANALIZA INCA + MERGE (prec, rain, snow) + SAT (cloud) + AROME (gust, temp_surf, rad)",
+        "precip": 0,
+        "pressure": 1003.5,
+        "rain": 0,
+        "snow": 0,
+        "temp": 7.8,
+        "wind_dir": 246,
+        "wind_gust": 10,
+        "wind_speed": 5.2
+    },
+    "daily": [],
+    "location": {
+        "Index": 397416,
+        "Lat": 49.821877,
+        "Lon": 19.047007
+    },
+    "model": "HYBRID",
+    "sun": {
+        "Sunrise": "2026-05-13T02:50:00Z",
+        "Sunset": "2026-05-13T18:24:00Z"
+    }
+}

@@ -14,12 +14,13 @@ API_HYDROLOGICAL_ENDPOINT = API_BASE_ENDPOINT / "hydro"
 API_HYDROLOGICAL_WARNINGS_ENDPOINT = API_BASE_ENDPOINT / "warningshydro"
 API_WEATHER_ENDPOINT = API_BASE_ENDPOINT / "synop"
 API_WEATHER_WARNINGS_ENDPOINT = API_BASE_ENDPOINT / "warningsmeteo"
+API_WEATHER_PROXY_ENDPOINT = URL("https://imgw-api-proxy.evtlab.pl/forecast")
 API_HYDROLOGICAL_DETAILS_ENDPOINT = URL(
     "https://hydro-back.imgw.pl/station/hydro/status"
 )
 
 HEADERS = {"Content-Type": "application/json"}
-TIMEOUT = ClientTimeout(total=20)
+TIMEOUT = ClientTimeout(total=10)
 
 DATA_VALIDITY_PERIOD = timedelta(hours=6)
 PHENOMENA_DATA_VALIDITY_PERIOD = timedelta(days=2)
@@ -58,3 +59,22 @@ ALERT_LEVEL_MAP = {
 }
 
 VEGETATION_DIGIT_TO_PERCENT: dict[int, int] = {0: 0, 1: 33, 2: 67, 3: 100}
+
+ICON_TO_CONDITION: dict[tuple[str, str], str] = {
+    ("clear", "d"): "sunny",
+    ("clear", "n"): "clear-night",
+    ("partly", "d"): "partlycloudy",
+    ("partly", "n"): "partlycloudy",
+    ("cloudy", "d"): "cloudy",
+    ("cloudy", "n"): "cloudy",
+    ("drizzle", "d"): "rainy",
+    ("drizzle", "n"): "rainy",
+    ("rain", "d"): "rainy",
+    ("rain", "n"): "rainy",
+    ("rain_heavy", "d"): "pouring",
+    ("rain_heavy", "n"): "pouring",
+    ("snow", "d"): "snowy",
+    ("snow", "n"): "snowy",
+    ("sleet", "d"): "snowy-rainy",
+    ("sleet", "n"): "snowy-rainy",
+}
