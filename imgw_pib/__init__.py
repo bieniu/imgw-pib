@@ -4,7 +4,6 @@ import logging
 from datetime import UTC, datetime
 from http import HTTPStatus
 from typing import TYPE_CHECKING, Any, Self
-from zoneinfo import ZoneInfo
 
 import aiofiles
 import orjson
@@ -389,9 +388,7 @@ class ImgwPib:
         date_str = current.get("date")
         if date_str:
             try:
-                measurement_date = datetime.fromisoformat(date_str).astimezone(
-                    ZoneInfo("Europe/Warsaw")
-                )
+                measurement_date = datetime.fromisoformat(date_str)
             except (ValueError, TypeError):
                 _LOGGER.debug("Invalid proxy date string '%s'", date_str)
 
