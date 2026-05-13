@@ -25,7 +25,6 @@ from .const import (
     HYDROLOGICAL_ALERTS_MAP,
     NO_ALERT,
     PHENOMENA_DATA_VALIDITY_PERIOD,
-    PROXY_TIMEOUT,
     TIMEOUT,
     WEATHER_ALERTS_MAP,
     WEATHER_STATIONS_INFO_FILE,
@@ -161,9 +160,7 @@ class ImgwPib:
             proxy_url = API_WEATHER_PROXY_ENDPOINT.with_query(lat=lat, lon=lon)
             proxy_data = None
             try:
-                proxy_data = await self._http_request(
-                    proxy_url, required=False, request_timeout=PROXY_TIMEOUT
-                )
+                proxy_data = await self._http_request(proxy_url, required=False)
             except Exception:  # noqa: BLE001
                 _LOGGER.debug(
                     "Proxy weather endpoint unavailable for station %s",
@@ -280,13 +277,12 @@ class ImgwPib:
         self: Self,
         url: URL,
         required: bool = True,
-        request_timeout: Any = TIMEOUT,  # noqa: ANN401
     ) -> Any:  # noqa: ANN401
         """Make an HTTP request."""
         _LOGGER.debug("Requesting %s", url)
 
         response = await self._session.request(
-            "get", url, headers=HEADERS, timeout=request_timeout
+            "get", url, headers=HEADERS, timeout=TIMEOUT
         )
 
         _LOGGER.debug("Response status: %s", response.status)

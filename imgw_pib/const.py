@@ -20,8 +20,7 @@ API_HYDROLOGICAL_DETAILS_ENDPOINT = URL(
 )
 
 HEADERS = {"Content-Type": "application/json"}
-TIMEOUT = ClientTimeout(total=20)
-PROXY_TIMEOUT = ClientTimeout(total=10)
+TIMEOUT = ClientTimeout(total=10)
 
 DATA_VALIDITY_PERIOD = timedelta(hours=6)
 PHENOMENA_DATA_VALIDITY_PERIOD = timedelta(days=2)
