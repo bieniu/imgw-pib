@@ -167,7 +167,7 @@ class ImgwPib:
                     self.weather_station_id,
                 )
 
-            if proxy_data is not None and "current" in proxy_data:
+            if isinstance(proxy_data, dict) and "current" in proxy_data:
                 _LOGGER.debug("Using proxy weather data: %s", proxy_data)
                 return self._parse_proxy_weather_data(proxy_data, weather_alert)
 
