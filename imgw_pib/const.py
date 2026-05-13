@@ -59,3 +59,22 @@ ALERT_LEVEL_MAP = {
 }
 
 VEGETATION_DIGIT_TO_PERCENT: dict[int, int] = {0: 0, 1: 33, 2: 67, 3: 100}
+
+ICON_TO_CONDITION: dict[tuple[str, str], str] = {
+    ("clear", "d"): "sunny",
+    ("clear", "n"): "clear-night",
+    ("partly", "d"): "partlycloudy",
+    ("partly", "n"): "partlycloudy",
+    ("cloudy", "d"): "cloudy",
+    ("cloudy", "n"): "cloudy",
+    ("drizzle", "d"): "rainy",
+    ("drizzle", "n"): "rainy",
+    ("rain", "d"): "rainy",
+    ("rain", "n"): "rainy",
+    ("rain_heavy", "d"): "pouring",
+    ("rain_heavy", "n"): "pouring",
+    ("snow", "d"): "snowy",
+    ("snow", "n"): "snowy",
+    ("sleet", "d"): "snowy-rainy",
+    ("sleet", "n"): "snowy-rainy",
+}

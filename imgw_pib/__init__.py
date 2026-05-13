@@ -37,6 +37,7 @@ from .utils import (
     gen_station_name,
     get_datetime,
     is_data_current,
+    parse_weather_icon,
 )
 
 __all__ = ["ImgwPib", "SensorData"]
@@ -394,6 +395,8 @@ class ImgwPib:
             except (ValueError, TypeError):
                 _LOGGER.debug("Invalid proxy date string '%s'", date_str)
 
+        condition = parse_weather_icon(current.get("icon"))
+
         if TYPE_CHECKING:
             assert self.weather_station_id
 
@@ -413,6 +416,7 @@ class ImgwPib:
             longitude=station_info.get(ApiNames.LONGITUDE),
             station_id=self.weather_station_id,
             proxy_used=True,
+            condition=condition,
             measurement_date=measurement_date,
             weather_alert=alert,
         )
