@@ -112,7 +112,7 @@ async def test_weather_station_proxy(
 
     proxy_url = API_WEATHER_PROXY_ENDPOINT.with_query(lat=49.821877, lon=19.047007)
 
-    with aioresponses() as session_mock:
+    with aioresponses() as session_mock, freeze_time(TEST_TIME):
         session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
         session_mock.get(
             API_WEATHER_WARNINGS_ENDPOINT, status=HTTPStatus.NOT_FOUND.value
