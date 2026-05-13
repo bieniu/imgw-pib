@@ -412,6 +412,7 @@ class ImgwPib:
             latitude=station_info.get(ApiNames.LATITUDE),
             longitude=station_info.get(ApiNames.LONGITUDE),
             station_id=self.weather_station_id,
+            proxy_used=True,
             measurement_date=measurement_date,
             weather_alert=alert,
         )

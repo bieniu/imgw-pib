@@ -48,6 +48,7 @@ class WeatherData(ImgwPibData):
     station_id: str
     latitude: float | None = None
     longitude: float | None = None
+    proxy_used: bool = False
 
     measurement_date: datetime | None
 
