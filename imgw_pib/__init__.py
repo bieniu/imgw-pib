@@ -50,6 +50,7 @@ class ImgwPib:
     """Main class of IMGW-PIB API wrapper."""
 
     _rivers_info_cache: dict[str, dict[str, str]] | None = None
+    _weather_stations_info_cache: dict[str, dict[str, Any]] | None = None
 
     def __init__(
         self: Self,
@@ -111,9 +112,12 @@ class ImgwPib:
                 msg = f"Invalid weather station ID: {self.weather_station_id}"
                 raise ApiError(msg)
 
-            async with aiofiles.open(WEATHER_STATIONS_INFO_FILE, mode="rb") as file:
-                content = await file.read()
-            self._weather_stations_info = orjson.loads(content)
+            if ImgwPib._weather_stations_info_cache is None:
+                async with aiofiles.open(WEATHER_STATIONS_INFO_FILE, mode="rb") as file:
+                    content = await file.read()
+                ImgwPib._weather_stations_info_cache = orjson.loads(content)
+
+            self._weather_stations_info = ImgwPib._weather_stations_info_cache
 
         if self.hydrological_station_id is not None:
             _LOGGER.debug(
