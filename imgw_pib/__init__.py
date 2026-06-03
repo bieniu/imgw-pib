@@ -24,6 +24,7 @@ from .const import (
     HYDROLOGICAL_ALERTS_MAP,
     NO_ALERT,
     PHENOMENA_DATA_VALIDITY_PERIOD,
+    RIVERS_INFO_FILE,
     TIMEOUT,
     WEATHER_ALERTS_MAP,
     WEATHER_STATIONS_INFO_FILE,
@@ -67,6 +68,7 @@ class ImgwPib:
         self._hydrological_details = hydrological_details
 
         self._weather_stations_info: dict[str, dict[str, Any]] = {}
+        self._rivers_info: dict[str, dict[str, str]] = {}
 
     @classmethod
     async def create(
@@ -120,6 +122,10 @@ class ImgwPib:
             if self.hydrological_station_id not in self.hydrological_stations:
                 msg = f"Invalid hydrological station ID: {self.hydrological_station_id}"
                 raise ApiError(msg)
+
+            async with aiofiles.open(RIVERS_INFO_FILE, mode="rb") as file:
+                content = await file.read()
+            self._rivers_info = orjson.loads(content)
 
             if self._hydrological_details is True:
                 await self._update_hydrological_details()
@@ -522,8 +528,13 @@ class ImgwPib:
 
         river = data[ApiNames.RIVER]
 
+        province = data[ApiNames.PROVINCE]
+        if province is None:
+            river_info = self._rivers_info.get(self.hydrological_station_id, {})
+            province = river_info.get("province")
+
         hydrological_alert = self._extract_hydrological_alert(
-            alerts, river, data[ApiNames.PROVINCE]
+            alerts, river, province
         )
 
         _LOGGER.debug("Hydrological alert: %s", hydrological_alert)
