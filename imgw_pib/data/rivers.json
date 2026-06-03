@@ -31,6 +31,10 @@
         "name": "Wis\u0142a",
         "province": "\u015bl\u0105skie"
     },
+    "149180090": {
+        "name": "Pszczynka",
+        "province": "\u015bl\u0105skie"
+    },
     "149180100": {
         "name": "Wis\u0142a",
         "province": "\u015bl\u0105skie"
@@ -2097,6 +2101,10 @@
     },
     "152160110": {
         "name": "We\u0142na",
+        "province": "wielkopolskie"
+    },
+    "152160120": {
+        "name": "Flinta",
         "province": "wielkopolskie"
     },
     "152160130": {
