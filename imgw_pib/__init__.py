@@ -1,6 +1,7 @@
 """Python wrapper for IMGW-PIB API."""
 
 import logging
+import re
 from datetime import UTC, datetime
 from http import HTTPStatus
 from typing import TYPE_CHECKING, Any, Self
@@ -582,7 +583,9 @@ class ImgwPib:
             return Alert(value=NO_ALERT)
 
         now = datetime.now(tz=UTC)
-        river_key = river.rsplit(" ", maxsplit=1)[-1][:-1].lower()
+        last_word = river.rsplit(" ", maxsplit=1)[-1]
+        river_key = (last_word[:-1] if len(last_word) > 4 else last_word).lower()  # noqa: PLR2004
+        river_pattern = re.compile(r"\b" + re.escape(river_key) + r"\w*")
         province_key = province.lower()
 
         for alert in reversed(hydrological_alerts):
@@ -596,7 +599,9 @@ class ImgwPib:
                     and area[ApiNames.PROVINCE].lower() == province_key
                 ):
                     province_match = True
-                if not river_match and river_key in area[ApiNames.DESCRIPTION].lower():
+                if not river_match and river_pattern.search(
+                    area[ApiNames.DESCRIPTION].lower()
+                ):
                     river_match = True
                 # Early exit if both conditions are met
                 if province_match and river_match:
