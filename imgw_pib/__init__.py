@@ -129,7 +129,7 @@ class ImgwPib:
                 async with aiofiles.open(RIVERS_INFO_FILE, mode="rb") as file:
                     content = await file.read()
                 ImgwPib._rivers_info_cache = orjson.loads(content)
-                _LOGGER.debug("Loaded rivers info from disk")
+
             self._rivers_info = ImgwPib._rivers_info_cache
 
             if self._hydrological_details is True:
