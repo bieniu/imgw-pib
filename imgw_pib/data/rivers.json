@@ -263,6 +263,10 @@
         "name": "Raba",
         "province": "ma\u0142opolskie"
     },
+    "149200070": {
+        "name": "Rybi Potok",
+        "province": "ma\u0142opolskie"
+    },
     "149200080": {
         "name": "Mszanka",
         "province": "ma\u0142opolskie"
@@ -955,6 +959,10 @@
         "name": "Ruda",
         "province": "\u015bl\u0105skie"
     },
+    "150180120": {
+        "name": "Bierawka",
+        "province": "\u015bl\u0105skie"
+    },
     "150180130": {
         "name": "Ruda",
         "province": "\u015bl\u0105skie"
@@ -1143,6 +1151,10 @@
         "name": "Warta",
         "province": "\u015bl\u0105skie"
     },
+    "150190420": {
+        "name": "Pr\u0105dnik",
+        "province": "ma\u0142opolskie"
+    },
     "150190430": {
         "name": "Kamieniczka",
         "province": "\u015bl\u0105skie"
@@ -1210,6 +1222,10 @@
     "150200120": {
         "name": "Czarna Nida",
         "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "150200130": {
+        "name": "Wis\u0142a",
+        "province": "ma\u0142opolskie"
     },
     "150200140": {
         "name": "Uszwica",
@@ -1419,12 +1435,20 @@
         "name": "Wolica",
         "province": "lubelskie"
     },
+    "150230060": {
+        "name": "Wojs\u0142awka",
+        "province": "lubelskie"
+    },
     "150230070": {
         "name": "Huczwa",
         "province": "lubelskie"
     },
     "150230080": {
         "name": "Wieprz",
+        "province": "lubelskie"
+    },
+    "150230090": {
+        "name": "\u017b\u00f3\u0142kiewka",
         "province": "lubelskie"
     },
     "150240010": {
@@ -1547,6 +1571,10 @@
         "name": "Skora",
         "province": "dolno\u015bl\u0105skie"
     },
+    "151150190": {
+        "name": "Obrzyca",
+        "province": "lubuskie"
+    },
     "151160020": {
         "name": "Kaczawa",
         "province": "dolno\u015bl\u0105skie"
@@ -1626,6 +1654,10 @@
     "151160260": {
         "name": "Czernica",
         "province": "lubuskie"
+    },
+    "151160290": {
+        "name": "Barycz",
+        "province": "dolno\u015bl\u0105skie"
     },
     "151160300": {
         "name": "Barycz",
@@ -1807,6 +1839,14 @@
         "name": "Drzewiczka",
         "province": "\u0142\u00f3dzkie"
     },
+    "151200060": {
+        "name": "Czarna",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
+    "151200070": {
+        "name": "Krasna",
+        "province": "\u015bwi\u0119tokrzyskie"
+    },
     "151200080": {
         "name": "Drzewiczka",
         "province": "mazowieckie"
@@ -1921,6 +1961,10 @@
     },
     "151220130": {
         "name": "Gie\u0142czewka",
+        "province": "lubelskie"
+    },
+    "151220140": {
+        "name": "Wierzniczka",
         "province": "lubelskie"
     },
     "151220150": {
@@ -2045,6 +2089,10 @@
     },
     "152150150": {
         "name": "Jezioro \u017babie",
+        "province": "lubuskie"
+    },
+    "152150170": {
+        "name": "Obrzyca",
         "province": "lubuskie"
     },
     "152150180": {
@@ -2179,6 +2227,10 @@
         "name": "Powa",
         "province": "wielkopolskie"
     },
+    "152180080": {
+        "name": "Jezioro Gop\u0142o",
+        "province": "kujawsko-pomorskie"
+    },
     "152180090": {
         "name": "Note\u0107",
         "province": "wielkopolskie"
@@ -2215,8 +2267,16 @@
         "name": "Pichna",
         "province": "wielkopolskie"
     },
+    "152190020": {
+        "name": "Zg\u0142owi\u0105czka",
+        "province": "kujawsko-pomorskie"
+    },
     "152190030": {
         "name": "Wis\u0142a",
+        "province": "kujawsko-pomorskie"
+    },
+    "152190040": {
+        "name": "Mie\u0144",
         "province": "kujawsko-pomorskie"
     },
     "152190050": {
@@ -2243,6 +2303,10 @@
         "name": "Bzura",
         "province": "\u0142\u00f3dzkie"
     },
+    "152199995": {
+        "name": "Wis\u0142a",
+        "province": "mazowieckie"
+    },
     "152199997": {
         "name": "Ochnia",
         "province": "\u0142\u00f3dzkie"
@@ -2261,6 +2325,10 @@
     },
     "152200050": {
         "name": "Bzura",
+        "province": "mazowieckie"
+    },
+    "152200060": {
+        "name": "Raci\u0105\u017cnica",
         "province": "mazowieckie"
     },
     "152200070": {
@@ -2355,6 +2423,10 @@
         "name": "Bug",
         "province": "mazowieckie"
     },
+    "152210160": {
+        "name": "Rz\u0105dza",
+        "province": "mazowieckie"
+    },
     "152210170": {
         "name": "Wis\u0142a",
         "province": "mazowieckie"
@@ -2373,6 +2445,10 @@
     },
     "152220010": {
         "name": "Liwiec",
+        "province": "mazowieckie"
+    },
+    "152220030": {
+        "name": "Cetynia",
         "province": "mazowieckie"
     },
     "152220050": {
@@ -2529,6 +2605,10 @@
     },
     "153150060": {
         "name": "Jezioro I\u0144sko",
+        "province": "zachodniopomorskie"
+    },
+    "153150070": {
+        "name": "D\u0119bosznica",
         "province": "zachodniopomorskie"
     },
     "153150080": {
@@ -2755,6 +2835,10 @@
         "name": "Drw\u0119ca",
         "province": "kujawsko-pomorskie"
     },
+    "153190060": {
+        "name": "Rypienica",
+        "province": "kujawsko-pomorskie"
+    },
     "153190070": {
         "name": "Jezioro Bachotek",
         "province": "kujawsko-pomorskie"
@@ -2863,6 +2947,10 @@
         "name": "Jezioro Nidzkie",
         "province": "warmi\u0144sko-mazurskie"
     },
+    "153210110": {
+        "name": "Jezioro Miko\u0142ajskie",
+        "province": "warmi\u0144sko-mazurskie"
+    },
     "153210120": {
         "name": "Rozoga",
         "province": "mazowieckie"
@@ -2898,6 +2986,10 @@
     "153210220": {
         "name": "Pisa",
         "province": "podlaskie"
+    },
+    "153210230": {
+        "name": "Orzysza",
+        "province": "warmi\u0144sko-mazurskie"
     },
     "153220010": {
         "name": "Narew",
@@ -3095,6 +3187,10 @@
         "name": "Dzier\u017c\u0119cinka",
         "province": "zachodniopomorskie"
     },
+    "154160040": {
+        "name": "Uniesta",
+        "province": "zachodniopomorskie"
+    },
     "154160060": {
         "name": "Grabowa",
         "province": "zachodniopomorskie"
@@ -3157,6 +3253,10 @@
     },
     "154170040": {
         "name": "Wieprza",
+        "province": "pomorskie"
+    },
+    "154170050": {
+        "name": "Jezioro Gardno",
         "province": "pomorskie"
     },
     "154170060": {
@@ -3415,6 +3515,10 @@
         "name": "Ba\u0142tyk",
         "province": "pomorskie"
     },
+    "154190200": {
+        "name": "Zalew Wi\u015blany",
+        "province": "pomorskie"
+    },
     "154200010": {
         "name": "Wa\u0142sza",
         "province": "warmi\u0144sko-mazurskie"
@@ -3526,109 +3630,5 @@
     "250161110": {
         "name": "\u015acinawka",
         "province": "dolno\u015bl\u0105skie"
-    },
-    "149200070": {
-        "name": "Rybi Potok",
-        "province": "ma\u0142opolskie"
-    },
-    "150180120": {
-        "name": "Bierawka",
-        "province": "\u015bl\u0105skie"
-    },
-    "150190420": {
-        "name": "Pr\u0105dnik",
-        "province": "ma\u0142opolskie"
-    },
-    "150200130": {
-        "name": "Wis\u0142a",
-        "province": "ma\u0142opolskie"
-    },
-    "150230060": {
-        "name": "Wojs\u0142awka",
-        "province": "lubelskie"
-    },
-    "150230090": {
-        "name": "\u017bó\u0142kiewka",
-        "province": "lubelskie"
-    },
-    "151150190": {
-        "name": "Obrzyca",
-        "province": "lubuskie"
-    },
-    "151160290": {
-        "name": "Barycz",
-        "province": "dolno\u015bl\u0105skie"
-    },
-    "151200060": {
-        "name": "Czarna",
-        "province": "\u015bwi\u0119tokrzyskie"
-    },
-    "151200070": {
-        "name": "Krasna",
-        "province": "\u015bwi\u0119tokrzyskie"
-    },
-    "151220140": {
-        "name": "Wierzniczka",
-        "province": "lubelskie"
-    },
-    "152150170": {
-        "name": "Obrzyca",
-        "province": "lubuskie"
-    },
-    "152180080": {
-        "name": "Jezioro Gop\u0142o",
-        "province": "kujawsko-pomorskie"
-    },
-    "152190020": {
-        "name": "Zg\u0142owi\u0105czka",
-        "province": "kujawsko-pomorskie"
-    },
-    "152190040": {
-        "name": "Mie\u0144",
-        "province": "kujawsko-pomorskie"
-    },
-    "152199995": {
-        "name": "Wis\u0142a",
-        "province": "mazowieckie"
-    },
-    "152200060": {
-        "name": "Raci\u0105\u017cnica",
-        "province": "mazowieckie"
-    },
-    "152210160": {
-        "name": "Rz\u0105dza",
-        "province": "mazowieckie"
-    },
-    "152220030": {
-        "name": "Cetynia",
-        "province": "mazowieckie"
-    },
-    "153150070": {
-        "name": "D\u0119bosznica",
-        "province": "zachodniopomorskie"
-    },
-    "153190060": {
-        "name": "Rypienica",
-        "province": "kujawsko-pomorskie"
-    },
-    "153210110": {
-        "name": "Jezioro Miko\u0142ajskie",
-        "province": "warmi\u0144sko-mazurskie"
-    },
-    "153210230": {
-        "name": "Orzysza",
-        "province": "warmi\u0144sko-mazurskie"
-    },
-    "154160040": {
-        "name": "Uniesta",
-        "province": "zachodniopomorskie"
-    },
-    "154170050": {
-        "name": "Jezioro Gardno",
-        "province": "pomorskie"
-    },
-    "154190200": {
-        "name": "Zalew Wi\u015blany",
-        "province": "pomorskie"
     }
 }
