@@ -48,6 +48,8 @@ _LOGGER = logging.getLogger(__name__)
 class ImgwPib:
     """Main class of IMGW-PIB API wrapper."""
 
+    _rivers_info_cache: dict[str, dict[str, str]] | None = None
+
     def __init__(
         self: Self,
         session: ClientSession,
@@ -123,9 +125,12 @@ class ImgwPib:
                 msg = f"Invalid hydrological station ID: {self.hydrological_station_id}"
                 raise ApiError(msg)
 
-            async with aiofiles.open(RIVERS_INFO_FILE, mode="rb") as file:
-                content = await file.read()
-            self._rivers_info = orjson.loads(content)
+            if ImgwPib._rivers_info_cache is None:
+                async with aiofiles.open(RIVERS_INFO_FILE, mode="rb") as file:
+                    content = await file.read()
+                ImgwPib._rivers_info_cache = orjson.loads(content)
+                _LOGGER.debug("Loaded rivers info from disk")
+            self._rivers_info = ImgwPib._rivers_info_cache
 
             if self._hydrological_details is True:
                 await self._update_hydrological_details()
