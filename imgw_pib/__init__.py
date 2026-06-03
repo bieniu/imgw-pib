@@ -536,9 +536,7 @@ class ImgwPib:
             river_info = self._rivers_info.get(self.hydrological_station_id, {})
             province = river_info.get("province")
 
-        hydrological_alert = self._extract_hydrological_alert(
-            alerts, river, province
-        )
+        hydrological_alert = self._extract_hydrological_alert(alerts, river, province)
 
         _LOGGER.debug("Hydrological alert: %s", hydrological_alert)
 
