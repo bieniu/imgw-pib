@@ -1,6 +1,7 @@
 """Python wrapper for IMGW-PIB API."""
 
 import logging
+import re
 from datetime import UTC, datetime
 from http import HTTPStatus
 from typing import TYPE_CHECKING, Any, Self
@@ -24,6 +25,7 @@ from .const import (
     HYDROLOGICAL_ALERTS_MAP,
     NO_ALERT,
     PHENOMENA_DATA_VALIDITY_PERIOD,
+    RIVERS_INFO_FILE,
     TIMEOUT,
     WEATHER_ALERTS_MAP,
     WEATHER_STATIONS_INFO_FILE,
@@ -47,6 +49,8 @@ _LOGGER = logging.getLogger(__name__)
 class ImgwPib:
     """Main class of IMGW-PIB API wrapper."""
 
+    _rivers_info_cache: dict[str, dict[str, str]] | None = None
+
     def __init__(
         self: Self,
         session: ClientSession,
@@ -67,6 +71,7 @@ class ImgwPib:
         self._hydrological_details = hydrological_details
 
         self._weather_stations_info: dict[str, dict[str, Any]] = {}
+        self._rivers_info: dict[str, dict[str, str]] = {}
 
     @classmethod
     async def create(
@@ -120,6 +125,13 @@ class ImgwPib:
             if self.hydrological_station_id not in self.hydrological_stations:
                 msg = f"Invalid hydrological station ID: {self.hydrological_station_id}"
                 raise ApiError(msg)
+
+            if ImgwPib._rivers_info_cache is None:
+                async with aiofiles.open(RIVERS_INFO_FILE, mode="rb") as file:
+                    content = await file.read()
+                ImgwPib._rivers_info_cache = orjson.loads(content)
+
+            self._rivers_info = ImgwPib._rivers_info_cache
 
             if self._hydrological_details is True:
                 await self._update_hydrological_details()
@@ -522,14 +534,17 @@ class ImgwPib:
 
         river = data[ApiNames.RIVER]
 
-        hydrological_alert = self._extract_hydrological_alert(
-            alerts, river, data[ApiNames.PROVINCE]
-        )
-
-        _LOGGER.debug("Hydrological alert: %s", hydrological_alert)
-
         if TYPE_CHECKING:
             assert self.hydrological_station_id
+
+        province = data[ApiNames.PROVINCE]
+        if province is None:
+            river_info = self._rivers_info.get(self.hydrological_station_id, {})
+            province = river_info.get("province")
+
+        hydrological_alert = self._extract_hydrological_alert(alerts, river, province)
+
+        _LOGGER.debug("Hydrological alert: %s", hydrological_alert)
 
         lat = data[ApiNames.LATITUDE]
         lon = data[ApiNames.LONGITUDE]
@@ -568,7 +583,9 @@ class ImgwPib:
             return Alert(value=NO_ALERT)
 
         now = datetime.now(tz=UTC)
-        river_key = river.rsplit(" ", maxsplit=1)[-1][:-1].lower()
+        last_word = river.rsplit(" ", maxsplit=1)[-1]
+        river_key = (last_word[:-1] if len(last_word) > 4 else last_word).lower()  # noqa: PLR2004
+        river_pattern = re.compile(r"\b" + re.escape(river_key) + r"\w*")
         province_key = province.lower()
 
         for alert in reversed(hydrological_alerts):
@@ -582,7 +599,9 @@ class ImgwPib:
                     and area[ApiNames.PROVINCE].lower() == province_key
                 ):
                     province_match = True
-                if not river_match and river_key in area[ApiNames.DESCRIPTION].lower():
+                if not river_match and river_pattern.search(
+                    area[ApiNames.DESCRIPTION].lower()
+                ):
                     river_match = True
                 # Early exit if both conditions are met
                 if province_match and river_match:
