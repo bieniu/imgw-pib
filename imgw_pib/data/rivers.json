@@ -3527,28 +3527,28 @@
         "name": "\u015acinawka",
         "province": "dolno\u015bl\u0105skie"
     },
-        "149200070": {
+    "149200070": {
         "name": "Rybi Potok",
-        "province": "małopolskie"
+        "province": "ma\u0142opolskie"
     },
     "150180120": {
         "name": "Bierawka",
-        "province": "śląskie"
+        "province": "\u015bl\u0105skie"
     },
     "150190420": {
-        "name": "Prądnik",
-        "province": "małopolskie"
+        "name": "Pr\u0105dnik",
+        "province": "ma\u0142opolskie"
     },
     "150200130": {
-        "name": "Wisła",
-        "province": "małopolskie"
+        "name": "Wis\u0142a",
+        "province": "ma\u0142opolskie"
     },
     "150230060": {
-        "name": "Wojsławka",
+        "name": "Wojs\u0142awka",
         "province": "lubelskie"
     },
     "150230090": {
-        "name": "Żółkiewka",
+        "name": "\u017bó\u0142kiewka",
         "province": "lubelskie"
     },
     "151150190": {
@@ -3557,15 +3557,15 @@
     },
     "151160290": {
         "name": "Barycz",
-        "province": "dolnośląskie"
+        "province": "dolno\u015bl\u0105skie"
     },
     "151200060": {
         "name": "Czarna",
-        "province": "świętokrzyskie"
+        "province": "\u015bwi\u0119tokrzyskie"
     },
     "151200070": {
         "name": "Krasna",
-        "province": "świętokrzyskie"
+        "province": "\u015bwi\u0119tokrzyskie"
     },
     "151220140": {
         "name": "Wierzniczka",
@@ -3576,27 +3576,27 @@
         "province": "lubuskie"
     },
     "152180080": {
-        "name": "Jezioro Gopło",
+        "name": "Jezioro Gop\u0142o",
         "province": "kujawsko-pomorskie"
     },
     "152190020": {
-        "name": "Zgłowiączka",
+        "name": "Zg\u0142owi\u0105czka",
         "province": "kujawsko-pomorskie"
     },
     "152190040": {
-        "name": "Mień",
+        "name": "Mie\u0144",
         "province": "kujawsko-pomorskie"
     },
     "152199995": {
-        "name": "Wisła",
+        "name": "Wis\u0142a",
         "province": "mazowieckie"
     },
     "152200060": {
-        "name": "Raciążnica",
+        "name": "Raci\u0105\u017cnica",
         "province": "mazowieckie"
     },
     "152210160": {
-        "name": "Rządza",
+        "name": "Rz\u0105dza",
         "province": "mazowieckie"
     },
     "152220030": {
@@ -3604,7 +3604,7 @@
         "province": "mazowieckie"
     },
     "153150070": {
-        "name": "Dębosznica",
+        "name": "D\u0119bosznica",
         "province": "zachodniopomorskie"
     },
     "153190060": {
@@ -3612,12 +3612,12 @@
         "province": "kujawsko-pomorskie"
     },
     "153210110": {
-        "name": "Jezioro Mikołajskie",
-        "province": "warmińsko-mazurskie"
+        "name": "Jezioro Miko\u0142ajskie",
+        "province": "warmi\u0144sko-mazurskie"
     },
     "153210230": {
         "name": "Orzysza",
-        "province": "warmińsko-mazurskie"
+        "province": "warmi\u0144sko-mazurskie"
     },
     "154160040": {
         "name": "Uniesta",
@@ -3628,7 +3628,7 @@
         "province": "pomorskie"
     },
     "154190200": {
-        "name": "Zalew Wiślany",
+        "name": "Zalew Wi\u015blany",
         "province": "pomorskie"
     }
 }
