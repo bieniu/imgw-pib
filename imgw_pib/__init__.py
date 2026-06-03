@@ -528,6 +528,9 @@ class ImgwPib:
 
         river = data[ApiNames.RIVER]
 
+        if TYPE_CHECKING:
+            assert self.hydrological_station_id
+
         province = data[ApiNames.PROVINCE]
         if province is None:
             river_info = self._rivers_info.get(self.hydrological_station_id, {})
@@ -538,9 +541,6 @@ class ImgwPib:
         )
 
         _LOGGER.debug("Hydrological alert: %s", hydrological_alert)
-
-        if TYPE_CHECKING:
-            assert self.hydrological_station_id
 
         lat = data[ApiNames.LATITUDE]
         lon = data[ApiNames.LONGITUDE]
