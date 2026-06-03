@@ -3526,5 +3526,109 @@
     "250161110": {
         "name": "\u015acinawka",
         "province": "dolno\u015bl\u0105skie"
+    },
+        "149200070": {
+        "name": "Rybi Potok",
+        "province": "małopolskie"
+    },
+    "150180120": {
+        "name": "Bierawka",
+        "province": "śląskie"
+    },
+    "150190420": {
+        "name": "Prądnik",
+        "province": "małopolskie"
+    },
+    "150200130": {
+        "name": "Wisła",
+        "province": "małopolskie"
+    },
+    "150230060": {
+        "name": "Wojsławka",
+        "province": "lubelskie"
+    },
+    "150230090": {
+        "name": "Żółkiewka",
+        "province": "lubelskie"
+    },
+    "151150190": {
+        "name": "Obrzyca",
+        "province": "lubuskie"
+    },
+    "151160290": {
+        "name": "Barycz",
+        "province": "dolnośląskie"
+    },
+    "151200060": {
+        "name": "Czarna",
+        "province": "świętokrzyskie"
+    },
+    "151200070": {
+        "name": "Krasna",
+        "province": "świętokrzyskie"
+    },
+    "151220140": {
+        "name": "Wierzniczka",
+        "province": "lubelskie"
+    },
+    "152150170": {
+        "name": "Obrzyca",
+        "province": "lubuskie"
+    },
+    "152180080": {
+        "name": "Jezioro Gopło",
+        "province": "kujawsko-pomorskie"
+    },
+    "152190020": {
+        "name": "Zgłowiączka",
+        "province": "kujawsko-pomorskie"
+    },
+    "152190040": {
+        "name": "Mień",
+        "province": "kujawsko-pomorskie"
+    },
+    "152199995": {
+        "name": "Wisła",
+        "province": "mazowieckie"
+    },
+    "152200060": {
+        "name": "Raciążnica",
+        "province": "mazowieckie"
+    },
+    "152210160": {
+        "name": "Rządza",
+        "province": "mazowieckie"
+    },
+    "152220030": {
+        "name": "Cetynia",
+        "province": "mazowieckie"
+    },
+    "153150070": {
+        "name": "Dębosznica",
+        "province": "zachodniopomorskie"
+    },
+    "153190060": {
+        "name": "Rypienica",
+        "province": "kujawsko-pomorskie"
+    },
+    "153210110": {
+        "name": "Jezioro Mikołajskie",
+        "province": "warmińsko-mazurskie"
+    },
+    "153210230": {
+        "name": "Orzysza",
+        "province": "warmińsko-mazurskie"
+    },
+    "154160040": {
+        "name": "Uniesta",
+        "province": "zachodniopomorskie"
+    },
+    "154170050": {
+        "name": "Jezioro Gardno",
+        "province": "pomorskie"
+    },
+    "154190200": {
+        "name": "Zalew Wiślany",
+        "province": "pomorskie"
     }
 }
