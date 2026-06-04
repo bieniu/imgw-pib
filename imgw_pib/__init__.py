@@ -343,6 +343,9 @@ class ImgwPib:
         wind_gust_sensor = create_sensor_data(
             "Wind Gust", None, Units.METERS_PER_SECOND.value
         )
+        cloud_coverage_sensor = create_sensor_data(
+            "Cloud Coverage", None, Units.PERCENT.value
+        )
         measurement_date = get_datetime(
             f"{data[ApiNames.MEASUREMENT_DATE]} {data[ApiNames.MEASUREMENT_TIME]}",
             "%Y-%m-%d %H",
@@ -362,6 +365,7 @@ class ImgwPib:
             precipitation=precipitation_sensor,
             apparent_temperature=apparent_temperature_sensor,
             wind_gust=wind_gust_sensor,
+            cloud_coverage=cloud_coverage_sensor,
             station=data[ApiNames.STATION],
             latitude=station.get(ApiNames.LATITUDE),
             longitude=station.get(ApiNames.LONGITUDE),
@@ -400,6 +404,9 @@ class ImgwPib:
         wind_gust_sensor = create_sensor_data(
             "Wind Gust", current.get("wind_gust"), Units.METERS_PER_SECOND.value
         )
+        cloud_coverage_sensor = create_sensor_data(
+            "Cloud Coverage", current.get("cloud"), Units.PERCENT.value
+        )
 
         measurement_date: datetime | None = None
         date_str = current.get("date")
@@ -425,6 +432,7 @@ class ImgwPib:
             precipitation=precipitation_sensor,
             apparent_temperature=apparent_temperature_sensor,
             wind_gust=wind_gust_sensor,
+            cloud_coverage=cloud_coverage_sensor,
             station=self._weather_station_list.get(self.weather_station_id, ""),
             latitude=station_info.get(ApiNames.LATITUDE),
             longitude=station_info.get(ApiNames.LONGITUDE),

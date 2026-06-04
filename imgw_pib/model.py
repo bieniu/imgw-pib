@@ -43,6 +43,7 @@ class WeatherData(ImgwPibData):
     precipitation: SensorData
     apparent_temperature: SensorData
     wind_gust: SensorData
+    cloud_coverage: SensorData
 
     station: str
     station_id: str
