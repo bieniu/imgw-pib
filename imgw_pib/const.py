@@ -9,6 +9,7 @@ from yarl import URL
 BASE_DIR = Path(__file__).resolve().parent
 RIVERS_INFO_FILE = BASE_DIR / "data" / "rivers.json"
 WEATHER_STATIONS_INFO_FILE = BASE_DIR / "data" / "weather_stations_info.json"
+PROXY_WEATHER_STATIONS_FILE = BASE_DIR / "data" / "proxy_weather_stations.json"
 
 API_BASE_ENDPOINT = URL("https://danepubliczne.imgw.pl/api/data")
 API_HYDROLOGICAL_ENDPOINT = API_BASE_ENDPOINT / "hydro"
