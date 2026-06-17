@@ -6,7 +6,7 @@ from typing import Any
 
 import aiohttp
 import pytest
-from aioresponses import aioresponses
+from aiointercept import aiointercept
 from freezegun import freeze_time
 from syrupy import SnapshotAssertion
 
@@ -37,7 +37,7 @@ async def test_weather_stations(
 
     assert len(imgwpib.weather_stations) == 0
 
-    with aioresponses() as session_mock:
+    async with aiointercept(mock_external_urls=True) as session_mock:
         session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
 
         await imgwpib.update_weather_stations()
@@ -61,14 +61,17 @@ async def test_weather_station(
 
     proxy_url = API_WEATHER_PROXY_ENDPOINT.with_query(lat=49.821877, lon=19.047007)
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
-        session_mock.get(API_WEATHER_WARNINGS_ENDPOINT, payload=weather_alerts)
-        session_mock.get(proxy_url, status=HTTPStatus.NOT_FOUND.value)
-        session_mock.get(f"{API_WEATHER_ENDPOINT}/id/12600", payload=weather_station)
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
+            session_mock.get(API_WEATHER_WARNINGS_ENDPOINT, payload=weather_alerts)
+            session_mock.get(proxy_url, status=HTTPStatus.NOT_FOUND.value)
+            session_mock.get(
+                f"{API_WEATHER_ENDPOINT}/id/12600", payload=weather_station
+            )
 
-        imgwpib = await ImgwPib.create(session, weather_station_id="12600")
-        weather_data = await imgwpib.get_weather_data()
+            imgwpib = await ImgwPib.create(session, weather_station_id="12600")
+            weather_data = await imgwpib.get_weather_data()
 
     await session.close()
 
@@ -85,16 +88,19 @@ async def test_no_weather_alerts(
 
     proxy_url = API_WEATHER_PROXY_ENDPOINT.with_query(lat=49.821877, lon=19.047007)
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
-        session_mock.get(
-            API_WEATHER_WARNINGS_ENDPOINT, status=HTTPStatus.NOT_FOUND.value
-        )
-        session_mock.get(proxy_url, status=HTTPStatus.NOT_FOUND.value)
-        session_mock.get(f"{API_WEATHER_ENDPOINT}/id/12600", payload=weather_station)
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
+            session_mock.get(
+                API_WEATHER_WARNINGS_ENDPOINT, status=HTTPStatus.NOT_FOUND.value
+            )
+            session_mock.get(proxy_url, status=HTTPStatus.NOT_FOUND.value)
+            session_mock.get(
+                f"{API_WEATHER_ENDPOINT}/id/12600", payload=weather_station
+            )
 
-        imgwpib = await ImgwPib.create(session, weather_station_id="12600")
-        weather_data = await imgwpib.get_weather_data()
+            imgwpib = await ImgwPib.create(session, weather_station_id="12600")
+            weather_data = await imgwpib.get_weather_data()
 
     await session.close()
 
@@ -112,15 +118,16 @@ async def test_weather_station_proxy(
 
     proxy_url = API_WEATHER_PROXY_ENDPOINT.with_query(lat=49.821877, lon=19.047007)
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
-        session_mock.get(
-            API_WEATHER_WARNINGS_ENDPOINT, status=HTTPStatus.NOT_FOUND.value
-        )
-        session_mock.get(proxy_url, payload=weather_station_proxy)
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
+            session_mock.get(
+                API_WEATHER_WARNINGS_ENDPOINT, status=HTTPStatus.NOT_FOUND.value
+            )
+            session_mock.get(proxy_url, payload=weather_station_proxy)
 
-        imgwpib = await ImgwPib.create(session, weather_station_id="12600")
-        weather_data = await imgwpib.get_weather_data()
+            imgwpib = await ImgwPib.create(session, weather_station_id="12600")
+            weather_data = await imgwpib.get_weather_data()
 
     await session.close()
 
@@ -132,7 +139,7 @@ async def test_wrong_weather_station_id(weather_stations: list[dict[str, Any]]) 
     """Test wrong weather station ID."""
     session = aiohttp.ClientSession()
 
-    with aioresponses() as session_mock:
+    async with aiointercept(mock_external_urls=True) as session_mock:
         session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
 
         with pytest.raises(ApiError) as exc_info:
@@ -155,7 +162,7 @@ async def test_hydrological_stations(
 
     assert len(imgwpib.hydrological_stations) == 0
 
-    with aioresponses() as session_mock:
+    async with aiointercept(mock_external_urls=True) as session_mock:
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
 
         await imgwpib.update_hydrological_stations()
@@ -175,19 +182,20 @@ async def test_hydrological_station(
     """Test hydrological station."""
     session = aiohttp.ClientSession()
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
-            payload=hydrological_details,
-        )
-        session_mock.get(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
-        )
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(
+                API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+                payload=hydrological_details,
+            )
+            session_mock.get(
+                API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+            )
 
-        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
-        hydrological_data = await imgwpib.get_hydrological_data()
+            imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+            hydrological_data = await imgwpib.get_hydrological_data()
 
     await session.close()
 
@@ -202,19 +210,20 @@ async def test_no_hydrological_alerts(
     """Test hydrological station with no alerts."""
     session = aiohttp.ClientSession()
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
-            payload=hydrological_details,
-        )
-        session_mock.get(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT, status=HTTPStatus.NOT_FOUND.value
-        )
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(
+                API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+                payload=hydrological_details,
+            )
+            session_mock.get(
+                API_HYDROLOGICAL_WARNINGS_ENDPOINT, status=HTTPStatus.NOT_FOUND.value
+            )
 
-        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
-        hydrological_data = await imgwpib.get_hydrological_data()
+            imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+            hydrological_data = await imgwpib.get_hydrological_data()
 
     await session.close()
 
@@ -228,7 +237,7 @@ async def test_wrong_weather_hydrological_id(
     """Test wrong hydrological station ID."""
     session = aiohttp.ClientSession()
 
-    with aioresponses() as session_mock:
+    async with aiointercept(mock_external_urls=True) as session_mock:
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
 
         with pytest.raises(ApiError) as exc_info:
@@ -244,7 +253,7 @@ async def test_api_error() -> None:
     """Test API error."""
     session = aiohttp.ClientSession()
 
-    with aioresponses() as session_mock:
+    async with aiointercept(mock_external_urls=True) as session_mock:
         session_mock.get(
             API_WEATHER_ENDPOINT,
             status=HTTPStatus.BAD_REQUEST.value,
@@ -300,7 +309,7 @@ async def test_invalid_water_level_value(
 
     hydrological_stations[5][ApiNames.WATER_LEVEL] = None
 
-    with aioresponses() as session_mock:
+    async with aiointercept(mock_external_urls=True) as session_mock:
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
         session_mock.get(
@@ -334,21 +343,22 @@ async def test_invalid_date(
 
     hydrological_stations[5][ApiNames.WATER_LEVEL_MEASUREMENT_DATE] = date_time
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
-            payload=hydrological_details,
-        )
-        session_mock.get(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
-        )
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(
+                API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+                payload=hydrological_details,
+            )
+            session_mock.get(
+                API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+            )
 
-        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+            imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
 
-        with pytest.raises(ApiError) as exc_info:
-            await imgwpib.get_hydrological_data()
+            with pytest.raises(ApiError) as exc_info:
+                await imgwpib.get_hydrological_data()
 
     await session.close()
 
@@ -374,19 +384,20 @@ async def test_flood_warning(
     hydrological_stations[5][ApiNames.WATER_LEVEL] = water_level
     hydrological_details["status"]["warningValue"] = flood_warning_level
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
-            payload=hydrological_details,
-        )
-        session_mock.get(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
-        )
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(
+                API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+                payload=hydrological_details,
+            )
+            session_mock.get(
+                API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+            )
 
-        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
-        result = await imgwpib.get_hydrological_data()
+            imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+            result = await imgwpib.get_hydrological_data()
 
     await session.close()
 
@@ -412,19 +423,20 @@ async def test_flood_alarm(
     hydrological_stations[5][ApiNames.WATER_LEVEL] = water_level
     hydrological_details["status"]["alarmValue"] = flood_alarm_level
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
-            payload=hydrological_details,
-        )
-        session_mock.get(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
-        )
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(
+                API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+                payload=hydrological_details,
+            )
+            session_mock.get(
+                API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+            )
 
-        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
-        result = await imgwpib.get_hydrological_data()
+            imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+            result = await imgwpib.get_hydrological_data()
 
     await session.close()
 
@@ -445,19 +457,20 @@ async def test_water_temperature_not_current(
         "2024-04-22 05:00:00"
     )
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
-            payload=hydrological_details,
-        )
-        session_mock.get(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
-        )
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(
+                API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+                payload=hydrological_details,
+            )
+            session_mock.get(
+                API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+            )
 
-        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
-        result = await imgwpib.get_hydrological_data()
+            imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+            result = await imgwpib.get_hydrological_data()
 
     await session.close()
 
@@ -474,20 +487,21 @@ async def test_hydrological_data_invalid_content(
     """Test when response has invalid content type."""
     session = aiohttp.ClientSession()
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, content_type="text/html")
-        session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
-            payload=hydrological_details,
-        )
-        session_mock.get(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
-        )
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, content_type="text/html")
+            session_mock.get(
+                API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+                payload=hydrological_details,
+            )
+            session_mock.get(
+                API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+            )
 
-        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
-        with pytest.raises(ApiError) as exc_info:
-            await imgwpib.get_hydrological_data()
+            imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+            with pytest.raises(ApiError) as exc_info:
+                await imgwpib.get_hydrological_data()
 
     await session.close()
 
@@ -505,17 +519,18 @@ async def test_no_hydrological_data(
     incomplete_data = hydrological_stations.copy()
     incomplete_data.pop(5)
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=incomplete_data)
-        session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
-            payload=hydrological_details,
-        )
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=incomplete_data)
+            session_mock.get(
+                API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+                payload=hydrological_details,
+            )
 
-        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
-        with pytest.raises(ApiError) as exc_info:
-            await imgwpib.get_hydrological_data()
+            imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+            with pytest.raises(ApiError) as exc_info:
+                await imgwpib.get_hydrological_data()
 
     await session.close()
 
@@ -531,19 +546,20 @@ async def test_hydrological_details_is_null(
     """Test when hydrological details is null."""
     session = aiohttp.ClientSession()
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
-            payload=None,
-        )
-        session_mock.get(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
-        )
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(
+                API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+                payload=None,
+            )
+            session_mock.get(
+                API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+            )
 
-        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
-        hydrological_data = await imgwpib.get_hydrological_data()
+            imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+            hydrological_data = await imgwpib.get_hydrological_data()
 
     await session.close()
 
@@ -559,19 +575,20 @@ async def test_hydrological_details_returns_403(
     """Test when hydrological details returns 403."""
     session = aiohttp.ClientSession()
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
-            status=HTTPStatus.FORBIDDEN.value,
-        )
-        session_mock.get(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
-        )
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(
+                API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+                status=HTTPStatus.FORBIDDEN.value,
+            )
+            session_mock.get(
+                API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+            )
 
-        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
-        hydrological_data = await imgwpib.get_hydrological_data()
+            imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+            hydrological_data = await imgwpib.get_hydrological_data()
 
     await session.close()
 
@@ -587,17 +604,18 @@ async def test_hydrological_details_is_false(
     """Test when hydrological_details is False."""
     session = aiohttp.ClientSession()
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
-        )
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(
+                API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+            )
 
-        imgwpib = await ImgwPib.create(
-            session, hydrological_station_id="154190050", hydrological_details=False
-        )
-        hydrological_data = await imgwpib.get_hydrological_data()
+            imgwpib = await ImgwPib.create(
+                session, hydrological_station_id="154190050", hydrological_details=False
+            )
+            hydrological_data = await imgwpib.get_hydrological_data()
 
     await session.close()
 
@@ -614,23 +632,24 @@ async def test_hydrological_station_no_location(
     """Test hydrological station."""
     session = aiohttp.ClientSession()
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(
-            API_HYDROLOGICAL_ENDPOINT, payload=hydrological_station_no_location
-        )
-        session_mock.get(
-            API_HYDROLOGICAL_ENDPOINT, payload=hydrological_station_no_location
-        )
-        session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="153190020"),
-            payload=hydrological_details,
-        )
-        session_mock.get(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
-        )
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(
+                API_HYDROLOGICAL_ENDPOINT, payload=hydrological_station_no_location
+            )
+            session_mock.get(
+                API_HYDROLOGICAL_ENDPOINT, payload=hydrological_station_no_location
+            )
+            session_mock.get(
+                API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="153190020"),
+                payload=hydrological_details,
+            )
+            session_mock.get(
+                API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+            )
 
-        imgwpib = await ImgwPib.create(session, hydrological_station_id="153190020")
-        hydrological_data = await imgwpib.get_hydrological_data()
+            imgwpib = await ImgwPib.create(session, hydrological_station_id="153190020")
+            hydrological_data = await imgwpib.get_hydrological_data()
 
     await session.close()
 
@@ -691,19 +710,20 @@ async def test_vegetation_phenomena_current(
     """Test vegetation phenomena when measurement is current."""
     session = aiohttp.ClientSession()
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
-            payload=hydrological_details,
-        )
-        session_mock.get(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
-        )
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(
+                API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+                payload=hydrological_details,
+            )
+            session_mock.get(
+                API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+            )
 
-        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
-        result = await imgwpib.get_hydrological_data()
+            imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+            result = await imgwpib.get_hydrological_data()
 
     await session.close()
 
@@ -729,19 +749,20 @@ async def test_vegetation_phenomena_not_current(
         "2020-01-01 00:00:00"
     )
 
-    with aioresponses() as session_mock, freeze_time(TEST_TIME):
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
-        session_mock.get(
-            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
-            payload=hydrological_details,
-        )
-        session_mock.get(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
-        )
+    with freeze_time(TEST_TIME):
+        async with aiointercept(mock_external_urls=True) as session_mock:
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+            session_mock.get(
+                API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+                payload=hydrological_details,
+            )
+            session_mock.get(
+                API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=hydrological_alerts
+            )
 
-        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
-        result = await imgwpib.get_hydrological_data()
+            imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+            result = await imgwpib.get_hydrological_data()
 
     await session.close()
 
