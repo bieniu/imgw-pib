@@ -25,6 +25,7 @@ from .const import (
     HYDROLOGICAL_ALERTS_MAP,
     ICE_PHENOMENA_DATA_VALIDITY_PERIOD,
     NO_ALERT,
+    PROXY_WEATHER_STATIONS_FILE,
     RIVERS_INFO_FILE,
     TIMEOUT,
     VEGETATION_PHENOMENA_DATA_VALIDITY_PERIOD,
@@ -52,6 +53,7 @@ class ImgwPib:
 
     _rivers_info_cache: dict[str, dict[str, str]] | None = None
     _weather_stations_info_cache: dict[str, dict[str, Any]] | None = None
+    _proxy_weather_stations_cache: dict[str, str] | None = None
 
     def __init__(
         self: Self,
@@ -120,6 +122,15 @@ class ImgwPib:
 
             self._weather_stations_info = ImgwPib._weather_stations_info_cache
 
+            if ImgwPib._proxy_weather_stations_cache is None:
+                async with aiofiles.open(
+                    PROXY_WEATHER_STATIONS_FILE, mode="rb"
+                ) as file:
+                    content = await file.read()
+                ImgwPib._proxy_weather_stations_cache = orjson.loads(content)
+
+            self._proxy_weather_stations = ImgwPib._proxy_weather_stations_cache
+
         if self.hydrological_station_id is not None:
             _LOGGER.debug(
                 "Using hydrological station ID: %s", self.hydrological_station_id
@@ -151,6 +162,8 @@ class ImgwPib:
             station[ApiNames.STATION_ID]: station[ApiNames.STATION]
             for station in stations_data
         }
+
+        self._weather_station_list.update(self._proxy_weather_stations)
 
     async def get_weather_data(self: Self) -> WeatherData:
         """Get weather data."""
