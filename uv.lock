@@ -332,7 +332,7 @@ test = [
 [package.metadata]
 requires-dist = [
     { name = "aiofiles" },
-    { name = "aiohttp", specifier = ">=3.14.0" },
+    { name = "aiohttp", specifier = ">=3.14.1" },
     { name = "orjson" },
     { name = "yarl" },
 ]
