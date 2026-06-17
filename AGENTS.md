@@ -19,7 +19,7 @@ imgw_pib/
 
 ## Python and environment
 - Target Python: >=3.13
-- Local venv: `./venv` (activate with `source venv/bin/activate`)
+- Local venv: `./.venv` (activate with `source .venv/bin/activate`)
 
 ## Linting, formatting, typing
 - Lint: `ruff check <files> --fix`
