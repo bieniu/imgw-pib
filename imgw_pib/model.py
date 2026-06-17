@@ -6,7 +6,7 @@ from enum import StrEnum
 from typing import Any, Self
 
 
-@dataclass
+@dataclass(slots=True)
 class ImgwPibData:
     """IMGW-PIB data class."""
 
