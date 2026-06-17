@@ -441,6 +441,8 @@ class ImgwPib:
             condition=condition,
             measurement_date=measurement_date,
             weather_alert=alert,
+            forecast_daily=data["daily"],
+            forecast_hourly=data["hourly"],
         )
 
     def _parse_hydrological_data(

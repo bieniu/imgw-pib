@@ -56,6 +56,9 @@ class WeatherData(ImgwPibData):
 
     weather_alert: Alert
 
+    forecast_daily: list[dict] | None = None
+    forecast_hourly: list[dict] | None = None
+
 
 @dataclass(kw_only=True, slots=True)
 class HydrologicalData(ImgwPibData):
