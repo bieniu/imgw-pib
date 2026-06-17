@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 from enum import StrEnum
-from typing import Self
+from typing import Any, Self
 
 
 @dataclass
@@ -56,8 +56,8 @@ class WeatherData(ImgwPibData):
 
     weather_alert: Alert
 
-    forecast_daily: list[dict] | None = None
-    forecast_hourly: list[dict] | None = None
+    forecast_hourly: list[dict[str, Any]] | None = None
+    forecast_twice_daily: list[dict[str, Any]] | None = None
 
 
 @dataclass(kw_only=True, slots=True)
