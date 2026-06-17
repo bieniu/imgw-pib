@@ -53,7 +53,7 @@ class ImgwPib:
 
     _rivers_info_cache: dict[str, dict[str, str]] | None = None
     _weather_stations_info_cache: dict[str, dict[str, Any]] | None = None
-    _proxy_weather_stations_cache: dict[str, str] | None = None
+    _proxy_weather_stations_cache: dict[str, dict[str, Any]] | None = None
 
     def __init__(
         self: Self,
@@ -120,7 +120,13 @@ class ImgwPib:
                     content = await file.read()
                 ImgwPib._weather_stations_info_cache = orjson.loads(content)
 
-            self._weather_stations_info = ImgwPib._weather_stations_info_cache
+            if TYPE_CHECKING:
+                assert ImgwPib._proxy_weather_stations_cache is not None
+
+            self._weather_stations_info = (
+                ImgwPib._weather_stations_info_cache
+                | ImgwPib._proxy_weather_stations_cache
+            )
 
         if self.hydrological_station_id is not None:
             _LOGGER.debug(
@@ -159,7 +165,12 @@ class ImgwPib:
                 content = await file.read()
             ImgwPib._proxy_weather_stations_cache = orjson.loads(content)
 
-        self._weather_station_list.update(ImgwPib._proxy_weather_stations_cache)
+        self._weather_station_list.update(
+            {
+                key: val["name"]
+                for key, val in ImgwPib._proxy_weather_stations_cache.items()
+            }
+        )
 
     async def get_weather_data(self: Self) -> WeatherData:
         """Get weather data."""
