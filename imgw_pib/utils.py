@@ -68,7 +68,7 @@ def parse_weather_icon(icon: str) -> str | None:
 
     Format: n{cloud}z{precip}{d/n} e.g. n4z61d
     """
-    if not icon or not isinstance(icon, str) or len(icon) < _ICON_MIN_LEN:
+    if not isinstance(icon, str) or len(icon) < _ICON_MIN_LEN:
         return None
 
     try:
@@ -104,20 +104,18 @@ def create_sensor_data(name: str, value: float | str | None, unit: str) -> Senso
     return SensorData(name=name, value=None, unit=None)
 
 
-def is_data_current(
+def measurement_date_if_current(
     measurement_date_str: str | None,
     now: datetime,
     data_validity_period: timedelta = DATA_VALIDITY_PERIOD,
-) -> tuple[datetime | None, bool]:
-    """Check if data is current."""
-    if measurement_date_str is None:
-        return None, False
-
+) -> datetime | None:
+    """Return the measurement date if it is within the validity period, else None."""
     measurement_date = get_datetime(measurement_date_str, DATE_FORMAT)
-    if measurement_date is None:
-        return None, False
 
-    return measurement_date, now - measurement_date < data_validity_period
+    if measurement_date is None or now - measurement_date >= data_validity_period:
+        return None
+
+    return measurement_date
 
 
 def decode_vegetation_phenomena(
