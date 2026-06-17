@@ -33,38 +33,26 @@ def fetch_json(url: str) -> list | dict:
     return result
 
 
-def get_hydro_alerts() -> set[str]:
-    """Get unique hydrological alert names from API."""
-    response = fetch_json(HYDRO_URL)
-    alerts: set[str] = set()
+def get_alerts(url: str, name_key: str) -> set[str]:
+    """Get unique alert names from the API, keyed by ``name_key``."""
+    response = fetch_json(url)
     if isinstance(response, dict) and response.get("status") is False:
-        return alerts
-    for alert in response:
-        if isinstance(alert, dict) and (name := alert.get("zdarzenie")):
-            alerts.add(name.lower())
-    return alerts
-
-
-def get_meteo_alerts() -> set[str]:
-    """Get unique weather alert names from API."""
-    response = fetch_json(METEO_URL)
-    alerts: set[str] = set()
-    if isinstance(response, dict) and response.get("status") is False:
-        return alerts
-    for alert in response:
-        if isinstance(alert, dict) and (name := alert.get("nazwa_zdarzenia")):
-            alerts.add(name.lower())
-    return alerts
+        return set()
+    return {
+        name.lower()
+        for alert in response
+        if isinstance(alert, dict) and (name := alert.get(name_key))
+    }
 
 
 def main() -> None:
     """Check for new alerts and set GitHub Actions outputs."""
     print("Fetching hydrological alerts...")
-    hydro_alerts = get_hydro_alerts()
+    hydro_alerts = get_alerts(HYDRO_URL, "zdarzenie")
     print(f"  Found: {hydro_alerts or '(none)'}")
 
     print("Fetching weather alerts...")
-    meteo_alerts = get_meteo_alerts()
+    meteo_alerts = get_alerts(METEO_URL, "nazwa_zdarzenia")
     print(f"  Found: {meteo_alerts or '(none)'}")
 
     known_hydro = {k.lower() for k in HYDROLOGICAL_ALERTS_MAP}
