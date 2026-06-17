@@ -122,15 +122,6 @@ class ImgwPib:
 
             self._weather_stations_info = ImgwPib._weather_stations_info_cache
 
-            if ImgwPib._proxy_weather_stations_cache is None:
-                async with aiofiles.open(
-                    PROXY_WEATHER_STATIONS_FILE, mode="rb"
-                ) as file:
-                    content = await file.read()
-                ImgwPib._proxy_weather_stations_cache = orjson.loads(content)
-
-            self._proxy_weather_stations = ImgwPib._proxy_weather_stations_cache
-
         if self.hydrological_station_id is not None:
             _LOGGER.debug(
                 "Using hydrological station ID: %s", self.hydrological_station_id
@@ -163,7 +154,12 @@ class ImgwPib:
             for station in stations_data
         }
 
-        self._weather_station_list.update(self._proxy_weather_stations)
+        if ImgwPib._proxy_weather_stations_cache is None:
+            async with aiofiles.open(PROXY_WEATHER_STATIONS_FILE, mode="rb") as file:
+                content = await file.read()
+            ImgwPib._proxy_weather_stations_cache = orjson.loads(content)
+
+        self._weather_station_list.update(ImgwPib._proxy_weather_stations_cache)
 
     async def get_weather_data(self: Self) -> WeatherData:
         """Get weather data."""
