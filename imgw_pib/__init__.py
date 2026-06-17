@@ -38,7 +38,7 @@ from .utils import (
     decode_vegetation_phenomena,
     gen_station_name,
     get_datetime,
-    is_data_current,
+    measurement_date_if_current,
     parse_weather_icon,
 )
 
@@ -269,11 +269,14 @@ class ImgwPib:
 
         all_stations_data = await self._http_request(API_HYDROLOGICAL_ENDPOINT)
 
-        hydrological_data = None
-        for item in all_stations_data:
-            if item.get(ApiNames.STATION_ID) == self.hydrological_station_id:
-                hydrological_data = item
-                break
+        hydrological_data = next(
+            (
+                item
+                for item in all_stations_data
+                if item.get(ApiNames.STATION_ID) == self.hydrological_station_id
+            ),
+            None,
+        )
 
         if hydrological_data is None:
             msg = f"No hydrological data for station ID: {self.hydrological_station_id}"
@@ -451,14 +454,12 @@ class ImgwPib:
         """Parse hydrological data."""
         now = datetime.now(tz=UTC)
 
-        water_level_measurement_date = get_datetime(
-            data[ApiNames.WATER_LEVEL_MEASUREMENT_DATE],
-            DATE_FORMAT,
-        )
-        water_level_measurement_date, water_level_current = is_data_current(
+        water_level_measurement_date = measurement_date_if_current(
             data[ApiNames.WATER_LEVEL_MEASUREMENT_DATE], now
         )
-        water_level = data[ApiNames.WATER_LEVEL] if water_level_current else None
+        water_level = (
+            data[ApiNames.WATER_LEVEL] if water_level_measurement_date else None
+        )
 
         if water_level is None:
             msg = "Invalid water level value"
@@ -476,63 +477,50 @@ class ImgwPib:
             "Flood Alarm Level", self._alarm_water_level, Units.CENTIMETERS.value
         )
 
-        water_temperature_measurement_date, water_temperature_current = is_data_current(
+        water_temperature_measurement_date = measurement_date_if_current(
             data[ApiNames.WATER_TEMPERATURE_MEASUREMENT_DATE], now
         )
         water_temperature = (
-            data[ApiNames.WATER_TEMPERATURE] if water_temperature_current else None
+            data[ApiNames.WATER_TEMPERATURE]
+            if water_temperature_measurement_date
+            else None
         )
-        if not water_temperature_current:
-            water_temperature_measurement_date = None
-
         water_temperature_sensor = create_sensor_data(
             "Water Temperature", water_temperature, Units.CELSIUS.value
         )
 
-        water_flow_measurement_date, water_flow_current = is_data_current(
+        water_flow_measurement_date = measurement_date_if_current(
             data[ApiNames.WATER_FLOW_MEASUREMENT_DATE], now
         )
-
-        water_flow = data[ApiNames.WATER_FLOW] if water_flow_current else None
-        if not water_flow_current:
-            water_flow_measurement_date = None
-
+        water_flow = data[ApiNames.WATER_FLOW] if water_flow_measurement_date else None
         water_flow_sensor = create_sensor_data(
             "Water Flow", water_flow, Units.CUBIC_METERS_PER_SECOND.value
         )
 
-        ice_phenomena_measurement_date, ice_phenomena_current = is_data_current(
+        ice_phenomena_measurement_date = measurement_date_if_current(
             data[ApiNames.ICE_PHENOMENA_MEASUREMENT_DATE],
             now,
             ICE_PHENOMENA_DATA_VALIDITY_PERIOD,
         )
-
         ice_phenomena = (
-            int(data[ApiNames.ICE_PHENOMENA]) * 10 if ice_phenomena_current else None
+            int(data[ApiNames.ICE_PHENOMENA]) * 10
+            if ice_phenomena_measurement_date
+            else None
         )
-        if not ice_phenomena_current:
-            ice_phenomena_measurement_date = None
-
         ice_phenomena_sensor = create_sensor_data(
             "Ice Phenomena", ice_phenomena, Units.PERCENT.value
         )
 
-        vegetation_phenomena_measurement_date, vegetation_phenomena_current = (
-            is_data_current(
-                data[ApiNames.VEGETATION_PHENOMENA_MEASUREMENT_DATE],
-                now,
-                VEGETATION_PHENOMENA_DATA_VALIDITY_PERIOD,
-            )
+        vegetation_phenomena_measurement_date = measurement_date_if_current(
+            data[ApiNames.VEGETATION_PHENOMENA_MEASUREMENT_DATE],
+            now,
+            VEGETATION_PHENOMENA_DATA_VALIDITY_PERIOD,
         )
-
         vegetation_phenomena_raw = (
             data[ApiNames.VEGETATION_PHENOMENA]
-            if vegetation_phenomena_current
+            if vegetation_phenomena_measurement_date
             else None
         )
-        if not vegetation_phenomena_current:
-            vegetation_phenomena_measurement_date = None
-
         submerged, floating, emergent = decode_vegetation_phenomena(
             vegetation_phenomena_raw
         )
