@@ -29,7 +29,7 @@ imgw_pib/
 
 ## Testing
 - Run with `pytest` (async tests use `pytest-asyncio`)
-- Mock HTTP via `aioresponses`; do not hit real endpoints in tests
+- Mock HTTP via `aiointercept`; do not hit real endpoints in tests
 - Time-based logic uses `freezegun` and snapshots use `syrupy` (`tests/snapshots/`)
 - When output structures change, update snapshots and fixtures together
 

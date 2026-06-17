@@ -1,13 +1,25 @@
 """Set up some common test helper things."""
 
 import json
+from collections.abc import Iterator
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Self, cast
 
 import pytest
+from freezegun import freeze_time
 from syrupy.assertion import SnapshotAssertion
 from syrupy.extensions.amber import AmberSnapshotExtension
 from syrupy.location import PyTestLocation
+
+TEST_TIME = datetime(2024, 4, 22, 11, 10, 32, tzinfo=UTC)
+
+
+@pytest.fixture
+def frozen_time() -> Iterator[None]:
+    """Freeze time at a fixed point for deterministic tests."""
+    with freeze_time(TEST_TIME):
+        yield
 
 
 @pytest.fixture
