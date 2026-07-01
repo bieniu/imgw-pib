@@ -76,6 +76,7 @@ class ImgwPib:
 
         self._weather_stations_info: dict[str, dict[str, Any]] = {}
         self._rivers_info: dict[str, dict[str, str]] = {}
+        self._last_icon: str | None = None
 
     @classmethod
     async def create(
@@ -439,7 +440,12 @@ class ImgwPib:
             except (ValueError, TypeError):
                 _LOGGER.debug("Invalid proxy date string '%s'", date_str)
 
-        condition = parse_weather_icon(current.get("icon"))
+        icon = current.get("icon")
+        if icon is not None:
+            self._last_icon = icon
+        else:
+            icon = self._last_icon
+        condition = parse_weather_icon(icon) if icon is not None else None
 
         if TYPE_CHECKING:
             assert self.weather_station_id
