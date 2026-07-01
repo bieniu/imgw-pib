@@ -1,5 +1,6 @@
 """Tests for imgw-pib package."""
 
+import copy
 from http import HTTPStatus
 from typing import Any
 
@@ -123,6 +124,40 @@ async def test_weather_station_proxy(
     await session.close()
 
     assert weather_data == snapshot
+
+
+@pytest.mark.asyncio
+async def test_weather_station_proxy_missing_icon(
+    weather_stations: list[dict[str, Any]],
+    weather_station_proxy: dict[str, Any],
+) -> None:
+    """Test proxy falls back to cached icon when current lacks icon key."""
+    session = aiohttp.ClientSession()
+
+    proxy_url = API_WEATHER_PROXY_ENDPOINT.with_query(lat=11.223344, lon=22.334455)
+
+    async with aiointercept(mock_external_urls=True) as session_mock:
+        session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
+        session_mock.get(
+            API_WEATHER_WARNINGS_ENDPOINT,
+            status=HTTPStatus.NOT_FOUND.value,
+            repeat=True,
+        )
+        session_mock.get(proxy_url, payload=weather_station_proxy)
+
+        imgwpib = await ImgwPib.create(session, weather_station_id="12600")
+        first_data = await imgwpib.get_weather_data()
+
+        no_icon_payload = copy.deepcopy(weather_station_proxy)
+        no_icon_payload["current"].pop("icon")
+        session_mock.get(proxy_url, payload=no_icon_payload)
+
+        second_data = await imgwpib.get_weather_data()
+
+    await session.close()
+
+    assert first_data.condition == "cloudy"
+    assert second_data.condition == "cloudy"
 
 
 @pytest.mark.asyncio
