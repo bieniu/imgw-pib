@@ -63,7 +63,7 @@ def _precip_type(precip: int) -> str | None:
     return None
 
 
-def parse_weather_icon(icon: str) -> str | None:
+def parse_weather_icon(icon: str | None) -> str | None:
     """Parse weather icon code to weather condition string.
 
     Format: n{cloud}z{precip}{d/n} e.g. n4z61d

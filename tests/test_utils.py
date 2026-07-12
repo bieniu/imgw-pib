@@ -37,7 +37,7 @@ def test_parse_weather_icon(icon: str, expected: str | None) -> None:
 
 def test_parse_weather_icon_non_string() -> None:
     """Test parse_weather_icon with a non-string input."""
-    assert parse_weather_icon(None) is None  # ty: ignore[invalid-argument-type]
+    assert parse_weather_icon(None) is None
 
 
 def test_parse_weather_icon_invalid_digits() -> None:
