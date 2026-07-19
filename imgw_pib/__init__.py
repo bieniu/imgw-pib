@@ -356,7 +356,9 @@ class ImgwPib:
             "Wind Direction", data[ApiNames.WIND_DIRECTION], Units.DEGREE.value
         )
         precipitation_sensor = create_sensor_data(
-            "Precipitation", data[ApiNames.PRECIPITATION], Units.MILLIMETERS.value
+            "Precipitation",
+            data[ApiNames.PRECIPITATION],
+            Units.MILLIMETERS_PER_HOUR.value,
         )
         pressure_sensor = create_sensor_data(
             "Pressure", data[ApiNames.PRESSURE], Units.HPA.value
@@ -417,7 +419,7 @@ class ImgwPib:
             "Wind Direction", current.get("wind_dir"), Units.DEGREE.value
         )
         precipitation_sensor = create_sensor_data(
-            "Precipitation", current.get("precip"), Units.MILLIMETERS.value
+            "Precipitation", current.get("precip"), Units.MILLIMETERS_PER_HOUR.value
         )
         pressure_sensor = create_sensor_data(
             "Pressure", current.get("pressure"), Units.HPA.value
