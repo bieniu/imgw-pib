@@ -155,4 +155,5 @@ class Units(StrEnum):
     HPA = "hPa"
     METERS_PER_SECOND = "m/s"
     MILLIMETERS = "mm"
+    MILLIMETERS_PER_HOUR = "mm/h"
     PERCENT = "%"
