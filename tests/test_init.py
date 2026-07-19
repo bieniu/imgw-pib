@@ -196,6 +196,63 @@ async def test_weather_station_proxy_first_missing_icon(
 
 
 @pytest.mark.asyncio
+async def test_weather_station_proxy_rain_snow(
+    weather_stations: list[dict[str, Any]],
+    weather_station_proxy: dict[str, Any],
+) -> None:
+    """Test proxy returns rain and snow sensor values."""
+    session = aiohttp.ClientSession()
+
+    proxy_url = API_WEATHER_PROXY_ENDPOINT.with_query(lat=49.821877, lon=19.047007)
+
+    async with aiointercept(mock_external_urls=True) as session_mock:
+        session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
+        session_mock.get(
+            API_WEATHER_WARNINGS_ENDPOINT,
+            status=HTTPStatus.NOT_FOUND.value,
+        )
+        session_mock.get(proxy_url, payload=weather_station_proxy)
+
+        imgwpib = await ImgwPib.create(session, weather_station_id="12600")
+        weather_data = await imgwpib.get_weather_data()
+
+    await session.close()
+
+    assert weather_data.rain.value == 2.5
+    assert weather_data.rain.unit == "mm/h"
+    assert weather_data.snow.value == 0.8
+    assert weather_data.snow.unit == "cm/h"
+
+
+@pytest.mark.asyncio
+async def test_weather_station_rain_snow_none(
+    weather_stations: list[dict[str, Any]],
+    weather_station: dict[str, Any],
+    weather_alerts: list[dict[str, Any]],
+) -> None:
+    """Test non-proxy path returns rain and snow as None."""
+    session = aiohttp.ClientSession()
+
+    proxy_url = API_WEATHER_PROXY_ENDPOINT.with_query(lat=49.821877, lon=19.047007)
+
+    async with aiointercept(mock_external_urls=True) as session_mock:
+        session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
+        session_mock.get(API_WEATHER_WARNINGS_ENDPOINT, payload=weather_alerts)
+        session_mock.get(proxy_url, status=HTTPStatus.NOT_FOUND.value)
+        session_mock.get(f"{API_WEATHER_ENDPOINT}/id/12600", payload=weather_station)
+
+        imgwpib = await ImgwPib.create(session, weather_station_id="12600")
+        weather_data = await imgwpib.get_weather_data()
+
+    await session.close()
+
+    assert weather_data.rain.value is None
+    assert weather_data.rain.unit is None
+    assert weather_data.snow.value is None
+    assert weather_data.snow.unit is None
+
+
+@pytest.mark.asyncio
 async def test_wrong_weather_station_id(weather_stations: list[dict[str, Any]]) -> None:
     """Test wrong weather station ID."""
     session = aiohttp.ClientSession()
