@@ -44,6 +44,8 @@ class WeatherData(ImgwPibData):
     apparent_temperature: SensorData
     wind_gust: SensorData
     cloud_coverage: SensorData
+    rain: SensorData
+    snow: SensorData
 
     station: str
     station_id: str
@@ -150,6 +152,7 @@ class Units(StrEnum):
 
     CELSIUS = "°C"
     CENTIMETERS = "cm"
+    CENTIMETERS_PER_HOUR = "cm/h"
     CUBIC_METERS_PER_SECOND = "m³/s"
     DEGREE = "°"
     HPA = "hPa"

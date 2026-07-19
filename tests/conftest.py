@@ -4,7 +4,7 @@ import json
 from collections.abc import Iterator
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Self, cast
+from typing import Any, cast
 
 import pytest
 from freezegun import freeze_time
@@ -96,7 +96,7 @@ class SnapshotExtension(AmberSnapshotExtension):
     """Extension for Syrupy."""
 
     @classmethod
-    def dirname(cls: Self, *, test_location: PyTestLocation) -> str:
+    def dirname(cls, *, test_location: PyTestLocation) -> str:  # type: ignore[override]
         """Return the directory for the snapshot files."""
         test_dir = Path(test_location.filepath).parent
         return str(test_dir.joinpath("snapshots"))

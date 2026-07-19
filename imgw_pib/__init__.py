@@ -372,6 +372,8 @@ class ImgwPib:
         cloud_coverage_sensor = create_sensor_data(
             "Cloud Coverage", None, Units.PERCENT.value
         )
+        rain_sensor = create_sensor_data("Rain", None, Units.MILLIMETERS_PER_HOUR.value)
+        snow_sensor = create_sensor_data("Snow", None, Units.CENTIMETERS_PER_HOUR.value)
         measurement_date = get_datetime(
             f"{data[ApiNames.MEASUREMENT_DATE]} {data[ApiNames.MEASUREMENT_TIME]}",
             "%Y-%m-%d %H",
@@ -392,6 +394,8 @@ class ImgwPib:
             apparent_temperature=apparent_temperature_sensor,
             wind_gust=wind_gust_sensor,
             cloud_coverage=cloud_coverage_sensor,
+            rain=rain_sensor,
+            snow=snow_sensor,
             station=data[ApiNames.STATION],
             latitude=station.get(ApiNames.LATITUDE),
             longitude=station.get(ApiNames.LONGITUDE),
@@ -433,6 +437,12 @@ class ImgwPib:
         cloud_coverage_sensor = create_sensor_data(
             "Cloud Coverage", current.get("cloud"), Units.PERCENT.value
         )
+        rain_sensor = create_sensor_data(
+            "Rain", current.get("rain"), Units.MILLIMETERS_PER_HOUR.value
+        )
+        snow_sensor = create_sensor_data(
+            "Snow", current.get("snow"), Units.CENTIMETERS_PER_HOUR.value
+        )
 
         measurement_date: datetime | None = None
         date_str = current.get("date")
@@ -464,6 +474,8 @@ class ImgwPib:
             apparent_temperature=apparent_temperature_sensor,
             wind_gust=wind_gust_sensor,
             cloud_coverage=cloud_coverage_sensor,
+            rain=rain_sensor,
+            snow=snow_sensor,
             station=self._weather_station_list.get(self.weather_station_id, ""),
             latitude=station_info.get(ApiNames.LATITUDE),
             longitude=station_info.get(ApiNames.LONGITUDE),
