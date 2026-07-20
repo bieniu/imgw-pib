@@ -5,13 +5,12 @@ on:
     - cron: "0 */6 * * *"
   workflow_dispatch:
 
-permissions:
-  issues: write
-
 jobs:
   check-alerts:
     name: Check for new IMGW-PIB alerts
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
 
     steps:
       - name: Check out repository

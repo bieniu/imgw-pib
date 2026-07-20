@@ -4,12 +4,11 @@ on:
   release:
     types: [published]
 
-permissions:
-  id-token: write
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
