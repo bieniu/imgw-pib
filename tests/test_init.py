@@ -101,6 +101,62 @@ async def test_no_weather_alerts(
 
 
 @pytest.mark.asyncio
+async def test_weather_alert_not_yet_started(
+    weather_stations: list[dict[str, Any]],
+    weather_station: dict[str, Any],
+    weather_alerts: list[dict[str, Any]],
+) -> None:
+    """Test weather alert is ignored when now < obowiazuje_od."""
+    session = aiohttp.ClientSession()
+
+    proxy_url = API_WEATHER_PROXY_ENDPOINT.with_query(lat=49.821877, lon=19.047007)
+
+    alerts = copy.deepcopy(weather_alerts)
+    alerts[0][ApiNames.VALID_FROM] = "2024-04-23 00:00:00"
+
+    async with aiointercept(mock_external_urls=True) as session_mock:
+        session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
+        session_mock.get(API_WEATHER_WARNINGS_ENDPOINT, payload=alerts)
+        session_mock.get(proxy_url, status=HTTPStatus.NOT_FOUND.value)
+        session_mock.get(f"{API_WEATHER_ENDPOINT}/id/12600", payload=weather_station)
+
+        imgwpib = await ImgwPib.create(session, weather_station_id="12600")
+        weather_data = await imgwpib.get_weather_data()
+
+    await session.close()
+
+    assert weather_data.weather_alert.value == "no_alert"
+
+
+@pytest.mark.asyncio
+async def test_weather_alert_expired(
+    weather_stations: list[dict[str, Any]],
+    weather_station: dict[str, Any],
+    weather_alerts: list[dict[str, Any]],
+) -> None:
+    """Test weather alert is ignored when now > obowiazuje_do."""
+    session = aiohttp.ClientSession()
+
+    proxy_url = API_WEATHER_PROXY_ENDPOINT.with_query(lat=49.821877, lon=19.047007)
+
+    alerts = copy.deepcopy(weather_alerts)
+    alerts[0][ApiNames.VALID_TO] = "2024-04-21 00:00:00"
+
+    async with aiointercept(mock_external_urls=True) as session_mock:
+        session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
+        session_mock.get(API_WEATHER_WARNINGS_ENDPOINT, payload=alerts)
+        session_mock.get(proxy_url, status=HTTPStatus.NOT_FOUND.value)
+        session_mock.get(f"{API_WEATHER_ENDPOINT}/id/12600", payload=weather_station)
+
+        imgwpib = await ImgwPib.create(session, weather_station_id="12600")
+        weather_data = await imgwpib.get_weather_data()
+
+    await session.close()
+
+    assert weather_data.weather_alert.value == "no_alert"
+
+
+@pytest.mark.asyncio
 async def test_weather_station_proxy(
     snapshot: SnapshotAssertion,
     weather_stations: list[dict[str, Any]],
@@ -337,6 +393,78 @@ async def test_no_hydrological_alerts(
         session_mock.get(
             API_HYDROLOGICAL_WARNINGS_ENDPOINT, status=HTTPStatus.NOT_FOUND.value
         )
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+        hydrological_data = await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert hydrological_data.hydrological_alert.value == "no_alert"
+
+
+@pytest.mark.asyncio
+async def test_hydrological_alert_not_yet_started(
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_details: dict[str, Any],
+    hydrological_alerts: list[dict[str, Any]],
+) -> None:
+    """Test hydrological alert is ignored when now < data_od."""
+    session = aiohttp.ClientSession()
+
+    alerts = copy.deepcopy(hydrological_alerts)
+    for alert in alerts:
+        for area in alert.get(ApiNames.AREAS, []):
+            if (
+                area.get(ApiNames.PROVINCE) == "warmińsko-mazurskie"
+                and "zalew" in area.get(ApiNames.DESCRIPTION, "").lower()
+            ):
+                alert[ApiNames.DATE_FROM] = "2024-04-23 00:00:00"
+                break
+
+    async with aiointercept(mock_external_urls=True) as session_mock:
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+            payload=hydrological_details,
+        )
+        session_mock.get(API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=alerts)
+
+        imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
+        hydrological_data = await imgwpib.get_hydrological_data()
+
+    await session.close()
+
+    assert hydrological_data.hydrological_alert.value == "no_alert"
+
+
+@pytest.mark.asyncio
+async def test_hydrological_alert_expired(
+    hydrological_stations: list[dict[str, Any]],
+    hydrological_details: dict[str, Any],
+    hydrological_alerts: list[dict[str, Any]],
+) -> None:
+    """Test hydrological alert is ignored when now > data_do."""
+    session = aiohttp.ClientSession()
+
+    alerts = copy.deepcopy(hydrological_alerts)
+    for alert in alerts:
+        for area in alert.get(ApiNames.AREAS, []):
+            if (
+                area.get(ApiNames.PROVINCE) == "warmińsko-mazurskie"
+                and "zalew" in area.get(ApiNames.DESCRIPTION, "").lower()
+            ):
+                alert[ApiNames.DATE_TO] = "2024-04-21 00:00:00"
+                break
+
+    async with aiointercept(mock_external_urls=True) as session_mock:
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(API_HYDROLOGICAL_ENDPOINT, payload=hydrological_stations)
+        session_mock.get(
+            API_HYDROLOGICAL_DETAILS_ENDPOINT.with_query(id="154190050"),
+            payload=hydrological_details,
+        )
+        session_mock.get(API_HYDROLOGICAL_WARNINGS_ENDPOINT, payload=alerts)
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
         hydrological_data = await imgwpib.get_hydrological_data()
