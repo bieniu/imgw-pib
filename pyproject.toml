@@ -87,6 +87,7 @@ lint.ignore = [
 ]
 "scripts/*" = [
     "INP001",   # File is part of an implicit namespace package
+    "ISC004",   # Unparenthesized implicit string concatenation in collection
     "T201",     # `print` found
 ]
 
