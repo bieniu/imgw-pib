@@ -19,7 +19,6 @@ from .const import (
     API_WEATHER_ENDPOINT,
     API_WEATHER_PROXY_ENDPOINT,
     API_WEATHER_WARNINGS_ENDPOINT,
-    DATA_VALIDITY_PERIOD,
     DATE_FORMAT,
     HEADERS,
     HYDROLOGICAL_ALERTS_MAP,
@@ -237,7 +236,7 @@ class ImgwPib:
             if from_date is None or to_date is None:
                 continue
 
-            if (from_date - DATA_VALIDITY_PERIOD) <= now <= to_date:
+            if from_date <= now <= to_date:
                 event = alert[ApiNames.EVENT_NAME].lower()
                 return Alert(
                     value=WEATHER_ALERTS_MAP.get(event, event),

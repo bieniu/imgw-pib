@@ -39,3 +39,4 @@ imgw_pib/
 - Keep endpoints/constants in `imgw_pib/const.py` and avoid scattering URLs
 - Preserve the public API and model shapes; breaking changes require explicit discussion
 - Prefer `ApiError` for API-level failures and use lazy logging (`_LOGGER.debug("msg %s", value)`)
+- Comments explain *why* something is done, not *what* the code does. Do not restate the code or add comments for obvious decisions.
