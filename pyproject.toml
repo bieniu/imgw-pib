@@ -29,9 +29,9 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-  "prek==0.4.12",
-  "ruff==0.16.1",
-  "ty==0.0.68",
+  "prek==0.4.13",
+  "ruff==0.16.2",
+  "ty==0.0.71",
   "types-aiofiles",
 ]
 test = [
