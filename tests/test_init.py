@@ -74,10 +74,19 @@ async def test_weather_station(
     assert weather_data == snapshot
 
 
+@pytest.mark.parametrize(
+    ("status", "payload"),
+    [
+        (HTTPStatus.NOT_FOUND.value, None),
+        (HTTPStatus.OK.value, {"message": "Brak ostrzeżeń meteorologicznych"}),
+    ],
+)
 @pytest.mark.asyncio
 async def test_no_weather_alerts(
     weather_stations: list[dict[str, Any]],
     weather_station: dict[str, Any],
+    status: int,
+    payload: dict[str, str] | None,
 ) -> None:
     """Test weather station with no alerts."""
     session = aiohttp.ClientSession()
@@ -86,9 +95,7 @@ async def test_no_weather_alerts(
 
     async with aiointercept(mock_external_urls=True) as session_mock:
         session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
-        session_mock.get(
-            API_WEATHER_WARNINGS_ENDPOINT, status=HTTPStatus.NOT_FOUND.value
-        )
+        session_mock.get(API_WEATHER_WARNINGS_ENDPOINT, status=status, payload=payload)
         session_mock.get(proxy_url, status=HTTPStatus.NOT_FOUND.value)
         session_mock.get(f"{API_WEATHER_ENDPOINT}/id/12600", payload=weather_station)
 
@@ -375,10 +382,19 @@ async def test_hydrological_station(
     assert hydrological_data == snapshot
 
 
+@pytest.mark.parametrize(
+    ("status", "payload"),
+    [
+        (HTTPStatus.NOT_FOUND.value, None),
+        (HTTPStatus.OK.value, {"message": "Brak ostrzeżeń hydrologicznych"}),
+    ],
+)
 @pytest.mark.asyncio
 async def test_no_hydrological_alerts(
     hydrological_stations: list[dict[str, Any]],
     hydrological_details: dict[str, Any],
+    status: int,
+    payload: dict[str, str] | None,
 ) -> None:
     """Test hydrological station with no alerts."""
     session = aiohttp.ClientSession()
@@ -391,7 +407,7 @@ async def test_no_hydrological_alerts(
             payload=hydrological_details,
         )
         session_mock.get(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT, status=HTTPStatus.NOT_FOUND.value
+            API_HYDROLOGICAL_WARNINGS_ENDPOINT, status=status, payload=payload
         )
 
         imgwpib = await ImgwPib.create(session, hydrological_station_id="154190050")
