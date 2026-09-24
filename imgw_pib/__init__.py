@@ -184,8 +184,9 @@ class ImgwPib:
         lon = station_info.get(ApiNames.LONGITUDE)
 
         weather_alerts = []
-        if teryt and (
-            result := await self._http_request(API_WEATHER_WARNINGS_ENDPOINT, False)
+        if teryt and isinstance(
+            result := await self._http_request(API_WEATHER_WARNINGS_ENDPOINT, False),
+            list,
         ):
             weather_alerts = result
 
@@ -306,8 +307,11 @@ class ImgwPib:
 
         hydrological_alerts = []
 
-        if result := await self._http_request(
-            API_HYDROLOGICAL_WARNINGS_ENDPOINT, False
+        if isinstance(
+            result := await self._http_request(
+                API_HYDROLOGICAL_WARNINGS_ENDPOINT, False
+            ),
+            list,
         ):
             hydrological_alerts = result
 
