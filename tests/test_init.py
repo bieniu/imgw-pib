@@ -287,6 +287,40 @@ async def test_weather_station_proxy_rain_snow(
     assert weather_data.snow.unit == "cm/h"
 
 
+@pytest.mark.parametrize("current", [None, [], "lorem ipsum"])
+@pytest.mark.asyncio
+async def test_weather_station_proxy_invalid_current(
+    weather_stations: list[dict[str, Any]],
+    weather_station: dict[str, Any],
+    weather_station_proxy: dict[str, Any],
+    weather_alerts: list[dict[str, Any]],
+    current: list[Any] | str | None,
+) -> None:
+    """Test fallback to IMGW when proxy payload has invalid `current` value."""
+    session = aiohttp.ClientSession()
+
+    proxy_url = API_WEATHER_PROXY_ENDPOINT.with_query(lat=49.821877, lon=19.047007)
+    proxy_payload = copy.deepcopy(weather_station_proxy)
+    proxy_payload["current"] = current
+
+    async with aiointercept(mock_external_urls=True) as session_mock:
+        session_mock.get(API_WEATHER_ENDPOINT, payload=weather_stations)
+        session_mock.get(API_WEATHER_WARNINGS_ENDPOINT, payload=weather_alerts)
+        session_mock.get(proxy_url, payload=proxy_payload)
+        session_mock.get(f"{API_WEATHER_ENDPOINT}/id/12600", payload=weather_station)
+
+        imgwpib = await ImgwPib.create(session, weather_station_id="12600")
+        weather_data = await imgwpib.get_weather_data()
+
+    await session.close()
+
+    assert weather_data.station == weather_station[ApiNames.STATION]
+    assert weather_data.temperature.value == float(
+        weather_station[ApiNames.TEMPERATURE]
+    )
+    assert weather_data.rain.value is None
+
+
 @pytest.mark.asyncio
 async def test_weather_station_rain_snow_none(
     weather_stations: list[dict[str, Any]],
