@@ -454,7 +454,7 @@ class ImgwPib:
         if date_str:
             try:
                 measurement_date = datetime.fromisoformat(date_str)
-            except (ValueError, TypeError):
+            except ValueError, TypeError:
                 _LOGGER.debug("Invalid proxy date string '%s'", date_str)
 
         icon = current.get("icon")
