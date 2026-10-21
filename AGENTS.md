@@ -18,7 +18,7 @@ imgw_pib/
 ```
 
 ## Python and environment
-- Target Python: >=3.13
+- Target Python: >=3.14
 - Local venv: `./.venv` (activate with `source .venv/bin/activate`)
 
 ## Linting, formatting, typing

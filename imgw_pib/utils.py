@@ -78,7 +78,7 @@ def parse_weather_icon(icon: str | None) -> str | None:
             time_of_day = icon[-1] if icon[-1] in ("d", "n") else "d"
         else:
             return None
-    except (ValueError, IndexError):
+    except ValueError, IndexError:
         return None
 
     pt = _precip_type(precip)
