@@ -15,7 +15,6 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.13"
           - "3.14"
           - "3.15"
 
@@ -43,7 +42,7 @@ jobs:
         run: uv run ty check imgw_pib
 
       - name: Run prek
-        if: ${{ matrix.python-version == '3.13' }}
+        if: ${{ matrix.python-version == '3.14' }}
         run: |
           uv run prek run \
             end-of-file-fixer \
@@ -63,7 +62,6 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.13"
           - "3.14"
           - "3.15"
 
